@@ -1,0 +1,103 @@
+package edu.uptc;
+
+public abstract class Usuario {
+    protected TipoPersona tipoPersona;
+    protected String tipoDocumento;
+    protected String numeroDocumento;
+    protected String nombre;
+    protected String correo;
+    protected String contrasenha;
+    protected String telefono;
+    protected String direccion;
+    protected String ciudad;
+
+    public Usuario() {
+    }
+
+    public Usuario(TipoPersona tipoPersona, String tipoDocumento, String numeroDocumento, String nombre, String correo,
+                   String contrasenha, String telefono, String direccion, String ciudad) {
+        this.tipoPersona = tipoPersona;
+        this.tipoDocumento = tipoDocumento;
+        this.numeroDocumento = numeroDocumento;
+        this.nombre = nombre;
+        this.correo = correo;
+        this.contrasenha = contrasenha;
+        this.telefono = telefono;
+        this.direccion = direccion;
+        this.ciudad = ciudad;
+    }
+
+    public TipoPersona getTipoPersona() {
+        return tipoPersona;
+    }
+
+    public void setTipoPersona(TipoPersona tipoPersona) {
+        this.tipoPersona = tipoPersona;
+    }
+
+    public String getTipoDocumento() {
+        return tipoDocumento;
+    }
+
+    public void setTipoDocumento(String tipoDocumento) {
+        this.tipoDocumento = tipoDocumento;
+    }
+
+    public String getNumeroDocumento() {
+        return numeroDocumento;
+    }
+
+    public void setNumeroDocumento(String numeroDocumento) {
+        this.numeroDocumento = numeroDocumento;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getContrasenha() {
+        return contrasenha;
+    }
+
+    public void setContrasenha(String contrasenha) {
+        this.contrasenha = contrasenha;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public abstract void mostrarMenu();
+}
