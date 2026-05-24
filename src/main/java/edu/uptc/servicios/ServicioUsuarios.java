@@ -1,6 +1,7 @@
 package edu.uptc.servicios;
 
 import edu.uptc.dominio.Administrador;
+import edu.uptc.dominio.Contratante;
 import edu.uptc.dominio.Usuario;
 import edu.uptc.enums.TipoDocumento;
 import edu.uptc.enums.TipoPersona;
@@ -40,6 +41,14 @@ public class ServicioUsuarios {
     }
 
     // ===============================================================================================================
+    // METODOS PARA MANIPULAR EL HASH MAP
+
+    public void agregarUsuario(Usuario usuario) {
+        this.usuarios.put(usuario.getNumeroDocumento(), usuario);
+
+    }
+
+    // ===============================================================================================================
     // METODO PARA EL LOGIN
     public boolean loginCorrecto(String numeroDocumento, String contrasenha) {
         if (numeroDocumentoExiste(numeroDocumento)) {
@@ -51,9 +60,21 @@ public class ServicioUsuarios {
     // ===============================================================================================================
     // METODOS DEL ADMINISTRADOR
 
-    public void crearContratante() {
-
+    public void crearContratante(TipoPersona tipoPersona, TipoDocumento tipoDocumento, String numeroDocumento, String nombre,
+                                 String correo, String contrasenha, String telefono, String direccion, String ciudad,
+                                 String sector, String nivelEntidad, String codigoUnicoEntidad) {
+        Usuario contratanteAux = new Contratante(tipoPersona, tipoDocumento, numeroDocumento, nombre, correo,
+                contrasenha, telefono, direccion, ciudad, sector, nivelEntidad, codigoUnicoEntidad);
+        agregarUsuario(contratanteAux);
     }
+
+    /*public void crearContratante(TipoPersona tipoPersona, TipoDocumento tipoDocumento, String numeroDocumento, String nombre,
+                                 String correo, String contrasenha, String telefono, String direccion, String ciudad,
+                                 String sector, String nivelEntidad, String codigoUnicoEntidad) {
+        Usuario contratanteAux = new Contratante(tipoPersona, tipoDocumento, numeroDocumento, nombre, correo,
+                contrasenha, telefono, direccion, ciudad, sector, nivelEntidad, codigoUnicoEntidad);
+        this.usuarios.put(contratanteAux.getNumeroDocumento(), contratanteAux);
+    }*/
 
     public void consultarContratantes() {
 

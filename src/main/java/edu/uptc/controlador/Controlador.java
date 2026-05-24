@@ -1,5 +1,7 @@
 package edu.uptc.controlador;
 
+import edu.uptc.enums.TipoDocumento;
+import edu.uptc.enums.TipoPersona;
 import edu.uptc.servicios.ServicioContratos;
 import edu.uptc.servicios.ServicioReportes;
 import edu.uptc.servicios.ServicioUsuarios;
@@ -25,6 +27,17 @@ public class Controlador {
 
     public void crearAdministrador() {
         this.servicioUsuarios.crearAdministrador();
+    }
+
+    public boolean numeroDocumentoExiste(String numeroDocumentoBuscar) {
+        return this.servicioUsuarios.numeroDocumentoExiste(numeroDocumentoBuscar);
+    }
+
+    public void crearContratante(TipoPersona tipoPersona, TipoDocumento tipoDocumento, String numeroDocumento, String nombre,
+                                 String correo, String contrasenha, String telefono, String direccion, String ciudad,
+                                 String sector, String nivelEntidad, String codigoUnicoEntidad) {
+        this.servicioUsuarios.crearContratante(tipoPersona, tipoDocumento, numeroDocumento, nombre, correo, contrasenha,
+                telefono, direccion, ciudad, sector, nivelEntidad, codigoUnicoEntidad);
     }
 
 
