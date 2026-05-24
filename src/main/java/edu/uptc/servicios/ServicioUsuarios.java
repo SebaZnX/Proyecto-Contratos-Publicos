@@ -83,7 +83,7 @@ public class ServicioUsuarios {
         this.usuarios.put(contratanteAux.getNumeroDocumento(), contratanteAux);
     }*/
 
-    public String consultarContratantes() {
+    /*public String consultarContratantes() {
         StringBuilder sb = new StringBuilder();
         boolean hayContratantes = false;
 
@@ -102,6 +102,13 @@ public class ServicioUsuarios {
         }
 
         return sb.toString();
+    }*/
+    public String consultarContratantes(String numeroDocumento) {
+        Usuario usuarioAux = this.usuarios.get(numeroDocumento);
+        if (usuarioAux != null && usuarioAux instanceof Contratante) {
+            return usuarioAux.mostrarInfoUsuario();
+        }
+        return "Contratante no encontrado\nIntentalo más tarde";
     }
 
     // METODO PARA ACTUALIZAR USUARIO
@@ -156,7 +163,7 @@ public class ServicioUsuarios {
     }
 
     public void eliminarContratante(String numeroDocumentoEliminarContratante) {
-       this.usuarios.remove(numeroDocumentoEliminarContratante);
+        this.usuarios.remove(numeroDocumentoEliminarContratante);
     }
 
     public void crearContratista(TipoPersona tipoPersona, TipoDocumento tipoDocumento, String numeroDocumento, String nombre,
@@ -168,7 +175,14 @@ public class ServicioUsuarios {
 
     }
 
-    public String consultarContratistas() {
+    public String consultarContratistas(String numeroDocumento) {
+        Usuario usuarioAux = this.usuarios.get(numeroDocumento);
+        if (usuarioAux != null && usuarioAux instanceof Contratista) {
+            return usuarioAux.mostrarInfoUsuario();
+        }
+        return "Contratista no encontrado\nIntentalo más tarde";
+    }
+  /*  public String consultarContratistas() {
         StringBuilder sb = new StringBuilder();
         boolean hayContratistas = false;
 
@@ -187,7 +201,7 @@ public class ServicioUsuarios {
         }
 
         return sb.toString();
-    }
+    }*/
 
     public void actualizarContratista(String numeroDocumento, Boolean esEntidadPublica, String areaDesempenho) {
         // SE AGARRA EL OBJETO AUXILIAR

@@ -53,8 +53,8 @@ public class Controlador {
                 telefono, direccion, ciudad, rol, sector, nivelEntidad, codigoUnicoEntidad);
     }
 
-    public String consultarContratantes() {
-        return this.servicioUsuarios.consultarContratantes();
+    public String consultarContratantes(String numeroDocumento) {
+        return this.servicioUsuarios.consultarContratantes(numeroDocumento);
     }
 
     public void actualizarContratante(String numeroDocumento, String sector, String nivelEntidad, String codigoUnicoEntidad) {
@@ -73,8 +73,8 @@ public class Controlador {
                 telefono, direccion, ciudad, rol, esEntidadPublica, areaDesempenho);
     }
 
-    public String consultarContratistas() {
-        return this.servicioUsuarios.consultarContratistas();
+    public String consultarContratistas(String numeroDocumento) {
+        return this.servicioUsuarios.consultarContratistas(numeroDocumento);
     }
 
     public void actualizarContratista(String numeroDocumento, Boolean esEntidadPublica, String areaDesempenho) {
