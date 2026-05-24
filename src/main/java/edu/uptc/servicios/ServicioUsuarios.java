@@ -3,6 +3,7 @@ package edu.uptc.servicios;
 import edu.uptc.dominio.Administrador;
 import edu.uptc.dominio.Contratante;
 import edu.uptc.dominio.Usuario;
+import edu.uptc.enums.Rol;
 import edu.uptc.enums.TipoDocumento;
 import edu.uptc.enums.TipoPersona;
 
@@ -34,9 +35,10 @@ public class ServicioUsuarios {
         String telefono = "+57 (601) 7456788";
         String direccion = "Carrera 7 # 26 – 20, Edificio Tequendama";
         String ciudad = "Bogota D.C.";
+        Rol rol = Rol.ADMINISTRADOR;
 
         Usuario usuarioAdmin = new Administrador(tipoPersona, tipoDocumento, numeroDocumento, nombre, correo,
-                contrasenha, telefono, direccion, ciudad);
+                contrasenha, telefono, direccion, ciudad, rol);
         this.usuarios.put(numeroDocumento, usuarioAdmin);
     }
 
@@ -61,10 +63,10 @@ public class ServicioUsuarios {
     // METODOS DEL ADMINISTRADOR
 
     public void crearContratante(TipoPersona tipoPersona, TipoDocumento tipoDocumento, String numeroDocumento, String nombre,
-                                 String correo, String contrasenha, String telefono, String direccion, String ciudad,
+                                 String correo, String contrasenha, String telefono, String direccion, String ciudad, Rol rol,
                                  String sector, String nivelEntidad, String codigoUnicoEntidad) {
         Usuario contratanteAux = new Contratante(tipoPersona, tipoDocumento, numeroDocumento, nombre, correo,
-                contrasenha, telefono, direccion, ciudad, sector, nivelEntidad, codigoUnicoEntidad);
+                contrasenha, telefono, direccion, ciudad, rol, sector, nivelEntidad, codigoUnicoEntidad);
         agregarUsuario(contratanteAux);
     }
 

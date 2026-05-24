@@ -1,5 +1,6 @@
 package edu.uptc.dominio;
 
+import edu.uptc.enums.Rol;
 import edu.uptc.enums.TipoDocumento;
 import edu.uptc.enums.TipoPersona;
 
@@ -14,6 +15,7 @@ public abstract class Usuario {
     protected String telefono;
     protected String direccion;
     protected String ciudad;
+    protected Rol rol;
 
     // METODO CONSTRUCTOR VACIO
     public Usuario() {
@@ -21,7 +23,7 @@ public abstract class Usuario {
 
     // METODO CONSTRUCTOR
     public Usuario(TipoPersona tipoPersona, TipoDocumento tipoDocumento, String numeroDocumento, String nombre, String correo,
-                   String contrasenha, String telefono, String direccion, String ciudad) {
+                   String contrasenha, String telefono, String direccion, String ciudad, Rol rol) {
         this.tipoPersona = tipoPersona;
         this.tipoDocumento = tipoDocumento;
         this.numeroDocumento = numeroDocumento;
@@ -31,6 +33,7 @@ public abstract class Usuario {
         this.telefono = telefono;
         this.direccion = direccion;
         this.ciudad = ciudad;
+        this.rol = rol;
     }
 
     public TipoPersona getTipoPersona() {
@@ -103,6 +106,14 @@ public abstract class Usuario {
 
     public void setCiudad(String ciudad) {
         this.ciudad = ciudad;
+    }
+
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
     }
 
     public abstract String mostrarInfoUsuario();

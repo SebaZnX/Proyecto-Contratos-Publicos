@@ -1,5 +1,6 @@
 package edu.uptc.dominio;
 
+import edu.uptc.enums.Rol;
 import edu.uptc.enums.TipoDocumento;
 import edu.uptc.enums.TipoPersona;
 
@@ -9,9 +10,9 @@ public class Contratante extends Usuario {
     private String codigoUnicoEntidad;
 
     public Contratante(TipoPersona tipoPersona, TipoDocumento tipoDocumento, String numeroDocumento, String nombre,
-                       String correo, String contrasenha, String telefono, String direccion, String ciudad,
+                       String correo, String contrasenha, String telefono, String direccion, String ciudad, Rol rol,
                        String sector, String nivelEntidad, String codigoUnicoEntidad) {
-        super(tipoPersona, tipoDocumento, numeroDocumento, nombre, correo, contrasenha, telefono, direccion, ciudad);
+        super(tipoPersona, tipoDocumento, numeroDocumento, nombre, correo, contrasenha, telefono, direccion, ciudad, rol);
         this.sector = sector;
         this.nivelEntidad = nivelEntidad;
         this.codigoUnicoEntidad = codigoUnicoEntidad;

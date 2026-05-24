@@ -1,5 +1,6 @@
 package edu.uptc.controlador;
 
+import edu.uptc.enums.Rol;
 import edu.uptc.enums.TipoDocumento;
 import edu.uptc.enums.TipoPersona;
 import edu.uptc.servicios.ServicioContratos;
@@ -34,10 +35,10 @@ public class Controlador {
     }
 
     public void crearContratante(TipoPersona tipoPersona, TipoDocumento tipoDocumento, String numeroDocumento, String nombre,
-                                 String correo, String contrasenha, String telefono, String direccion, String ciudad,
+                                 String correo, String contrasenha, String telefono, String direccion, String ciudad, Rol rol,
                                  String sector, String nivelEntidad, String codigoUnicoEntidad) {
         this.servicioUsuarios.crearContratante(tipoPersona, tipoDocumento, numeroDocumento, nombre, correo, contrasenha,
-                telefono, direccion, ciudad, sector, nivelEntidad, codigoUnicoEntidad);
+                telefono, direccion, ciudad, rol, sector, nivelEntidad, codigoUnicoEntidad);
     }
 
     public void actualizarUsuario(TipoPersona tipoPersona, TipoDocumento tipoDocumento, String numeroDocumento, String nombre,

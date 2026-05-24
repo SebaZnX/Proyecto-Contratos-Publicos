@@ -1,12 +1,13 @@
 package edu.uptc.dominio;
 
+import edu.uptc.enums.Rol;
 import edu.uptc.enums.TipoDocumento;
 import edu.uptc.enums.TipoPersona;
 
 public class Administrador extends Usuario {
     public Administrador(TipoPersona tipoPersona, TipoDocumento tipoDocumento, String numeroDocumento, String nombre,
-                         String correo, String contrasenha, String telefono, String direccion, String ciudad) {
-        super(tipoPersona, tipoDocumento, numeroDocumento, nombre, correo, contrasenha, telefono, direccion, ciudad);
+                         String correo, String contrasenha, String telefono, String direccion, String ciudad, Rol rol) {
+        super(tipoPersona, tipoDocumento, numeroDocumento, nombre, correo, contrasenha, telefono, direccion, ciudad, rol);
     }
 
     @Override
