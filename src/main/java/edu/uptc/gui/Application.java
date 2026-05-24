@@ -37,7 +37,7 @@ public class Application {
                 -------------- MENÚ ADMINISTRADOR --------------
                 1. Opciones para contratante
                 2. Opciones para contratista
-                3. Mostrar informacion del usuario
+                3. Mostrar información del usuario
                 4. Salir
                 =======================================================
                 """;
