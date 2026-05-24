@@ -83,8 +83,25 @@ public class ServicioUsuarios {
         this.usuarios.put(contratanteAux.getNumeroDocumento(), contratanteAux);
     }*/
 
-    public void consultarContratantes() {
+    public String consultarContratantes() {
+        StringBuilder sb = new StringBuilder();
+        boolean hayContratantes = false;
 
+        // RECORRO TODOS LOS VALORES DE USUARIOS DEL HASHMAP
+        for (Usuario usuarioAux : this.usuarios.values()) {
+
+            //SE FILTRA A LOS CONTRATATANTES
+            if (usuarioAux instanceof Contratante) {
+                sb.append(usuarioAux.mostrarInfoUsuario()).append("\n\n"); // :) LOS ESPACIOS PARA PODER VERLOS MEJOR FACILMENTE EN LA VISTA XD
+                hayContratantes = true;
+            }
+        }
+
+        if (!hayContratantes) {
+            return "No hay contratantes todavia\nIntentalo más tarde";
+        }
+
+        return sb.toString();
     }
 
     // METODO PARA ACTUALIZAR USUARIO
@@ -138,23 +155,61 @@ public class ServicioUsuarios {
         }
     }
 
-    public void eliminarContratante(String numeroDocumento) {
+    public void eliminarContratante(String numeroDocumentoEliminarContratante) {
+       this.usuarios.remove(numeroDocumentoEliminarContratante);
+    }
+
+    public void crearContratista(TipoPersona tipoPersona, TipoDocumento tipoDocumento, String numeroDocumento, String nombre,
+                                 String correo, String contrasenha, String telefono, String direccion, String ciudad, Rol rol,
+                                 boolean esEntidadPublica, String areaDesempenho) {
+        Usuario contratistaAux = new Contratista(tipoPersona, tipoDocumento, numeroDocumento, nombre, correo,
+                contrasenha, telefono, direccion, ciudad, rol, esEntidadPublica, areaDesempenho);
+        agregarUsuario(contratistaAux);
 
     }
 
-    public void crearContratista() {
+    public String consultarContratistas() {
+        StringBuilder sb = new StringBuilder();
+        boolean hayContratistas = false;
 
+        // RECORRO TODOS LOS VALORES DE USUARIOS DEL HASHMAP
+        for (Usuario usuarioAux : this.usuarios.values()) {
+
+            //SE FILTRA A LOS CONTRATISTAS
+            if (usuarioAux instanceof Contratista) {
+                sb.append(usuarioAux.mostrarInfoUsuario()).append("\n\n"); // :) LOS ESPACIOS PARA PODER VERLOS MEJOR FACILMENTE EN LA VISTA XD
+                hayContratistas = true;
+            }
+        }
+
+        if (!hayContratistas) {
+            return "No hay contratantes todavia\nIntentalo más tarde";
+        }
+
+        return sb.toString();
     }
 
-    public void consultarContratistas() {
+    public void actualizarContratista(String numeroDocumento, Boolean esEntidadPublica, String areaDesempenho) {
+        // SE AGARRA EL OBJETO AUXILIAR
+        Usuario usuarioEncontrado = this.usuarios.get(numeroDocumento);
+        if (usuarioEncontrado != null && usuarioEncontrado instanceof Contratista) {
+            // EN LA LISTA DE USUARIOS TODOS SE COMPORTAN ASI ENTONCES AGARRO EL OBJETO EN USUARIO ENCONTRADO
+            // PARA CASTEARLO COMO CONTRATISTAS Y SE COMPORTE DE ESA MANERA
+            Contratista contratista = (Contratista) usuarioEncontrado;
 
+            // NOTA IMPORTANTE: Recuerda cambiar los "else if" por "if" independientes como en actualizarUsuario
+            // para evitar que se ignoren campos cuando se mandan varios datos a la vez.
+            if (esEntidadPublica != null) {
+                contratista.setEsEntidadPublica(esEntidadPublica);
+            }
+            if (areaDesempenho != null) {
+                contratista.setAreaDesempenho(areaDesempenho);
+            }
+        }
     }
 
-    public void actualizarContratista() {
-    }
-
-    public void eliminarContratista() {
-
+    public void eliminarContratista(String numeroDocumentoEliminarContratista) {
+        this.usuarios.remove(numeroDocumentoEliminarContratista);
     }
 
     // ===============================================================================================================

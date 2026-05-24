@@ -9,10 +9,11 @@ public class Contratista extends Usuario {
     private String areaDesempenho;
 
     public Contratista(TipoPersona tipoPersona, TipoDocumento tipoDocumento, String numeroDocumento, String nombre,
-                       String correo, String contrasenha, String telefono, String direccion, String ciudad, Rol rol, boolean esEntidadPublica, String areDesempenho) {
+                       String correo, String contrasenha, String telefono, String direccion, String ciudad, Rol rol,
+                       boolean esEntidadPublica, String areaDesempenho) {
         super(tipoPersona, tipoDocumento, numeroDocumento, nombre, correo, contrasenha, telefono, direccion, ciudad, rol);
         this.esEntidadPublica = esEntidadPublica;
-        this.areaDesempenho = areDesempenho;
+        this.areaDesempenho = areaDesempenho;
     }
 
     public boolean isEsEntidadPublica() {
