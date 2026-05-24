@@ -96,7 +96,19 @@ public class ServicioUsuario {
         this.usuarios.put(numeroDocumento, usuarioAdmin);
     }
 
-    // METODOS PARA EL LOGIN
+    // METODO PARA EL LOGIN
+    public boolean loginCorrecto(String numeroDocumento, String contrasenha) {
+        if (numeroDocumentoExiste(numeroDocumento)) {
+            return (usuarios.get(numeroDocumento).getContrasenha()).equals(contrasenha);
+        } else {
+            return false;
+        }
+    }
+
+    // VERIFICACION SI EL USUARIO EXISTE USANDO LA LLAVE NUMERO DEL DOCUMENTO
+    public boolean numeroDocumentoExiste(String numeroDocumentoBuscar) {
+        return usuarios.containsKey(numeroDocumentoBuscar);
+    }
 
 
 }
