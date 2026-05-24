@@ -1,4 +1,4 @@
-package edu.uptc;
+package edu.uptc.gui;
 
 import javax.swing.*;
 

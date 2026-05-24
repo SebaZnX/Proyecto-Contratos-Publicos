@@ -1,4 +1,6 @@
-package edu.uptc;
+package edu.uptc.dominio;
+
+import edu.uptc.enums.TipoPersona;
 
 public class Contratante extends Usuario {
     private String sector;
@@ -35,22 +37,6 @@ public class Contratante extends Usuario {
 
     public void setCodigoUnicoEntidad(String codigoUnicoEntidad) {
         this.codigoUnicoEntidad = codigoUnicoEntidad;
-    }
-
-    public void crearContrato() {
-
-    }
-
-    public void consultarContratos() {
-
-    }
-
-    public void actualizarContrato() {
-
-    }
-
-    public void eliminarContrato() {
-
     }
 
     @Override

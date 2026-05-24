@@ -1,4 +1,6 @@
-package edu.uptc;
+package edu.uptc.dominio;
+
+import edu.uptc.enums.FaseContrato;
 
 import java.time.LocalDateTime;
 

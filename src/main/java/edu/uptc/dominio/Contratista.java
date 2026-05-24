@@ -1,6 +1,8 @@
-package edu.uptc;
+package edu.uptc.dominio;
 
-public class Contratista extends Usuario{
+import edu.uptc.enums.TipoPersona;
+
+public class Contratista extends Usuario {
     private boolean esEntidadPublica;
     private String areDesempenho;
 
@@ -31,11 +33,6 @@ public class Contratista extends Usuario{
 
     }
 
-    // falta mirar esto( c: Contrato, f: FaseContrato,
-    //informe: String) en los atributos para iniciar este metodo
-    public void cambiarEstadoContrato() {
-
-    }
 
     @Override
     public void mostrarMenu() {
