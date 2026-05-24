@@ -40,5 +40,16 @@ public class Controlador {
                 telefono, direccion, ciudad, sector, nivelEntidad, codigoUnicoEntidad);
     }
 
+    public void actualizarUsuario(TipoPersona tipoPersona, TipoDocumento tipoDocumento, String numeroDocumento, String nombre,
+                                  String correo, String contrasenha, String telefono, String direccion, String ciudad) {
+        this.servicioUsuarios.actualizarUsuario(tipoPersona, tipoDocumento, numeroDocumento, nombre, correo, contrasenha,
+                telefono, direccion, ciudad);
+    }
+
+
+    public void actualizarContratante(String numeroDocumento, String sector, String nivelEntidad, String codigoUnicoEntidad) {
+        this.servicioUsuarios.actualizarContratante(numeroDocumento, sector, nivelEntidad, codigoUnicoEntidad);
+    }
+
 
 }

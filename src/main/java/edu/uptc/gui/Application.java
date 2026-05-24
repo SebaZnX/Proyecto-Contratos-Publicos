@@ -1,6 +1,8 @@
 package edu.uptc.gui;
 
 import edu.uptc.controlador.Controlador;
+import edu.uptc.enums.TipoDocumento;
+import edu.uptc.enums.TipoPersona;
 
 import javax.swing.*;
 
@@ -59,7 +61,7 @@ public class Application {
                     // VERIFICAR SI ES NULO PARA PODER DALE X Y SALIR DEL PROGRAMA
                     String entrada = JOptionPane.showInputDialog(menuPrincipal);
 
-                    if (entrada == null){
+                    if (entrada == null) {
                         break;
                     }
 
@@ -73,7 +75,89 @@ public class Application {
                             // INVOCACION AL METODO PARA LOGUEAR
                             boolean logueado = controlador.loginCorrecto(numeroDocumentoLoguear, contrasenhaLoguear);
                             if (logueado) {
-                                JOptionPane.showInputDialog(menuAdministrador);
+                                try {
+                                    JOptionPane.showInputDialog(menuAdministrador);
+                                    int opAdmin = Integer.parseInt(JOptionPane.showInputDialog("""
+                                            =======================================================
+                                            1. Crear contratante
+                                            2. Ver contratantes
+                                            3. Actualizar contratante
+                                            4. Eliminar contratante
+                                            5. Salir  
+                                            =======================================================
+                                            """));
+                                    switch (opAdmin) {
+                                        case 1:
+                                            break;
+                                        case 2:
+                                            break;
+                                        case 3:
+                                            String idModificarContratante = JOptionPane.showInputDialog
+                                                    ("Ingrese el numero de documento del contratante a modificar");
+
+                                            // SI ES NULO SALE DEL CASE
+                                            if (idModificarContratante == null){
+                                                break;
+                                            }
+
+
+                                            if (controlador.numeroDocumentoExiste(idModificarContratante)) {
+
+                                                // TODAS LAS VARIABLES EMPIEZAN EN NULL POR DEFECTO
+                                                // ESTO ES PARA DESPUES LLAMAR AL METODO Y QUE SOLO SE CAMBIE
+                                                // LO QUE INDICA EL ADMINISTRADOR
+                                                TipoPersona tipoPersona = null;
+                                                TipoDocumento tipoDocumento = null;
+                                                String nombre = null;
+                                                String correo = null;
+                                                String contrasenha = null;
+                                                String telefono = null;
+                                                String direccion = null;
+                                                String ciudad = null;
+                                                // ATRIBUTOS EXCLUSIVOS DE CONTRATANTE
+                                                String sector = null;
+                                                String nivelEntidad = null;
+                                                String codigoUnicoEntidad = null;
+
+                                                String submenuModificar = """
+                                                        ¿Qué campo desea modificar?
+                                                        1. Nombre
+                                                        2. Correo
+                                                        3. Teléfono
+                                                        4. Dirección
+                                                        5. Ciudad
+                                                        6. Tipo de Persona
+                                                        7. Tipo de documento
+                                                        8. Sector (Exclusivo)
+                                                        9. Nivel de Entidad (Exclusivo)
+                                                        10. Código Único de Entidad (Exclusivo)
+                                                        11. Cancelar
+                                                        """;
+
+                                                try {
+                                                    int opSubMenu = Integer.parseInt(JOptionPane.showInputDialog(submenuModificar));
+
+
+
+                                                } catch (NumberFormatException ex) {
+                                                    JOptionPane.showMessageDialog(null, "ERROR", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                                }
+                                            } else {
+                                                JOptionPane.showMessageDialog(null, "Contratante no encontrado");
+                                            }
+                                            break;
+
+                                        case 4:
+                                            break;
+                                        case 5:
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                } catch (Exception exception) {
+                                    JOptionPane.showMessageDialog(null, "Error");
+                                }
+
                             } else {
                                 JOptionPane.showMessageDialog(null, "INCORRECTO");
                             }
@@ -87,12 +171,12 @@ public class Application {
                     }
 
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "CARACTER NO ACEPTADO", "ERROR!!" ,JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "CARACTER NO ACEPTADO", "ERROR!!", JOptionPane.ERROR_MESSAGE);
                 }
             }
 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "", "ERROR" , JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "", "ERROR", JOptionPane.ERROR_MESSAGE);
         } finally {
             JOptionPane.showMessageDialog(null, "Gracias por utilizar el programa");
         }

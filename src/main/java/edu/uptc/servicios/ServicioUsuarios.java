@@ -80,11 +80,54 @@ public class ServicioUsuarios {
 
     }
 
-    public void actualizarContratante() {
+    // METODO PARA ACTUALIZAR USUARIO
+    public void actualizarUsuario(TipoPersona tipoPersona, TipoDocumento tipoDocumento, String numeroDocumento, String nombre,
+                                  String correo, String contrasenha, String telefono, String direccion, String ciudad) {
+        // SE AGARRA EL OBJETO AUXILIAR
+        Usuario usuarioEncontrado = this.usuarios.get(numeroDocumento);
+
+        if (usuarioEncontrado != null) {
+            if (tipoPersona != null) {
+                usuarioEncontrado.setTipoPersona(tipoPersona);
+            } else if (tipoDocumento == null) {
+                usuarioEncontrado.setTipoDocumento(tipoDocumento);
+            } else if (nombre != null) {
+                usuarioEncontrado.setNombre(nombre);
+            } else if (correo != null) {
+                usuarioEncontrado.setCorreo(correo);
+            } else if (contrasenha == null) {
+                usuarioEncontrado.setContrasenha(contrasenha);
+            } else if (telefono != null) {
+                usuarioEncontrado.setTelefono(telefono);
+            } else if (direccion != null) {
+                usuarioEncontrado.setDireccion(direccion);
+            } else if (ciudad != null) {
+                usuarioEncontrado.setCiudad(ciudad);
+            }
+        }
 
     }
 
-    public void eliminarContratante() {
+    public void actualizarContratante(String numeroDocumento, String sector, String nivelEntidad, String codigoUnicoEntidad) {
+        // SE AGARRA EL OBJETO AUXILIAR
+        Usuario usuarioEncontrado = this.usuarios.get(numeroDocumento);
+        if (usuarioEncontrado != null && usuarioEncontrado instanceof Contratante) {
+            // EN LA LISTA DE USUARIOS TODOS SE COMPORTAN ASI ENTONCES AGARRO EL OBJETO EN USUARIO ENCONTRADO
+            // PARA CASTEARLO COMO CONTRATANTE Y SE COMPORTE DE ESA MANERA
+            Contratante contratante = (Contratante) usuarioEncontrado;
+
+            if (sector != null) {
+                contratante.setSector(sector);
+            } else if (nivelEntidad != null) {
+                contratante.setNivelEntidad(nivelEntidad);
+            } else if (codigoUnicoEntidad != null) {
+                contratante.setCodigoUnicoEntidad(codigoUnicoEntidad);
+
+            }
+        }
+    }
+
+    public void eliminarContratante(String numeroDocumento) {
 
     }
 
