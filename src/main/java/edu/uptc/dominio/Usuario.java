@@ -105,5 +105,5 @@ public abstract class Usuario {
         this.ciudad = ciudad;
     }
 
-    public abstract void mostrarMenu();
+    public abstract String mostrarInfoUsuario();
 }

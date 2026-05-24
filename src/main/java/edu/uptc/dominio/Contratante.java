@@ -41,6 +41,20 @@ public class Contratante extends Usuario {
     }
 
     @Override
-    public void mostrarMenu() {
+    public String mostrarInfoUsuario() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("• Nombre: ").append(nombre).append("\n");
+        sb.append("• Documento: ").append(tipoDocumento).append(" - ").append(numeroDocumento).append("\n");
+        sb.append("• Tipo de Persona: ").append(tipoPersona).append("\n");
+        sb.append("• Correo electrónico: ").append(correo).append("\n");
+        sb.append("• Teléfono: ").append(telefono).append("\n");
+        sb.append("• Ubicación: ").append(direccion).append(" (").append(ciudad).append(")\n");
+        sb.append("• Sector: ").append(sector).append("\n");
+        sb.append("• Nivel de la Entidad: ").append(nivelEntidad).append("\n");
+        sb.append("• Código Único: ").append(codigoUnicoEntidad).append("\n");
+        sb.append("-----------------------------------------");
+        return sb.toString();
     }
+
+
 }
