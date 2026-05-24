@@ -2,6 +2,7 @@ package edu.uptc.servicios;
 
 import edu.uptc.dominio.Administrador;
 import edu.uptc.dominio.Contratante;
+import edu.uptc.dominio.Contratista;
 import edu.uptc.dominio.Usuario;
 import edu.uptc.enums.Rol;
 import edu.uptc.enums.TipoDocumento;
@@ -59,6 +60,10 @@ public class ServicioUsuarios {
             return false;
         }
     }
+
+    public Rol rolLogueado(String numeroDocumento) {
+        return this.usuarios.get(numeroDocumento).getRol();
+    }
     // ===============================================================================================================
     // METODOS DEL ADMINISTRADOR
 
@@ -88,7 +93,11 @@ public class ServicioUsuarios {
         // SE AGARRA EL OBJETO AUXILIAR
         Usuario usuarioEncontrado = this.usuarios.get(numeroDocumento);
 
-        if (usuarioEncontrado != null) {
+//        VALIDA SI EL USUARIO ENCONTRADO NO ES NULL
+//        TAMBIEN VALIDA QUE EL ADMIN NO PUEDA MODIFICARSE A SI MISMO
+//        VALIDA QUE EL METODO QUE SE PUEDE REUTILIZAR MODIFICANDO EN CONTRATISTA Y CONTRATANTE
+//        TIENEN QUE SER OBJETOS OBLIGATORIAMENTE CONTRATISTA Y CONTRATANTE, NO ADMINISTRADOR
+        if (usuarioEncontrado != null && (usuarioEncontrado instanceof Contratante || usuarioEncontrado instanceof Contratista)) {
             if (tipoPersona != null) {
                 usuarioEncontrado.setTipoPersona(tipoPersona);
             } else if (tipoDocumento == null) {

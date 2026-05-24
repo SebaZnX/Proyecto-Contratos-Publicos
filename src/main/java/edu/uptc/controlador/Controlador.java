@@ -24,6 +24,10 @@ public class Controlador {
         return this.servicioUsuarios.loginCorrecto(numeroDocumento, contrasenha);
     }
 
+    public Rol rolLogueado(String numeroDocumento) {
+        return this.servicioUsuarios.rolLogueado(numeroDocumento);
+    }
+
     // USUARIOS CONTROLADOR
 
     public void crearAdministrador() {
