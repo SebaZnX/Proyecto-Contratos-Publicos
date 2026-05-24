@@ -1,0 +1,9 @@
+package edu.uptc.enums;
+
+public enum TipoDocumento {
+    CC, // CEDULA DE CIUDADANIA
+    CE, // CEDULA DE EXTRANJERIA
+    PAS, // PASAPORTE
+    PPT, // PERMISO POR PORTECCION TEMPORAL
+    NIT // NUMERO DE IDENTIFICATION TRIBUTARIA
+}

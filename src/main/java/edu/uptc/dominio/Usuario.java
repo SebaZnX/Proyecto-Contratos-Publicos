@@ -1,10 +1,12 @@
 package edu.uptc.dominio;
 
+import edu.uptc.enums.TipoDocumento;
 import edu.uptc.enums.TipoPersona;
 
 public abstract class Usuario {
+    // ATRIBUTOS DE USUARIO
     protected TipoPersona tipoPersona;
-    protected String tipoDocumento;
+    protected TipoDocumento tipoDocumento;
     protected String numeroDocumento;
     protected String nombre;
     protected String correo;
@@ -13,10 +15,12 @@ public abstract class Usuario {
     protected String direccion;
     protected String ciudad;
 
+    // METODO CONSTRUCTOR VACIO
     public Usuario() {
     }
 
-    public Usuario(TipoPersona tipoPersona, String tipoDocumento, String numeroDocumento, String nombre, String correo,
+    // METODO CONSTRUCTOR
+    public Usuario(TipoPersona tipoPersona, TipoDocumento tipoDocumento, String numeroDocumento, String nombre, String correo,
                    String contrasenha, String telefono, String direccion, String ciudad) {
         this.tipoPersona = tipoPersona;
         this.tipoDocumento = tipoDocumento;
@@ -37,11 +41,11 @@ public abstract class Usuario {
         this.tipoPersona = tipoPersona;
     }
 
-    public String getTipoDocumento() {
+    public TipoDocumento getTipoDocumento() {
         return tipoDocumento;
     }
 
-    public void setTipoDocumento(String tipoDocumento) {
+    public void setTipoDocumento(TipoDocumento tipoDocumento) {
         this.tipoDocumento = tipoDocumento;
     }
 
