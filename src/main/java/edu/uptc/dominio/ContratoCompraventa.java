@@ -1,6 +1,7 @@
 package edu.uptc.dominio;
 
 import edu.uptc.enums.FaseContrato;
+import edu.uptc.enums.TipoContrato;
 
 import java.time.LocalDate;
 
@@ -14,10 +15,10 @@ public class ContratoCompraventa extends Contrato {
 
     public ContratoCompraventa(String idContrato, String objetoContrato, LocalDate fechaCreacion,
                                Contratante contratante, Contratista contratista, double valorCelebrar,
-                               LocalDate plazoEjecucion, FaseContrato faseActual, String itemAdquirir, String marca,
+                               LocalDate plazoEjecucion, FaseContrato faseActual, TipoContrato tipoContrato, String itemAdquirir, String marca,
                                String modelo, String serie, double valorUnitario, int cantidadAdquirir) {
         super(idContrato, objetoContrato, fechaCreacion, contratante, contratista, valorCelebrar, plazoEjecucion,
-                faseActual);
+                faseActual, tipoContrato);
         this.itemAdquirir = itemAdquirir;
         this.marca = marca;
         this.modelo = modelo;
