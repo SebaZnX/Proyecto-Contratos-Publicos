@@ -7,21 +7,31 @@ import edu.uptc.enums.TipoPersona;
 
 import javax.swing.*;
 
-
+/**
+ * Clase principal que inicia la aplicación y gestiona la interfaz de usuario para el sistema de Contratos Públicos.
+ * Proporciona los menús de interacción y maneja el flujo principal de la aplicación.
+ */
 public class Application {
 
+    /**
+     * Método principal que sirve como punto de entrada para la aplicación.
+     *
+     * @param args Argumentos de la línea de comandos (no utilizados en esta aplicación).
+     */
     public static void main(String[] args) {
 
         Controlador controlador = new Controlador();
 
         /**
-         * Ejecuta la invocación del método encargado de crear al administrador del sistema.
+         * Invoca el método para crear el administrador inicial del sistema.
+         * Este paso es crucial para la configuración inicial de la aplicación.
          */
         controlador.crearAdministrador();
 
 
         /**
-         * Despliega y gestiona las interfaces de menú para las diferentes interacciones de los usuarios.
+         * Define y muestra el menú principal de la aplicación, permitiendo al usuario
+         * seleccionar entre iniciar sesión, ver contratos públicos o salir.
          */
         String menuPrincipal = """
                 =======================================================
@@ -36,13 +46,15 @@ public class Application {
                 """;
 
         /**
-         * Define los permisos exclusivos del rol Administrador.
-         * Permite realizar operaciones CRUD únicamente sobre los módulos de Contratante y Contratista.
-         * * NOTA DE SEGURIDAD: Por motivos de transparencia institucional, se restringen los permisos
-         * de modificación, actualización o eliminación sobre los módulos de Contratos y Reportes,
-         * garantizando la inmutabilidad de la información y previniendo riesgos de corrupción.
+         * Define el menú de opciones disponible para el rol de Administrador.
+         * Este menú permite realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar)
+         * exclusivamente sobre los módulos de Contratante y Contratista.
+         * <p>
+         * NOTA DE SEGURIDAD: Por razones de transparencia institucional, las operaciones
+         * de modificación, actualización o eliminación sobre los módulos de Contratos y Reportes
+         * están restringidas. Esto asegura la inmutabilidad de la información y previene
+         * posibles riesgos de corrupción.
          */
-
         String menuAdministrador = """
                 =======================================================
                 -------------- MENÚ ADMINISTRADOR --------------
@@ -69,8 +81,8 @@ public class Application {
 
                 try {
                     /**
-                     * Verifica si el objeto o entrada es nulo para permitir la interrupción
-                     * del flujo o salida del programa.
+                     * Verifica si la entrada del usuario es nula (por ejemplo, si el usuario cierra el diálogo).
+                     * Si es nula, interrumpe el flujo actual y permite la salida del programa.
                      */
                     String entrada = JOptionPane.showInputDialog(menuPrincipal);
 
@@ -82,13 +94,15 @@ public class Application {
                     switch (opcionMenuPrincipal) {
                         case 1:
                             /**
-                             * Gestiona y despliega los mensajes correspondientes al flujo de inicio de sesión (Login).
+                             * Gestiona el proceso de inicio de sesión, solicitando al usuario sus credenciales
+                             * y mostrando mensajes informativos.
                              */
                             JOptionPane.showMessageDialog(null, "----- INICIAR SESION -----\nDigite los siguientes campos");
                             String numeroDocumentoLoguear = JOptionPane.showInputDialog("Ingrese su numero de documento");
                             String contrasenhaLoguear = JOptionPane.showInputDialog("Ingrese su contraseña");
                             /**
-                             * Realiza la invocación del método encargado de autenticar y validar las credenciales de inicio de sesión.
+                             * Invoca el método del controlador para autenticar y validar las credenciales
+                             * proporcionadas por el usuario durante el inicio de sesión.
                              */
                             boolean logueado = controlador.loginCorrecto(numeroDocumentoLoguear, contrasenhaLoguear);
                             if (logueado) {
@@ -109,6 +123,7 @@ public class Application {
                                                 opcionMenuAdministrador = Integer.parseInt(entradaMenuAdminstrador);
                                                 switch (opcionMenuAdministrador) {
                                                     case 1:
+                                                        // METODO PARA VER TODOS LOS CONTRATANTES FALTA!!!!!
                                                         int opAdminMenuContratante = Integer.parseInt(JOptionPane.showInputDialog("""
                                                                 =======================================================
                                                                 1. Crear contratante
@@ -128,7 +143,8 @@ public class Application {
                                                                         ("Ingrese el numero de documento del contratante a modificar");
 
                                                                 /**
-                                                                 * Rompe el flujo del bloque switch (case) si el valor evaluado es nulo.
+                                                                 * Interrumpe el flujo del bloque switch si el valor de entrada es nulo,
+                                                                 * indicando que el usuario ha cancelado la operación.
                                                                  */
                                                                 if (idModificarContratante == null) {
                                                                     break;
@@ -142,9 +158,9 @@ public class Application {
 
 
                                                                     /**
-                                                                     * Inicializa todas las variables en null por defecto.
-                                                                     * Permite que, al invocar el método de actualización, únicamente se modifiquen
-                                                                     * los campos que el administrador indique explícitamente.
+                                                                     * Inicializa las variables de los atributos del contratante a `null` por defecto.
+                                                                     * Esto permite que, al llamar al método de actualización, solo se modifiquen
+                                                                     * los campos para los cuales el administrador ha proporcionado un nuevo valor.
                                                                      */
                                                                     TipoPersona tipoPersona = null;
                                                                     TipoDocumento tipoDocumento = null;
@@ -155,7 +171,7 @@ public class Application {
                                                                     String direccion = null;
                                                                     String ciudad = null;
                                                                     /**
-                                                                     * Define los atributos específicos y exclusivos correspondientes al rol de Contratante.
+                                                                     * Atributos específicos y exclusivos del rol de Contratante.
                                                                      */
                                                                     String sector = null;
                                                                     String nivelEntidad = null;
@@ -181,8 +197,8 @@ public class Application {
 
                                                                         String entradaSubmenu = JOptionPane.showInputDialog(submenuModificar);
                                                                         /**
-                                                                         * Evalúa la validez del objeto para continuar con el flujo actual;
-                                                                         * si es nulo, redirige la ejecución hacia el menú anterior.
+                                                                         * Evalúa si la entrada del submenú es nula. Si lo es,
+                                                                         * indica que el usuario ha cancelado la operación y se regresa al menú anterior.
                                                                          */
                                                                         if (entradaSubmenu == null) {
                                                                             break;
@@ -200,16 +216,16 @@ public class Application {
                                                                                             """;
                                                                                     String entradaPersona = JOptionPane.showInputDialog(opcionesPersona);
                                                                                     /**
-                                                                                     * Valida que la entrada de datos no sea nula (null) antes de procesarla.
+                                                                                     * Valida que la entrada de datos para el tipo de persona no sea nula antes de procesarla.
                                                                                      */
                                                                                     if (entradaPersona != null) {
                                                                                         /**
-                                                                                         * Convierte la cadena de texto recibida en un valor de tipo entero y lo asigna a la variable de opción.
+                                                                                         * Convierte la entrada de texto del usuario a un valor entero para determinar la opción seleccionada.
                                                                                          */
                                                                                         int opPersona = Integer.parseInt(entradaPersona);
 
                                                                                         /**
-                                                                                         * Asigna el valor correspondiente utilizando la clase enumerada TipoPersona.
+                                                                                         * Asigna el tipo de persona correspondiente utilizando la enumeración {@link TipoPersona}.
                                                                                          */
                                                                                         if (opPersona == 1) {
                                                                                             tipoPersona = TipoPersona.NATURAL;
@@ -236,11 +252,11 @@ public class Application {
                                                                                             """;
                                                                                     String entradaDoc = JOptionPane.showInputDialog(opcionesDocumento);
                                                                                     /**
-                                                                                     * Valida que la entrada de datos no sea nula (null) antes de proceder con su procesamiento.
+                                                                                     * Valida que la entrada de datos para el tipo de documento no sea nula antes de procesarla.
                                                                                      */
                                                                                     if (entradaDoc != null) {
                                                                                         /**
-                                                                                         * Convierte la cadena de texto recibida en un valor de tipo entero y realiza la asignación a la opción.
+                                                                                         * Convierte la entrada de texto del usuario a un valor entero para determinar la opción seleccionada.
                                                                                          */
                                                                                         int opDocumento = Integer.parseInt(entradaDoc);
                                                                                         switch (opDocumento) {
@@ -302,10 +318,9 @@ public class Application {
                                                                         }
 
                                                                         /**
-                                                                         * Ejecuta la invocación de los métodos encargados de realizar la actualización de datos.
+                                                                         * Invoca los métodos del controlador para realizar la actualización de los datos
+                                                                         * del usuario y del contratante con la información proporcionada.
                                                                          */
-
-
                                                                         if (opSubMenu > 0 && opSubMenu < 11) {
                                                                             controlador.actualizarUsuario(tipoPersona, tipoDocumento, numeroDocumentoLoguear, nombre, correo,
                                                                                     contrasenha, telefono, direccion, ciudad);

@@ -4,11 +4,25 @@ import edu.uptc.enums.Rol;
 import edu.uptc.enums.TipoDocumento;
 import edu.uptc.enums.TipoPersona;
 
+/**
+ * Representa a un administrador del sistema, extendiendo las funcionalidades básicas de un {@link Usuario}.
+ * Los administradores tienen roles específicos dentro de la aplicación, como la gestión de contratantes y contratistas.
+ */
 public class Administrador extends Usuario {
     /**
-     * Constructor de la clase.
-     * Inicializa una nueva instancia de la clase asignando los valores pasados por parámetro
-     * a sus respectivos atributos.
+     * Constructor para crear una nueva instancia de {@code Administrador}.
+     * Inicializa un administrador con los detalles básicos de un usuario y su rol específico.
+     *
+     * @param tipoPersona El tipo de persona del administrador (Natural o Jurídica).
+     * @param tipoDocumento El tipo de documento de identificación del administrador.
+     * @param numeroDocumento El número de documento único del administrador.
+     * @param nombre El nombre completo o razón social del administrador.
+     * @param correo El correo electrónico del administrador.
+     * @param contrasenha La contraseña para el acceso del administrador al sistema.
+     * @param telefono El número de teléfono de contacto del administrador.
+     * @param direccion La dirección de residencia u oficina del administrador.
+     * @param ciudad La ciudad donde reside o trabaja el administrador.
+     * @param rol El rol asignado al administrador (debe ser {@link Rol#ADMINISTRADOR}).
      */
     public Administrador(TipoPersona tipoPersona, TipoDocumento tipoDocumento, String numeroDocumento, String nombre,
                          String correo, String contrasenha, String telefono, String direccion, String ciudad, Rol rol) {
@@ -16,9 +30,11 @@ public class Administrador extends Usuario {
     }
 
     /**
-     * Implementa o sobrescribe los métodos abstractos heredados de la clase padre.
-     * Define el comportamiento específico que la clase hija debe proporcionar para cumplir
-     * con el contrato establecido por la superclase.
+     * Proporciona una representación en cadena de la información detallada del administrador.
+     * Este método sobrescribe el comportamiento heredado de {@link Usuario#mostrarInfoUsuario()}
+     * para asegurar que la información se muestre de manera específica para un administrador.
+     *
+     * @return Una cadena de texto que contiene la información completa del administrador.
      */
     @Override
     public String mostrarInfoUsuario() {
@@ -32,6 +48,4 @@ public class Administrador extends Usuario {
         sb.append("-----------------------------------------");
         return sb.toString();
     }
-
-
 }
