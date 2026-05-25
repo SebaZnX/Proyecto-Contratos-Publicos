@@ -107,9 +107,15 @@ public class ServicioUsuarios {
         return sb.toString();
     }*/
     public String consultarContratantes(String numeroDocumento) {
-//      OBTENGO EL USUARIO Y LO GUARDO EN UN OBJETO AUXILIAR
+        /**
+         * Recupera la información del usuario actual y la almacena en un objeto auxiliar
+         * para su posterior manipulación o validación dentro del flujo del método.
+         */
         Usuario usuarioAux = this.usuarios.get(numeroDocumento);
-//      VERIFICO SI NO ESTA VACIO Y QUE PERTENECE A CONTRATANTE
+        /**
+         * Valida que el objeto de usuario obtenido no sea nulo y confirma
+         * que corresponde a la instancia o rol específico de un Contratante.
+         */
         if (usuarioAux != null && usuarioAux instanceof Contratante) {
             return usuarioAux.mostrarInfoUsuario();
         }
@@ -121,13 +127,19 @@ public class ServicioUsuarios {
      */
     public void actualizarUsuario(TipoPersona tipoPersona, TipoDocumento tipoDocumento, String numeroDocumento, String nombre,
                                   String correo, String contrasenha, String telefono, String direccion, String ciudad) {
-        // SE AGARRA EL OBJETO AUXILIAR
+        /**
+         * Recupera la información del usuario actual y la almacena en un objeto auxiliar
+         * para su posterior manipulación o validación dentro del flujo del método.
+         */
         Usuario usuarioEncontrado = this.usuarios.get(numeroDocumento);
 
-//        VALIDA SI EL USUARIO ENCONTRADO NO ES NULL
-//        TAMBIEN VALIDA QUE EL ADMIN NO PUEDA MODIFICARSE A SI MISMO
-//        VALIDA QUE EL METODO QUE SE PUEDE REUTILIZAR MODIFICANDO EN CONTRATISTA Y CONTRATANTE
-//        TIENEN QUE SER OBJETOS OBLIGATORIAMENTE CONTRATISTA Y CONTRATANTE, NO ADMINISTRADOR
+        /**
+         * Valida que el usuario encontrado exista (no sea nulo) y restringe que un administrador
+         * pueda modificarse a sí mismo a través de este flujo.
+         * Verifica que el objeto pertenezca estrictamente a las instancias permitidas (Contratista
+         * o Contratante) para garantizar la reutilización del método en ambos roles,
+         * excluyendo explícitamente al rol de Administrador.
+         */
         if (usuarioEncontrado != null && (usuarioEncontrado instanceof Contratante || usuarioEncontrado instanceof Contratista)) {
             if (tipoPersona != null) {
                 usuarioEncontrado.setTipoPersona(tipoPersona);
@@ -158,11 +170,17 @@ public class ServicioUsuarios {
     }
 
     public void actualizarContratante(String numeroDocumento, String sector, String nivelEntidad, String codigoUnicoEntidad) {
-        // SE AGARRA EL OBJETO AUXILIAR
+        /**
+         * Recupera la información del usuario actual y la almacena en un objeto auxiliar
+         * para su posterior manipulación o validación dentro del flujo del método.
+         */
         Usuario usuarioEncontrado = this.usuarios.get(numeroDocumento);
         if (usuarioEncontrado != null && usuarioEncontrado instanceof Contratante) {
-            // EN LA LISTA DE USUARIOS TODOS SE COMPORTAN ASI ENTONCES AGARRO EL OBJETO EN USUARIO ENCONTRADO
-            // PARA CASTEARLO COMO CONTRATANTE Y SE COMPORTE DE ESA MANERA
+            /**
+             * Dado que todos los elementos de la lista comparten el tipo base Usuario,
+             * se extrae el objeto encontrado y se realiza un casting explícito a la clase Contratante
+             * para poder acceder y utilizar sus atributos y comportamientos específicos.
+             */
             Contratante contratante = (Contratante) usuarioEncontrado;
 
             if (sector != null) {
@@ -192,10 +210,16 @@ public class ServicioUsuarios {
     }
 
     public String consultarContratistas(String numeroDocumento) {
-//      OBTENGO EL USUARIO Y LO GUARDO EN UN OBJETO AUXILIAR
+        /**
+         * Recupera la información del usuario actual y la almacena en un objeto auxiliar
+         * para su posterior manipulación o validación dentro del flujo del método.
+         */
         Usuario usuarioAux = this.usuarios.get(numeroDocumento);
         if (usuarioAux != null && usuarioAux instanceof Contratista) {
-//      VERIFICO SI NO ESTA VACIO Y QUE PERTENECE A CONTRATANTE
+            /**
+             * Valida que el registro de usuario obtenido contenga información (no esté vacío)
+             * y confirma que pertenezca explícitamente al tipo o rol de Contratante.
+             */
             return usuarioAux.mostrarInfoUsuario();
         }
         return "Contratista no encontrado\nIntentalo más tarde";
@@ -222,15 +246,19 @@ public class ServicioUsuarios {
     }*/
 
     public void actualizarContratista(String numeroDocumento, Boolean esEntidadPublica, String areaDesempenho) {
-        // SE AGARRA EL OBJETO AUXILIAR
+        /**
+         * Recupera la información del usuario actual y la almacena en un objeto auxiliar
+         * para su posterior manipulación o validación dentro del flujo del método.
+         */
         Usuario usuarioEncontrado = this.usuarios.get(numeroDocumento);
         if (usuarioEncontrado != null && usuarioEncontrado instanceof Contratista) {
-            // EN LA LISTA DE USUARIOS TODOS SE COMPORTAN ASI ENTONCES AGARRO EL OBJETO EN USUARIO ENCONTRADO
-            // PARA CASTEARLO COMO CONTRATISTAS Y SE COMPORTE DE ESA MANERA
+            /**
+             * Dado que todos los elementos de la lista comparten el tipo base Usuario,
+             * se extrae el objeto encontrado y se realiza un casting explícito a la clase Contratista
+             * para poder acceder y utilizar sus atributos y comportamientos específicos.
+             */
             Contratista contratista = (Contratista) usuarioEncontrado;
 
-            // NOTA IMPORTANTE: Recuerda cambiar los "else if" por "if" independientes como en actualizarUsuario
-            // para evitar que se ignoren campos cuando se mandan varios datos a la vez.
             if (esEntidadPublica != null) {
                 contratista.setEsEntidadPublica(esEntidadPublica);
             }
