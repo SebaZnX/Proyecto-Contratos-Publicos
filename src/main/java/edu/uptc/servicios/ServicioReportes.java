@@ -7,7 +7,9 @@ import java.util.HashMap;
 public class ServicioReportes {
     private HashMap<String, ReporteInterventoria> reportesInterventoria;
 
-    // METODO CONSTRUCTOR INICIANDO LAS LISTAS DE LOS REPORTES
+    /**
+     * Inicializa el constructor y las listas de reportes del sistema.
+     */
     public ServicioReportes() {
         this.reportesInterventoria = new HashMap<>();
     }

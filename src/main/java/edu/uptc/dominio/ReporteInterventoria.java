@@ -5,6 +5,11 @@ import edu.uptc.enums.FaseContrato;
 import java.time.LocalDateTime;
 
 public class ReporteInterventoria {
+    /**
+     * Define los atributos específicos que componen la entidad de Reporte de Interventoría.
+     * Almacena los datos necesarios para el seguimiento, control y supervisión técnica,
+     * administrativa o financiera de un contrato.
+     */
     private String idReporte;
     private Contrato contrato;
     private String informe;
@@ -12,9 +17,18 @@ public class ReporteInterventoria {
     private FaseContrato faseAnterior;
     private FaseContrato faseNueva;
 
+    /**
+     * Constructor vacío de la clase.
+     * Inicializa una nueva instancia sin asignar valores previos a sus atributos.
+     */
     public ReporteInterventoria() {
     }
 
+    /**
+     * Constructor de la clase.
+     * Inicializa una nueva instancia de la clase asignando los valores pasados por parámetro
+     * a sus respectivos atributos.
+     */
     public ReporteInterventoria(String idReporte, Contrato contrato, String informe, LocalDateTime fechaHora,
                                 FaseContrato faseAnterior, FaseContrato faseNueva) {
         this.idReporte = idReporte;
@@ -24,7 +38,10 @@ public class ReporteInterventoria {
         this.faseAnterior = faseAnterior;
         this.faseNueva = faseNueva;
     }
-
+    /**
+     * Métodos de acceso (getters) y de modificación (setters) para los atributos de la clase.
+     * Permiten encapsular la información, controlando la lectura y escritura de las variables.
+     */
     public String getIdReporte() {
         return idReporte;
     }

@@ -75,6 +75,11 @@ public class ContratoCompraventa extends Contrato {
         this.cantidadAdquirir = cantidadAdquirir;
     }
 
+    /**
+     * Implementa o sobrescribe los métodos abstractos heredados de la clase padre.
+     * Define el comportamiento específico que la clase hija debe proporcionar para cumplir
+     * con el contrato establecido por la superclase.
+     */
     @Override
     public boolean validar() {
         return false;

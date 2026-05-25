@@ -5,10 +5,18 @@ import edu.uptc.enums.TipoDocumento;
 import edu.uptc.enums.TipoPersona;
 
 public class Contratante extends Usuario {
+    /**
+     * Define los atributos específicos de la clase Contratante,
+     * la cual hereda las propiedades y comportamientos de la clase base Usuario.
+     */
     private String sector;
     private String nivelEntidad;
     private String codigoUnicoEntidad;
-
+    /**
+     * Constructor de la clase.
+     * Inicializa una nueva instancia de la clase asignando los valores pasados por parámetro
+     * a sus respectivos atributos.
+     */
     public Contratante(TipoPersona tipoPersona, TipoDocumento tipoDocumento, String numeroDocumento, String nombre,
                        String correo, String contrasenha, String telefono, String direccion, String ciudad, Rol rol,
                        String sector, String nivelEntidad, String codigoUnicoEntidad) {
@@ -17,7 +25,10 @@ public class Contratante extends Usuario {
         this.nivelEntidad = nivelEntidad;
         this.codigoUnicoEntidad = codigoUnicoEntidad;
     }
-
+    /**
+     * Métodos de acceso (getters) y de modificación (setters) para los atributos de la clase.
+     * Permiten encapsular la información, controlando la lectura y escritura de las variables.
+     */
     public String getSector() {
         return sector;
     }
@@ -42,6 +53,11 @@ public class Contratante extends Usuario {
         this.codigoUnicoEntidad = codigoUnicoEntidad;
     }
 
+    /**
+     * Implementa o sobrescribe los métodos abstractos heredados de la clase padre.
+     * Define el comportamiento específico que la clase hija debe proporcionar para cumplir
+     * con el contrato establecido por la superclase.
+     */
     @Override
     public String mostrarInfoUsuario() {
         StringBuilder sb = new StringBuilder();

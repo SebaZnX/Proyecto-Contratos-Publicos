@@ -6,6 +6,10 @@ import edu.uptc.enums.TipoContrato;
 import java.time.LocalDate;
 
 public abstract class Contrato {
+    /**
+     * Define los atributos base y comunes que componen la entidad de Contrato.
+     * Estas propiedades serán compartidas o heredadas por los diferentes tipos de contratos del sistema.
+     */
     protected String idContrato;
     protected String objetoContrato;
     protected LocalDate fechaCreacion;
@@ -16,9 +20,17 @@ public abstract class Contrato {
     protected FaseContrato faseActual;
     protected TipoContrato tipoContrato;
 
+    /**
+     * Constructor vacío de la clase.
+     * Inicializa una nueva instancia sin asignar valores previos a sus atributos.
+     */
     public Contrato() {
     }
-
+    /**
+     * Constructor de la clase.
+     * Inicializa una nueva instancia de la clase asignando los valores pasados por parámetro
+     * a sus respectivos atributos.
+     */
     public Contrato(String idContrato, String objetoContrato, LocalDate fechaCreacion, Contratante contratante,
                     Contratista contratista, double valorCelebrar, LocalDate plazoEjecucion, FaseContrato faseActual,
                     TipoContrato tipoContrato) {
@@ -33,6 +45,10 @@ public abstract class Contrato {
         this.tipoContrato = tipoContrato;
     }
 
+    /**
+     * Métodos de acceso (getters) y de modificación (setters) para los atributos de la clase.
+     * Permiten encapsular la información, controlando la lectura y escritura de las variables.
+     */
     public String getIdContrato() {
         return idContrato;
     }
@@ -105,6 +121,11 @@ public abstract class Contrato {
         this.tipoContrato = tipoContrato;
     }
 
+    /**
+     * Declara los métodos abstractos de la clase o interfaz.
+     * Estos métodos definen la estructura y comportamiento obligatorio que deben
+     * implementar las subclases concretas.
+     */
     public abstract boolean validar();
 
     public abstract String mostrarInfo();

@@ -8,18 +8,29 @@ import edu.uptc.servicios.ServicioReportes;
 import edu.uptc.servicios.ServicioUsuarios;
 
 public class Controlador {
-
+    /**
+     * Invoca los servicios correspondientes desde la capa del controlador
+     * para procesar las peticiones del cliente y gestionar el flujo de la aplicación.
+     */
     private ServicioUsuarios servicioUsuarios;
     private ServicioContratos servicioContratos;
     private ServicioReportes servicioReportes;
 
+    /**
+     * Inicializa los atributos del controlador, configurando las dependencias
+     * y variables necesarias para gestionar el flujo de las peticiones.
+     */
     public Controlador() {
         this.servicioUsuarios = new ServicioUsuarios();
         this.servicioContratos = new ServicioContratos();
         this.servicioReportes = new ServicioReportes();
     }
 
-    // CONTROLADOR LOGIN
+    /**
+     * Controlador encargado de gestionar el proceso de autenticación de usuarios.
+     * Recibe las credenciales de acceso, coordina la verificación de identidad
+     * y administra la creación o el flujo de la sesión en el sistema.
+     */
     public boolean loginCorrecto(String numeroDocumento, String contrasenha) {
         return this.servicioUsuarios.loginCorrecto(numeroDocumento, contrasenha);
     }
@@ -28,8 +39,10 @@ public class Controlador {
         return this.servicioUsuarios.rolLogueado(numeroDocumento);
     }
 
-    // USUARIOS CONTROLADOR
-
+    /**
+     * Controlador encargado de gestionar las operaciones y peticiones relacionadas
+     * con la administración de usuarios en el sistema.
+     */
     public void crearAdministrador() {
         this.servicioUsuarios.crearAdministrador();
     }
@@ -38,14 +51,20 @@ public class Controlador {
         return this.servicioUsuarios.numeroDocumentoExiste(numeroDocumentoBuscar);
     }
 
-    // CONTROLADOR DE ACTUALIZAR USUARIOS GENERAL
+    /**
+     * Controlador encargado de gestionar las peticiones para la actualización
+     * general de la información de los usuarios en el sistema.
+     */
     public void actualizarUsuario(TipoPersona tipoPersona, TipoDocumento tipoDocumento, String numeroDocumento, String nombre,
                                   String correo, String contrasenha, String telefono, String direccion, String ciudad) {
         this.servicioUsuarios.actualizarUsuario(tipoPersona, tipoDocumento, numeroDocumento, nombre, correo, contrasenha,
                 telefono, direccion, ciudad);
     }
 
-    // CRUD PARA CONTRATANTE
+    /**
+     * Controlador encargado de gestionar las operaciones CRUD (Crear, Leer, Actualizar y Eliminar)
+     * relacionadas con la entidad Contratante en el sistema.
+     */
     public void crearContratante(TipoPersona tipoPersona, TipoDocumento tipoDocumento, String numeroDocumento, String nombre,
                                  String correo, String contrasenha, String telefono, String direccion, String ciudad, Rol rol,
                                  String sector, String nivelEntidad, String codigoUnicoEntidad) {
@@ -65,7 +84,10 @@ public class Controlador {
         this.servicioUsuarios.eliminarContratante(numeroDocumentoEliminarContratante);
     }
 
-    // CRUD PARA CONTRATISTA
+    /**
+     * Controlador encargado de gestionar las operaciones CRUD (Crear, Leer, Actualizar y Eliminar)
+     * relacionadas con la entidad Contratista en el sistema.
+     */
     public void crearContratista(TipoPersona tipoPersona, TipoDocumento tipoDocumento, String numeroDocumento, String nombre,
                                  String correo, String contrasenha, String telefono, String direccion, String ciudad, Rol rol,
                                  boolean esEntidadPublica, String areaDesempenho) {

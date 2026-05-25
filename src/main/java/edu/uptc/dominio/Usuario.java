@@ -5,7 +5,9 @@ import edu.uptc.enums.TipoDocumento;
 import edu.uptc.enums.TipoPersona;
 
 public abstract class Usuario {
-    // ATRIBUTOS DE USUARIO
+    /**
+     * Define los atributos generales y compartidos que componen la entidad de Usuario.
+     */
     protected TipoPersona tipoPersona;
     protected TipoDocumento tipoDocumento;
     protected String numeroDocumento;
@@ -17,11 +19,18 @@ public abstract class Usuario {
     protected String ciudad;
     protected Rol rol;
 
-    // METODO CONSTRUCTOR VACIO
+    /**
+     * Constructor vacío de la clase.
+     * Inicializa una nueva instancia sin asignar valores previos a sus atributos.
+     */
     public Usuario() {
     }
 
-    // METODO CONSTRUCTOR
+    /**
+     * Constructor de la clase.
+     * Inicializa una nueva instancia de la clase asignando los valores pasados por parámetro
+     * a sus respectivos atributos.
+     */
     public Usuario(TipoPersona tipoPersona, TipoDocumento tipoDocumento, String numeroDocumento, String nombre, String correo,
                    String contrasenha, String telefono, String direccion, String ciudad, Rol rol) {
         this.tipoPersona = tipoPersona;
@@ -36,6 +45,10 @@ public abstract class Usuario {
         this.rol = rol;
     }
 
+    /**
+     * Métodos de acceso (getters) y de modificación (setters) para los atributos de la clase.
+     * Permiten encapsular la información, controlando la lectura y escritura de las variables.
+     */
     public TipoPersona getTipoPersona() {
         return tipoPersona;
     }
@@ -116,5 +129,10 @@ public abstract class Usuario {
         this.rol = rol;
     }
 
+    /**
+     * Declara los métodos abstractos de la clase o interfaz.
+     * Estos métodos definen la estructura y comportamiento obligatorio que deben
+     * implementar las subclases concretas.
+     */
     public abstract String mostrarInfoUsuario();
 }

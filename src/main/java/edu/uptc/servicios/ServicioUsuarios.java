@@ -13,18 +13,18 @@ import java.util.HashMap;
 public class ServicioUsuarios {
     private HashMap<String, Usuario> usuarios;
 
-    // METODO CONSTRUCTOR INICIANDO LAS LISTAS DE LOS USUARIOS
+    /**
+     * Inicializa el constructor y las listas de usuarios del sistema.
+     */
 
     public ServicioUsuarios() {
         this.usuarios = new HashMap<>();
     }
 
-    // ===============================================================================================================
 
-    // METODO PARA CREAR EL ADMIN
-/*   ESTE METODO NO DEVUELVE NADA, SIEMPRE SE LLAMA CUANDO SE ABRE EL PROGRAMA
-     EL METODO TAMBIEN NO REQUIERE LLAMAR NINGUN ATRIBUTO
-    */
+    /**
+     * Crea el administrador por defecto al iniciar la aplicación.
+     */
 
     public void crearAdministrador() {
         TipoPersona tipoPersona = TipoPersona.JURIDICA;
@@ -43,16 +43,17 @@ public class ServicioUsuarios {
         this.usuarios.put(numeroDocumento, usuarioAdmin);
     }
 
-    // ===============================================================================================================
-    // METODOS PARA MANIPULAR EL HASH MAP
-
+    /**
+     * Métodos de manipulación y gestión del HashMap.
+     */
     public void agregarUsuario(Usuario usuario) {
         this.usuarios.put(usuario.getNumeroDocumento(), usuario);
 
     }
 
-    // ===============================================================================================================
-    // METODO PARA EL LOGIN
+    /**
+     * Gestiona el proceso de inicio de sesión (login) en el sistema.
+     */
     public boolean loginCorrecto(String numeroDocumento, String contrasenha) {
         if (numeroDocumentoExiste(numeroDocumento)) {
             return (usuarios.get(numeroDocumento).getContrasenha()).equals(contrasenha);
@@ -64,8 +65,10 @@ public class ServicioUsuarios {
     public Rol rolLogueado(String numeroDocumento) {
         return this.usuarios.get(numeroDocumento).getRol();
     }
-    // ===============================================================================================================
-    // METODOS DEL ADMINISTRADOR
+
+    /**
+     * Operaciones y funcionalidades exclusivas del rol administrador.
+     */
 
     public void crearContratante(TipoPersona tipoPersona, TipoDocumento tipoDocumento, String numeroDocumento, String nombre,
                                  String correo, String contrasenha, String telefono, String direccion, String ciudad, Rol rol,
@@ -113,7 +116,9 @@ public class ServicioUsuarios {
         return "Contratante no encontrado\nIntentalo más tarde";
     }
 
-    // METODO PARA ACTUALIZAR USUARIO
+    /**
+     * Actualiza la información de un usuario existente en el sistema.
+     */
     public void actualizarUsuario(TipoPersona tipoPersona, TipoDocumento tipoDocumento, String numeroDocumento, String nombre,
                                   String correo, String contrasenha, String telefono, String direccion, String ciudad) {
         // SE AGARRA EL OBJETO AUXILIAR
@@ -239,8 +244,9 @@ public class ServicioUsuarios {
         this.usuarios.remove(numeroDocumentoEliminarContratista);
     }
 
-    // ===============================================================================================================
-    // VERIFICACION SI EL USUARIO EXISTE USANDO LA LLAVE NUMERO DEL DOCUMENTO
+    /**
+     * Verifica la existencia de un usuario utilizando el número de documento como clave.
+     */
     public boolean numeroDocumentoExiste(String numeroDocumentoBuscar) {
         return usuarios.containsKey(numeroDocumentoBuscar);
     }

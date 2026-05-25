@@ -6,11 +6,20 @@ import edu.uptc.enums.TipoContrato;
 import java.time.LocalDate;
 
 public class ContratoPrestacionServicios extends Contrato {
+    /**
+     * Define los atributos específicos de la clase ContratoPrestacionServicios,
+     * la cual hereda las propiedades y comportamientos de la clase base Contrato.
+     */
     private String perfilRequerido;
     private String entregables;
     private double valorHonorarioMensual;
     private int mesesContratoPrestacionServicios;
 
+    /**
+     * Constructor de la clase.
+     * Inicializa una nueva instancia de la clase asignando los valores pasados por parámetro
+     * a sus respectivos atributos.
+     */
     public ContratoPrestacionServicios(String idContrato, String objetoContrato, LocalDate fechaCreacion,
                                        Contratante contratante, Contratista contratista, double valorCelebrar,
                                        LocalDate plazoEjecucion, FaseContrato faseActual, TipoContrato tipoContrato, String perfilRequerido,
@@ -23,6 +32,10 @@ public class ContratoPrestacionServicios extends Contrato {
         this.mesesContratoPrestacionServicios = mesesContratoPrestacionServicios;
     }
 
+    /**
+     * Métodos de acceso (getters) y de modificación (setters) para los atributos de la clase.
+     * Permiten encapsular la información, controlando la lectura y escritura de las variables.
+     */
     public String getPerfilRequerido() {
         return perfilRequerido;
     }
@@ -55,6 +68,11 @@ public class ContratoPrestacionServicios extends Contrato {
         this.mesesContratoPrestacionServicios = mesesContratoPrestacionServicios;
     }
 
+    /**
+     * Implementa o sobrescribe los métodos abstractos heredados de la clase padre.
+     * Define el comportamiento específico que la clase hija debe proporcionar para cumplir
+     * con el contrato establecido por la superclase.
+     */
     @Override
     public boolean validar() {
         if (this.valorCelebrar == (this.valorHonorarioMensual * (double) this.mesesContratoPrestacionServicios)){

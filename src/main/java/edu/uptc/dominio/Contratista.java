@@ -5,9 +5,18 @@ import edu.uptc.enums.TipoDocumento;
 import edu.uptc.enums.TipoPersona;
 
 public class Contratista extends Usuario {
+    /**
+     * Define los atributos específicos de la clase Contratista,
+     * la cual hereda las propiedades y comportamientos de la clase base Usuario.
+     */
     private boolean esEntidadPublica;
     private String areaDesempenho;
 
+    /**
+     * Constructor de la clase.
+     * Inicializa una nueva instancia de la clase asignando los valores pasados por parámetro
+     * a sus respectivos atributos.
+     */
     public Contratista(TipoPersona tipoPersona, TipoDocumento tipoDocumento, String numeroDocumento, String nombre,
                        String correo, String contrasenha, String telefono, String direccion, String ciudad, Rol rol,
                        boolean esEntidadPublica, String areaDesempenho) {
@@ -16,6 +25,10 @@ public class Contratista extends Usuario {
         this.areaDesempenho = areaDesempenho;
     }
 
+    /**
+     * Métodos de acceso (getters) y de modificación (setters) para los atributos de la clase.
+     * Permiten encapsular la información, controlando la lectura y escritura de las variables.
+     */
     public boolean isEsEntidadPublica() {
         return esEntidadPublica;
     }
@@ -35,7 +48,11 @@ public class Contratista extends Usuario {
     public void seleccionarContrato() {
 
     }
-
+    /**
+     * Implementa o sobrescribe los métodos abstractos heredados de la clase padre.
+     * Define el comportamiento específico que la clase hija debe proporcionar para cumplir
+     * con el contrato establecido por la superclase.
+     */
 
     @Override
     public String mostrarInfoUsuario() {

@@ -12,17 +12,18 @@ public class ServicioContratos {
 
     private HashMap<String, Contrato> contratos;
 
-    // METODO CONSTRUCTOR INICIANDO LAS LISTAS DE LOS CONTRATOS
+    /**
+     * Inicializa el constructor y las listas de contratos del sistema.
+     */
     public ServicioContratos() {
         this.contratos = new HashMap<>();
     }
 
-// ===============================================================================================================
-    // COMO AQUI SE MANEJARAN LOS CONTRATOS QUE SE HACE EN ESTE SERVICIO Y NO EN EL DE USUARIOS
-    // APESAR DE SER METODOS DE USUARIOS CONTRATANTE Y CONTRATISTA :)
-
-
-    // METODOS DEL CONTRATANTE
+    /**
+     * Operaciones exclusivas del usuario contratante.
+     * * NOTA: Se definen en este servicio centralizado de contratos y no en el de usuarios
+     * debido a que la lógica de negocio pertenece directamente al ciclo de vida del contrato.
+     */
     public void crearContratoPrestacionServicios(String idContrato, String objetoContrato,
                                                  Contratante contratante, double valorCelebrar, LocalDate plazoEjecucion,
                                                  String perfilRequerido,
@@ -70,39 +71,50 @@ public class ServicioContratos {
 
     }
 
-    // ===============================================================================================================
-    // AGREGAR A LA LISTA DE CONTRATOS
+    /**
+     * Agrega un nuevo contrato a la lista de registros del sistema.
+     */
     public void agregarContrato(Contrato contrato) {
         this.contratos.put(contrato.getIdContrato(), contrato);
     }
 
-    // ===============================================================================================================
-    // METODOS DEL CONTRATISTA
-
-    // falta mirar esto( c: Contrato, f: FaseContrato,
-    //informe: String) en los atributos para iniciar este metodo
+    /**
+     * Operaciones exclusivas del usuario contratista.
+     * * TODO: Pendiente revisar la inclusión de los atributos (Contrato c,
+     * FaseContrato f, String informe) para la correcta inicialización de este método.
+     */
     public void cambiarEstadoContrato() {
 
     }
 
-    // ===============================================================================================================
-    // VALIDACIONES
-    // ----- VALIDACION CONTRATO PRESTACION SERVICIOS ------
-    //  valor del honorario mensual, cuya
-    //  suma no puede ser distinta al valor total del contrato.
-
+    /**
+     * Secciones de validación del sistema.
+     * * Validación para contratos de prestación de servicios:
+     * Verifica que el valor del honorario mensual coincida exactamente
+     * con la sumatoria del valor total del contrato.
+     */
     public boolean validarContratoPrestacionServicios(ContratoPrestacionServicios contratoPrestacionServicios) {
         return contratoPrestacionServicios.validar();
     }
 
-    // TIEMPO DEL CONTRATO
+    /**
+     * Gestiona o valida la duración y los tiempos estipulados del contrato.
+     */
     public int calcularPlazoMeses(LocalDate fechaCreacion, LocalDate fechaPlazoEjecucion) {
 
-        // QUE LAS FECHAS TAMPOCO SEAN NULL
+        /**
+         * Valida que los campos de fecha no sean nulos (null).
+         */
         if (fechaCreacion != null && fechaPlazoEjecucion != null) {
-            // USAMOS CHRONOUNIT EN MONTHS ENTRE LAS FECHAS QUE TENIAMOS ANTERIORMENTE
+            /**
+             * Calcula la diferencia en meses entre las fechas previamente definidas
+             * utilizando ChronoUnit.MONTHS.
+             */
             long meses = ChronoUnit.MONTHS.between(fechaCreacion, fechaPlazoEjecucion);
-            // CASTEO EL RESULTADO EN INT YA QUE MESES EN UN TIPO LONG
+            /**
+             * Convierte el resultado de la diferencia de meses a un tipo entero (int),
+             * dado que el cálculo original retorna un valor de tipo long.
+             */
             return (int) meses;
         }
 
