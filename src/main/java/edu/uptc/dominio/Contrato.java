@@ -1,6 +1,7 @@
 package edu.uptc.dominio;
 
 import edu.uptc.enums.FaseContrato;
+import edu.uptc.enums.TipoContrato;
 
 import java.time.LocalDate;
 
@@ -13,12 +14,14 @@ public abstract class Contrato {
     protected double valorCelebrar;
     protected LocalDate plazoEjecucion;
     protected FaseContrato faseActual;
+    protected TipoContrato tipoContrato;
 
     public Contrato() {
     }
 
     public Contrato(String idContrato, String objetoContrato, LocalDate fechaCreacion, Contratante contratante,
-                    Contratista contratista, double valorCelebrar, LocalDate plazoEjecucion, FaseContrato faseActual) {
+                    Contratista contratista, double valorCelebrar, LocalDate plazoEjecucion, FaseContrato faseActual,
+                    TipoContrato tipoContrato) {
         this.idContrato = idContrato;
         this.objetoContrato = objetoContrato;
         this.fechaCreacion = fechaCreacion;
@@ -27,6 +30,7 @@ public abstract class Contrato {
         this.valorCelebrar = valorCelebrar;
         this.plazoEjecucion = plazoEjecucion;
         this.faseActual = faseActual;
+        this.tipoContrato = tipoContrato;
     }
 
     public String getIdContrato() {
@@ -91,6 +95,14 @@ public abstract class Contrato {
 
     public void setFaseActual(FaseContrato faseActual) {
         this.faseActual = faseActual;
+    }
+
+    public TipoContrato getTipoContrato() {
+        return tipoContrato;
+    }
+
+    public void setTipoContrato(TipoContrato tipoContrato) {
+        this.tipoContrato = tipoContrato;
     }
 
     public abstract boolean validar();

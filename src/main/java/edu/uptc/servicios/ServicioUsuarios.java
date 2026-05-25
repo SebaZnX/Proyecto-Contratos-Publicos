@@ -126,19 +126,26 @@ public class ServicioUsuarios {
         if (usuarioEncontrado != null && (usuarioEncontrado instanceof Contratante || usuarioEncontrado instanceof Contratista)) {
             if (tipoPersona != null) {
                 usuarioEncontrado.setTipoPersona(tipoPersona);
-            } else if (tipoDocumento == null) {
+            }
+            if (tipoDocumento == null) {
                 usuarioEncontrado.setTipoDocumento(tipoDocumento);
-            } else if (nombre != null) {
+            }
+            if (nombre != null) {
                 usuarioEncontrado.setNombre(nombre);
-            } else if (correo != null) {
+            }
+            if (correo != null) {
                 usuarioEncontrado.setCorreo(correo);
-            } else if (contrasenha == null) {
+            }
+            if (contrasenha == null) {
                 usuarioEncontrado.setContrasenha(contrasenha);
-            } else if (telefono != null) {
+            }
+            if (telefono != null) {
                 usuarioEncontrado.setTelefono(telefono);
-            } else if (direccion != null) {
+            }
+            if (direccion != null) {
                 usuarioEncontrado.setDireccion(direccion);
-            } else if (ciudad != null) {
+            }
+            if (ciudad != null) {
                 usuarioEncontrado.setCiudad(ciudad);
             }
         }
@@ -155,9 +162,11 @@ public class ServicioUsuarios {
 
             if (sector != null) {
                 contratante.setSector(sector);
-            } else if (nivelEntidad != null) {
+            }
+            if (nivelEntidad != null) {
                 contratante.setNivelEntidad(nivelEntidad);
-            } else if (codigoUnicoEntidad != null) {
+            }
+            if (codigoUnicoEntidad != null) {
                 contratante.setCodigoUnicoEntidad(codigoUnicoEntidad);
 
             }
@@ -228,33 +237,6 @@ public class ServicioUsuarios {
 
     public void eliminarContratista(String numeroDocumentoEliminarContratista) {
         this.usuarios.remove(numeroDocumentoEliminarContratista);
-    }
-
-    // ===============================================================================================================
-    // METODOS DEL CONTRATANTE
-
-    public void crearContrato() {
-
-    }
-
-    public void consultarContratos() {
-
-    }
-
-    public void actualizarContrato() {
-
-    }
-
-    public void eliminarContrato() {
-
-    }
-    // ===============================================================================================================
-    // METODOS DEL CONTRATISTA
-
-    // falta mirar esto( c: Contrato, f: FaseContrato,
-    //informe: String) en los atributos para iniciar este metodo
-    public void cambiarEstadoContrato() {
-
     }
 
     // ===============================================================================================================
