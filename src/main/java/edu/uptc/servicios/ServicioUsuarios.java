@@ -104,7 +104,9 @@ public class ServicioUsuarios {
         return sb.toString();
     }*/
     public String consultarContratantes(String numeroDocumento) {
+//      OBTENGO EL USUARIO Y LO GUARDO EN UN OBJETO AUXILIAR
         Usuario usuarioAux = this.usuarios.get(numeroDocumento);
+//      VERIFICO SI NO ESTA VACIO Y QUE PERTENECE A CONTRATANTE
         if (usuarioAux != null && usuarioAux instanceof Contratante) {
             return usuarioAux.mostrarInfoUsuario();
         }
@@ -176,8 +178,10 @@ public class ServicioUsuarios {
     }
 
     public String consultarContratistas(String numeroDocumento) {
+//      OBTENGO EL USUARIO Y LO GUARDO EN UN OBJETO AUXILIAR
         Usuario usuarioAux = this.usuarios.get(numeroDocumento);
         if (usuarioAux != null && usuarioAux instanceof Contratista) {
+//      VERIFICO SI NO ESTA VACIO Y QUE PERTENECE A CONTRATANTE
             return usuarioAux.mostrarInfoUsuario();
         }
         return "Contratista no encontrado\nIntentalo más tarde";
