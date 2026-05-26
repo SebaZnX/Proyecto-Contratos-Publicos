@@ -19,7 +19,7 @@ public class Application {
      * @param args Argumentos de la línea de comandos (no utilizados en esta aplicación).
      */
     public static void main(String[] args) {
-
+        TipoPersona tipoPersona;
         Controlador controlador = new Controlador();
 
         /**
@@ -64,6 +64,11 @@ public class Application {
                 4. Salir
                 =======================================================
                 """;
+        String opcionesPersona = """
+         Seleccione el Tipo de Persona:
+          1. NATURAL
+          2. JURIDICA
+         """;
         String menuContratante = """
                 =======================================================
                 =======================================================
@@ -162,7 +167,7 @@ public class Application {
                                                                      * Esto permite que, al llamar al método de actualización, solo se modifiquen
                                                                      * los campos para los cuales el administrador ha proporcionado un nuevo valor.
                                                                      */
-                                                                    TipoPersona tipoPersona = null;
+                                                                    tipoPersona = null;
                                                                     TipoDocumento tipoDocumento = null;
                                                                     String nombre = null;
                                                                     String correo = null;
@@ -209,11 +214,7 @@ public class Application {
                                                                         switch (opSubMenu) {
                                                                             case 1:
                                                                                 try {
-                                                                                    String opcionesPersona = """
-                                                                                            Seleccione el Tipo de Persona:
-                                                                                            1. NATURAL
-                                                                                            2. JURIDICA
-                                                                                            """;
+
                                                                                     String entradaPersona = JOptionPane.showInputDialog(opcionesPersona);
                                                                                     /**
                                                                                      * Valida que la entrada de datos para el tipo de persona no sea nula antes de procesarla.
