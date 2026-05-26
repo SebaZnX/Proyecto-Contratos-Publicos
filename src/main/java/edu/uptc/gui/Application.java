@@ -19,8 +19,8 @@ public class Application {
      * @param args Argumentos de la línea de comandos (no utilizados en esta aplicación).
      */
     public static void main(String[] args) {
-        TipoPersona tipoPersona;
-        TipoDocumento tipoDocumento;
+        TipoPersona tipoPersona = null;
+        TipoDocumento tipoDocumento = null;
         Controlador controlador = new Controlador();
 
         /**
@@ -149,6 +149,51 @@ public class Application {
                                                                 """));
                                                         switch (opAdminMenuContratante) {
                                                             case 1:
+                                                                String opcionPersona = JOptionPane.showInputDialog(opcionesPersona);
+                                                                if (opcionPersona != null) {
+                                                                    int opcPersona = Integer.parseInt(opcionPersona);
+                                                                    if (opcPersona == 1) {
+                                                                        tipoPersona = TipoPersona.NATURAL;
+                                                                    } else if (opcPersona == 2) {
+                                                                        tipoPersona = TipoPersona.JURIDICA;
+                                                                    } else {
+                                                                        JOptionPane.showMessageDialog(null, "Opcion no valida");
+                                                                    }
+                                                                }
+                                                                String opcionDocumento = JOptionPane.showInputDialog(opcionesDocumento);
+                                                                if (opcionDocumento != null) {
+                                                                    int opcDocumento = Integer.parseInt(opcionDocumento);
+                                                                    if (opcDocumento == 1) {
+                                                                        tipoDocumento = TipoDocumento.CC;
+                                                                    } else if (opcDocumento == 2) {
+                                                                        tipoDocumento = TipoDocumento.CE;
+                                                                    } else if (opcDocumento == 3) {
+                                                                        tipoDocumento = TipoDocumento.PAS;
+                                                                    } else if (opcDocumento == 4) {
+                                                                        tipoDocumento = TipoDocumento.PPT;
+                                                                    } else if (opcDocumento == 5) {
+                                                                        tipoDocumento = TipoDocumento.NIT;
+                                                                    } else {
+                                                                        JOptionPane.showMessageDialog(null, "Opcion no valida");
+                                                                    }
+                                                                }
+                                                                String numeroDocumento = JOptionPane.showInputDialog("Ingrese el numero de documento del contratante");
+                                                                String nombre = JOptionPane.showInputDialog("Ingrese el nombre del contratante");
+                                                                String correo = JOptionPane.showInputDialog("Ingrese el correo del contratante");
+                                                                String contrasenha = JOptionPane.showInputDialog("Ingrese la contraseña del contratante");
+                                                                String telefono = JOptionPane.showInputDialog("Ingrese el telefono del contratante");
+                                                                String direccion = JOptionPane.showInputDialog("Ingrese la direccion del contratante");
+                                                                String ciudad = JOptionPane.showInputDialog("Ingrese la ciudad del contratante");
+                                                                Rol rol = Rol.CONTRATANTE;
+                                                                String sector = JOptionPane.showInputDialog("Ingrese el sector del contratante");
+                                                                String nivelEntidad = JOptionPane.showInputDialog("Ingrese el nivel de entidad del contratante");
+                                                                String codigoUnicoEntidad = JOptionPane.showInputDialog("Ingrese el codigo unico de entidad del contratante");
+                                                                if (controlador.numeroDocumentoExiste(numeroDocumento)) {
+                                                                    JOptionPane.showMessageDialog(null, "El numero de documento ya existe");
+                                                                } else {
+                                                                    controlador.crearContratante(tipoPersona, tipoDocumento, numeroDocumento, nombre, correo, contrasenha, telefono,
+                                                                            direccion, ciudad, rol, sector, nivelEntidad, codigoUnicoEntidad);
+                                                                }
                                                                 break;
                                                             case 2:
                                                                 break;
@@ -178,18 +223,18 @@ public class Application {
                                                                      */
                                                                     tipoPersona = null;
                                                                     tipoDocumento = null;
-                                                                    String nombre = null;
-                                                                    String correo = null;
-                                                                    String contrasenha = null;
-                                                                    String telefono = null;
-                                                                    String direccion = null;
-                                                                    String ciudad = null;
+                                                                    nombre = null;
+                                                                    correo = null;
+                                                                    contrasenha = null;
+                                                                    telefono = null;
+                                                                    direccion = null;
+                                                                    ciudad = null;
                                                                     /**
                                                                      * Atributos específicos y exclusivos del rol de Contratante.
                                                                      */
-                                                                    String sector = null;
-                                                                    String nivelEntidad = null;
-                                                                    String codigoUnicoEntidad = null;
+                                                                    sector = null;
+                                                                    nivelEntidad = null;
+                                                                    codigoUnicoEntidad = null;
 
                                                                     String submenuModificar = """
                                                                             ¿Qué campo desea modificar del Contratante?
