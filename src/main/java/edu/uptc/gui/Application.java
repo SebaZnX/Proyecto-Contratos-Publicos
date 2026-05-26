@@ -144,10 +144,11 @@ public class Application {
                                                         int opAdminMenuContratante = Integer.parseInt(JOptionPane.showInputDialog("""
                                                                 =======================================================
                                                                 1. Crear contratante
-                                                                2. Ver contratantes
+                                                                2. Consultar contratante
                                                                 3. Actualizar contratante
                                                                 4. Eliminar contratante
-                                                                5. Salir  
+                                                                5. Mostrar todos los contratantes
+                                                                6. Salir
                                                                 =======================================================
                                                                 """));
                                                         switch (opAdminMenuContratante) {
@@ -393,7 +394,10 @@ public class Application {
                                                                 break;
                                                             case 5:
                                                                 break;
+                                                            case 6:
+                                                                break;
                                                             default:
+                                                                JOptionPane.showMessageDialog(null, "Opcion no valida");
                                                                 break;
                                                         }
                                                         break;
