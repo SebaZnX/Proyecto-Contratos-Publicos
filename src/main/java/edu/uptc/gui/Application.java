@@ -66,10 +66,18 @@ public class Application {
                 =======================================================
                 """;
         String opcionesPersona = """
-         Seleccione el Tipo de Persona:
-          1. NATURAL
-          2. JURIDICA
-         """;
+                Seleccione el Tipo de Persona:
+                1. NATURAL
+                2. JURIDICA
+                """;
+        String opcionesDocumento = """
+                Seleccione el Tipo de Documento:
+                1. CC (Cédula de Ciudadanía)
+                2. CE (Cédula de Extranjería)
+                3. PAS (Pasaporte)
+                4. PPT (Permiso por Protección Temporal)
+                5. NIT (Número de Identificación Tributaria)
+                """;
         String menuContratante = """
                 =======================================================
                 =======================================================
@@ -244,14 +252,7 @@ public class Application {
                                                                                 break;
                                                                             case 2:
                                                                                 try {
-                                                                                    String opcionesDocumento = """
-                                                                                            Seleccione el Tipo de Documento:
-                                                                                            1. CC (Cédula de Ciudadanía)
-                                                                                            2. CE (Cédula de Extranjería)
-                                                                                            3. PAS (Pasaporte)
-                                                                                            4. PPT (Permiso por Protección Temporal)
-                                                                                            5. NIT (Número de Identificación Tributaria)
-                                                                                            """;
+
                                                                                     String entradaDoc = JOptionPane.showInputDialog(opcionesDocumento);
                                                                                     /**
                                                                                      * Valida que la entrada de datos para el tipo de documento no sea nula antes de procesarla.
