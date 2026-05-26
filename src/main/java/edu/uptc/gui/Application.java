@@ -348,6 +348,18 @@ public class Application {
                                                         }
                                                         break;
                                                     case 2:
+                                                        //Menu para crear contratista
+                                                        String opcionPersona = JOptionPane.showInputDialog(opcionesPersona);
+                                                        if (opcionPersona != null){
+                                                            int opcPersona = Integer.parseInt(opcionPersona);
+                                                            if (opcPersona == 1){
+                                                                tipoPersona = TipoPersona.NATURAL;
+                                                            }else if (opcPersona == 2){
+                                                                tipoPersona = TipoPersona.JURIDICA;
+                                                            }else {
+                                                                JOptionPane.showMessageDialog(null, "Opcion no valida");
+                                                            }
+                                                        }
                                                         break;
                                                     case 3:
                                                         break;
