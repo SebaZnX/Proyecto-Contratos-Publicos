@@ -19,6 +19,9 @@ public class Application {
      * @param args Argumentos de la línea de comandos (no utilizados en esta aplicación).
      */
     public static void main(String[] args) {
+        //Ya que las Enum las usamos tanto para crear contratante y contratista y actualizarlos
+        //Se asignaron afuera para evitar declarar variables multiples veces
+        //Los menus se dejaron afuera y solo se llaman cuando sean necesarios
         TipoPersona tipoPersona = null;
         TipoDocumento tipoDocumento = null;
         Controlador controlador = new Controlador();
@@ -395,18 +398,67 @@ public class Application {
                                                         }
                                                         break;
                                                     case 2:
-                                                        //Menu para crear contratista
-                                                        String opcionPersona = JOptionPane.showInputDialog(opcionesPersona);
-                                                        if (opcionPersona != null){
-                                                            int opcPersona = Integer.parseInt(opcionPersona);
-                                                            if (opcPersona == 1){
-                                                                tipoPersona = TipoPersona.NATURAL;
-                                                            }else if (opcPersona == 2){
-                                                                tipoPersona = TipoPersona.JURIDICA;
-                                                            }else {
-                                                                JOptionPane.showMessageDialog(null, "Opcion no valida");
-                                                            }
+                                                        //Menu para opciones de contratista
+                                                        int opAdminMenuContratista = Integer.parseInt(JOptionPane.showInputDialog("""
+                                                                =======================================================
+                                                                1. Crear contratista
+                                                                2. Consultar contratistas
+                                                                3. Actualizar contratista
+                                                                4. Mostrar todos los contratistas
+                                                                5. Eliminar contratista
+                                                                6. Salir
+                                                                =======================================================
+                                                                """));
+                                                        switch (opAdminMenuContratista){
+                                                            case 1:
+                                                                //Crear al contratista
+                                                                JOptionPane.showMessageDialog(null,"A continuacion va a ingresar los datos del contratista");
+                                                                String opcionPersona = JOptionPane.showInputDialog(opcionesPersona);
+                                                                if (opcionPersona != null){
+                                                                    int opcPersona = Integer.parseInt(opcionPersona);
+                                                                    if (opcPersona == 1){
+                                                                        tipoPersona = TipoPersona.NATURAL;
+                                                                    }else if (opcPersona == 2){
+                                                                        tipoPersona = TipoPersona.JURIDICA;
+                                                                    }else {
+                                                                        JOptionPane.showMessageDialog(null, "Opcion no valida");
+                                                                    }
+                                                                }
+                                                                String opcionDocumento = JOptionPane.showInputDialog(opcionesDocumento);
+                                                                if (opcionDocumento != null){
+                                                                    int opcDocumento = Integer.parseInt(opcionDocumento);
+                                                                    if (opcDocumento == 1){
+                                                                        tipoDocumento = TipoDocumento.CC;
+                                                                    }else if (opcDocumento == 2){
+                                                                        tipoDocumento = TipoDocumento.CE;
+                                                                    } else if (opcDocumento == 3){
+                                                                        tipoDocumento = TipoDocumento.PAS;
+                                                                    } else if (opcDocumento == 4){
+                                                                        tipoDocumento = TipoDocumento.PPT;
+                                                                    } else if (opcDocumento == 5){
+                                                                        tipoDocumento = TipoDocumento.NIT;
+                                                                    }else{
+                                                                        JOptionPane.showMessageDialog(null, "Opcion no valida");
+                                                                    }
+                                                                }
+                                                                String numeroDocumento = JOptionPane.showInputDialog("Ingrese el numero de documento");
+                                                                String nombre = JOptionPane.showInputDialog("Ingrese el nombre");
+                                                                String correo = JOptionPane.showInputDialog("Ingrese el correo del contratista");
+                                                                String contrasenha = JOptionPane.showInputDialog("Ingrese la contraseña");
+                                                                String telefono = JOptionPane.showInputDialog("Ingrese el telefono");
+                                                                String direccion = JOptionPane.showInputDialog("Ingrese la direccion");
+                                                                String ciudad = JOptionPane.showInputDialog("Ingrese la ciudad");
+                                                                Rol rol = Rol.CONTRATISTA;
+                                                                String ansEntPublica = JOptionPane.showInputDialog("¿Pertenece a alguna entidad Publica? [si/no]");
+                                                                Boolean entidadPublica = ansEntPublica != null && ansEntPublica.trim().equalsIgnoreCase("si");
+                                                                String areaDesempenho = JOptionPane.showInputDialog("Ingrese el area de desempeño");
+
+                                                                controlador.crearContratista(tipoPersona,tipoDocumento,numeroDocumento,nombre,correo,
+                                                                        contrasenha,telefono,direccion,ciudad,rol,entidadPublica,areaDesempenho);
+                                                                break;
                                                         }
+
+
                                                         break;
                                                     case 3:
                                                         break;
