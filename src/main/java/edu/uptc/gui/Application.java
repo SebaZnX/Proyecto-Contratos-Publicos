@@ -20,6 +20,7 @@ public class Application {
      */
     public static void main(String[] args) {
         TipoPersona tipoPersona;
+        TipoDocumento tipoDocumento;
         Controlador controlador = new Controlador();
 
         /**
@@ -168,7 +169,7 @@ public class Application {
                                                                      * los campos para los cuales el administrador ha proporcionado un nuevo valor.
                                                                      */
                                                                     tipoPersona = null;
-                                                                    TipoDocumento tipoDocumento = null;
+                                                                    tipoDocumento = null;
                                                                     String nombre = null;
                                                                     String correo = null;
                                                                     String contrasenha = null;
