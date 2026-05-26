@@ -29,7 +29,6 @@ public class ServicioUsuarios {
         this.usuarios = new HashMap<>();
     }
 
-
     /**
      * Crea y registra un usuario administrador por defecto al iniciar la aplicación.
      * Este administrador tiene credenciales predefinidas para la configuración inicial del sistema.
@@ -151,7 +150,7 @@ public class ServicioUsuarios {
             if (tipoPersona != null) {
                 usuarioEncontrado.setTipoPersona(tipoPersona);
             }
-            if (tipoDocumento == null) { // This condition seems incorrect, should be `!= null` to update
+            if (tipoDocumento != null) {
                 usuarioEncontrado.setTipoDocumento(tipoDocumento);
             }
             if (nombre != null) {
@@ -160,7 +159,7 @@ public class ServicioUsuarios {
             if (correo != null) {
                 usuarioEncontrado.setCorreo(correo);
             }
-            if (contrasenha == null) { // This condition seems incorrect, should be `!= null` to update
+            if (contrasenha != null) {
                 usuarioEncontrado.setContrasenha(contrasenha);
             }
             if (telefono != null) {
@@ -173,7 +172,6 @@ public class ServicioUsuarios {
                 usuarioEncontrado.setCiudad(ciudad);
             }
         }
-
     }
 
     /**
@@ -290,5 +288,15 @@ public class ServicioUsuarios {
      */
     public boolean numeroDocumentoExiste(String numeroDocumentoBuscar) {
         return usuarios.containsKey(numeroDocumentoBuscar);
+    }
+
+    /**
+     * Obtiene un objeto {@link Usuario} del sistema utilizando su número de documento.
+     *
+     * @param numeroDocumento El número de documento del usuario a obtener.
+     * @return El objeto {@link Usuario} correspondiente al número de documento, o {@code null} si no se encuentra.
+     */
+    public Usuario obtenerUsuario(String numeroDocumento) {
+        return this.usuarios.get(numeroDocumento);
     }
 }
