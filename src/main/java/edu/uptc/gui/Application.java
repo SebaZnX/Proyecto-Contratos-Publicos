@@ -351,7 +351,7 @@ public class Application {
                                                         break;
                                                     case 2:
                                                         //Menu para crear contratista
-                                                        opcionPersona = JOptionPane.showInputDialog(opcionesPersona);
+                                                        String opcionPersona = JOptionPane.showInputDialog(opcionesPersona);
                                                         if (opcionPersona != null){
                                                             int opcPersona = Integer.parseInt(opcionPersona);
                                                             if (opcPersona == 1){
