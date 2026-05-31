@@ -152,6 +152,10 @@ public class Controlador {
         this.servicioUsuarios.actualizarContratante(numeroDocumento, sector, nivelEntidad, codigoUnicoEntidad);
     }
 
+    public String mostrarContratistas(){
+        return this.servicioUsuarios.mostrarContratistas();
+    }
+
     /**
      * Elimina un contratante del sistema utilizando su número de documento.
      *
