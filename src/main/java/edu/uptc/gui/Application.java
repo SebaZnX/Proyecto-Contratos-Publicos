@@ -472,7 +472,7 @@ public class Application {
                                                                 break;
                                                             case 3:
                                                                 String idModificarContratista = JOptionPane.showInputDialog
-                                                                        ("Ingrese el numero de documento del contratante a modificar");
+                                                                        ("Ingrese el numero de documento del contratista a modificar");
 
                                                                 /**
                                                                  * Interrumpe el flujo del bloque switch si el valor de entrada es nulo,
@@ -509,7 +509,7 @@ public class Application {
                                                                     areaDesempenho = null;
 
                                                                     String submenuModificar = """
-                                                                            ¿Qué campo desea modificar del Contratante?
+                                                                            ¿Qué campo desea modificar del Contratista?
                                                                             1. Tipo de Persona 
                                                                             2. Tipo de Documento 
                                                                             3. Nombre
