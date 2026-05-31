@@ -402,7 +402,6 @@ public class Application {
                                                         }
                                                         break;
                                                     case 2:
-                                                        //Menu para opciones de contratista
                                                         int opAdminMenuContratista = Integer.parseInt(JOptionPane.showInputDialog("""
                                                                 =======================================================
                                                                 1. Crear contratista
@@ -415,7 +414,6 @@ public class Application {
                                                                 """));
                                                         switch (opAdminMenuContratista){
                                                             case 1:
-                                                                //Crear al contratista
                                                                 JOptionPane.showMessageDialog(null,"A continuacion va a ingresar los datos del contratista");
                                                                 String opcionPersona = JOptionPane.showInputDialog(opcionesPersona);
                                                                 if (opcionPersona != null){
@@ -456,12 +454,228 @@ public class Application {
                                                                 String ansEntPublica = JOptionPane.showInputDialog("¿Pertenece a alguna entidad Publica? [si/no]");
                                                                 Boolean entidadPublica = ansEntPublica != null && ansEntPublica.trim().equalsIgnoreCase("si");
                                                                 String areaDesempenho = JOptionPane.showInputDialog("Ingrese el area de desempeño");
-
                                                                 controlador.crearContratista(tipoPersona,tipoDocumento,numeroDocumento,nombre,correo,
                                                                         contrasenha,telefono,direccion,ciudad,rol,entidadPublica,areaDesempenho);
+                                                                JOptionPane.showMessageDialog(null,"Contratista creado con exito");
+                                                                break;
+                                                            case 2:
+                                                                //Consultar contratista en especifico
+                                                                String consultarContratista = JOptionPane.showInputDialog("Ingrese el numero de documento del Contratista a consultar");
+                                                                 if(consultarContratista==null){
+                                                                     break;
+                                                                 }if (!controlador.numeroDocumentoExiste(consultarContratista)) {
+                                                                JOptionPane.showMessageDialog(null,"El numero de documento del contratista no existe");
+                                                                 }else {
+                                                                JOptionPane.showMessageDialog(null,controlador.consultarContratistas(consultarContratista));
+
+                                                            }
+                                                                break;
+                                                            case 3:
+                                                                String idModificarContratista = JOptionPane.showInputDialog
+                                                                        ("Ingrese el numero de documento del contratante a modificar");
+
+                                                                /**
+                                                                 * Interrumpe el flujo del bloque switch si el valor de entrada es nulo,
+                                                                 * indicando que el usuario ha cancelado la operación.
+                                                                 */
+                                                                if (idModificarContratista == null) {
+                                                                    break;
+                                                                }
+
+                                                                if (controlador.rolLogueado(idModificarContratista) == Rol.ADMINISTRADOR) {
+                                                                    JOptionPane.showMessageDialog(null, "El administrador no esta disponible para actualizar\nContactese con el provedor");
+                                                                    break;
+                                                                }
+                                                                if (controlador.numeroDocumentoExiste(idModificarContratista)) {
+
+
+                                                                    /**
+                                                                     * Inicializa las variables de los atributos del contratista a `null` por defecto.
+                                                                     * Esto permite que, al llamar al método de actualización, solo se modifiquen
+                                                                     * los campos para los cuales el administrador ha proporcionado un nuevo valor.
+                                                                     */
+                                                                    tipoPersona = null;
+                                                                    tipoDocumento = null;
+                                                                    nombre = null;
+                                                                    correo = null;
+                                                                    contrasenha = null;
+                                                                    telefono = null;
+                                                                    direccion = null;
+                                                                    ciudad = null;
+                                                                    /**
+                                                                     * Atributos específicos y exclusivos del rol de Contratista.
+                                                                     */
+                                                                    entidadPublica = null;
+                                                                    areaDesempenho = null;
+
+                                                                    String submenuModificar = """
+                                                                            ¿Qué campo desea modificar del Contratante?
+                                                                            1. Tipo de Persona 
+                                                                            2. Tipo de Documento 
+                                                                            3. Nombre
+                                                                            4. Correo
+                                                                            5. Teléfono
+                                                                            6. Dirección
+                                                                            7. Ciudad
+                                                                            8. Entidad Publica (exclusivo)
+                                                                            9. Area de Desempeño (Exclusivo)
+                                                                            10. Cancelar
+                                                                            """;
+
+
+                                                                    try {
+
+                                                                        String entradaSubmenu = JOptionPane.showInputDialog(submenuModificar);
+                                                                        /**
+                                                                         * Evalúa si la entrada del submenú es nula. Si lo es,
+                                                                         * indica que el usuario ha cancelado la operación y se regresa al menú anterior.
+                                                                         */
+                                                                        if (entradaSubmenu == null) {
+                                                                            break;
+                                                                        }
+
+                                                                        int opSubMenu = Integer.parseInt(entradaSubmenu);
+
+                                                                        switch (opSubMenu) {
+                                                                            case 1:
+                                                                                try {
+
+                                                                                    String entradaPersona = JOptionPane.showInputDialog(opcionesPersona);
+                                                                                    /**
+                                                                                     * Valida que la entrada de datos para el tipo de persona no sea nula antes de procesarla.
+                                                                                     */
+                                                                                    if (entradaPersona != null) {
+                                                                                        /**
+                                                                                         * Convierte la entrada de texto del usuario a un valor entero para determinar la opción seleccionada.
+                                                                                         */
+                                                                                        int opPersona = Integer.parseInt(entradaPersona);
+
+                                                                                        /**
+                                                                                         * Asigna el tipo de persona correspondiente utilizando la enumeración {@link TipoPersona}.
+                                                                                         */
+                                                                                        if (opPersona == 1) {
+                                                                                            tipoPersona = TipoPersona.NATURAL;
+                                                                                        } else if (opPersona == 2) {
+                                                                                            tipoPersona = TipoPersona.JURIDICA;
+                                                                                        } else {
+                                                                                            JOptionPane.showMessageDialog(null, "Opcion no valida");
+                                                                                        }
+                                                                                    }
+                                                                                } catch (NumberFormatException e) {
+                                                                                    JOptionPane.showMessageDialog(null, "Debe ingresar un dato valido",
+                                                                                            "ERROR", JOptionPane.ERROR_MESSAGE);
+                                                                                }
+                                                                                break;
+                                                                            case 2:
+                                                                                try {
+
+                                                                                    String entradaDoc = JOptionPane.showInputDialog(opcionesDocumento);
+                                                                                    /**
+                                                                                     * Valida que la entrada de datos para el tipo de documento no sea nula antes de procesarla.
+                                                                                     */
+                                                                                    if (entradaDoc != null) {
+                                                                                        /**
+                                                                                         * Convierte la entrada de texto del usuario a un valor entero para determinar la opción seleccionada.
+                                                                                         */
+                                                                                        int opDocumento = Integer.parseInt(entradaDoc);
+                                                                                        switch (opDocumento) {
+                                                                                            case 1:
+                                                                                                tipoDocumento = TipoDocumento.CC;
+                                                                                                break;
+                                                                                            case 2:
+                                                                                                tipoDocumento = TipoDocumento.CE;
+                                                                                                break;
+                                                                                            case 3:
+                                                                                                tipoDocumento = TipoDocumento.PAS;
+                                                                                                break;
+                                                                                            case 4:
+                                                                                                tipoDocumento = TipoDocumento.PPT;
+                                                                                                break;
+                                                                                            case 5:
+                                                                                                tipoDocumento = TipoDocumento.NIT;
+                                                                                                break;
+                                                                                            default:
+                                                                                                JOptionPane.showMessageDialog(null, "Opcion no valida");
+                                                                                                break;
+                                                                                        }
+
+                                                                                    }
+                                                                                } catch (NumberFormatException ex) {
+                                                                                    JOptionPane.showMessageDialog(null, "Debe ingresar un dato valido",
+                                                                                            "ERROR", JOptionPane.ERROR_MESSAGE);
+                                                                                }
+                                                                                break;
+                                                                            case 3:
+                                                                                nombre = JOptionPane.showInputDialog("Ingrese el nuevo nombre:");
+                                                                                break;
+                                                                            case 4:
+                                                                                correo = JOptionPane.showInputDialog("Ingrese el nuevo correo electrónico:");
+                                                                                break;
+                                                                            case 5:
+                                                                                telefono = JOptionPane.showInputDialog("Ingrese el nuevo número de teléfono:");
+                                                                                break;
+                                                                            case 6:
+                                                                                direccion = JOptionPane.showInputDialog("Ingrese la nueva dirección de residencia/oficina:");
+                                                                                break;
+                                                                            case 7:
+                                                                                ciudad = JOptionPane.showInputDialog("Ingrese la nueva ciudad:");
+                                                                                break;
+                                                                            case 8:
+                                                                                ansEntPublica = JOptionPane.showInputDialog("¿Pertence a una entidad Publica? [si/no]:");
+                                                                                entidadPublica = ansEntPublica != null && ansEntPublica.trim().equalsIgnoreCase("si");
+                                                                                break;
+                                                                            case 9:
+                                                                                areaDesempenho = JOptionPane.showInputDialog("Ingrese la nueva area de desempeño:");
+                                                                                break;
+                                                                            default:
+                                                                                break;
+                                                                        }
+
+                                                                        /**
+                                                                         * Invoca los métodos del controlador para realizar la actualización de los datos
+                                                                         * del usuario y del contratista con la información proporcionada.
+                                                                         */
+                                                                        if (opSubMenu > 0 && opSubMenu < 11) {
+                                                                            controlador.actualizarUsuario(tipoPersona, tipoDocumento, numeroDocumentoLoguear, nombre, correo,
+                                                                                    contrasenha, telefono, direccion, ciudad);
+                                                                            controlador.actualizarContratista(numeroDocumentoLoguear, entidadPublica, areaDesempenho);
+                                                                            JOptionPane.showMessageDialog(null, "Contratista actualizado");
+                                                                        }
+                                                                    } catch (NumberFormatException ex) {
+                                                                        JOptionPane.showMessageDialog(null, "ERROR", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                                                    }
+
+
+                                                                } else {
+                                                                    JOptionPane.showMessageDialog(null, "Contratista no encontrado");
+                                                                }
+
+                                                                break;
+                                                            case 4:
+                                                                String totalContratistas = controlador.mostrarContratistas();
+
+                                                                JTextArea areaTexto = new JTextArea(totalContratistas);
+                                                                areaTexto.setEditable(false);
+                                                                areaTexto.setFont(new java.awt.Font("Monospaced", java.awt.Font.PLAIN, 12));
+
+                                                                JScrollPane scrollPane = new JScrollPane(areaTexto);
+                                                                scrollPane.setPreferredSize(new java.awt.Dimension(500, 400));
+
+                                                                JOptionPane.showMessageDialog(null, scrollPane, "Lista de Contratistas", JOptionPane.PLAIN_MESSAGE);
+                                                                break;
+                                                            case 5:
+                                                                String eliminarContratista=JOptionPane.showInputDialog(null,"Ingrese el Documento del contratista a eliminar");
+                                                                    if(eliminarContratista==null) {
+                                                                        break;
+                                                                    }
+                                                                    if (!controlador.numeroDocumentoExiste(eliminarContratista)){
+                                                                        JOptionPane.showMessageDialog(null,"El Contratista con numero de documento "+eliminarContratista+" no existe\nIngrese un documento valido");
+                                                                    }else {
+                                                                        controlador.eliminarContratista(eliminarContratista);
+                                                                        JOptionPane.showMessageDialog(null,"Contratista con numero de documento "+eliminarContratista+", ha sido eliminado exitosamente");
+                                                                    }
                                                                 break;
                                                         }
-
 
                                                         break;
                                                     case 3:
