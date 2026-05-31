@@ -271,6 +271,21 @@ public class ServicioUsuarios {
         }
     }
 
+    public String mostrarContratistas() {
+        StringBuilder sb = new StringBuilder();
+        boolean hayContratistas = false;
+        for (Usuario u : this.usuarios.values()) {
+            if (u instanceof Contratista) {
+                sb.append(u.mostrarInfoUsuario()).append("\n");
+                hayContratistas = true;
+            }
+        }
+        if (!hayContratistas) {
+            return "No hay contratistas registrados en el sistema.";
+        }
+        return sb.toString();
+    }
+
     /**
      * Elimina un contratista del sistema utilizando su número de documento.
      *
