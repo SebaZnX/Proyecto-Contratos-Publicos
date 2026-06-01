@@ -271,6 +271,11 @@ public class ServicioUsuarios {
         }
     }
 
+    /**
+     * Obtiene una cadena de texto con la información detallada de todos los contratistas registrados en el sistema.
+     *
+     * @return Una cadena de texto que contiene todos los contratistas, o un mensaje indicando que no hay contratistas.
+     */
     public String mostrarContratistas() {
         StringBuilder sb = new StringBuilder();
         boolean hayContratistas = false;
