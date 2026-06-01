@@ -399,4 +399,15 @@ public class ServicioContratos {
         }
         return 0.0;
     }
+
+    public String obtenerTodosLosContratos() {
+        if (this.contratos.isEmpty()) {
+            return "No hay contratos registrados en el sistema.";
+        }
+        StringBuilder sb = new StringBuilder();
+        for (Contrato contrato : this.contratos.values()) {
+            sb.append(contrato.mostrarInfo()).append("\n");
+        }
+        return sb.toString();
+    }
 }
