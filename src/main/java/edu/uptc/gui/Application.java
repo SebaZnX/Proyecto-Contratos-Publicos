@@ -23,8 +23,17 @@ public class Application {
      */
     public static void main(String[] args) {
 
+        /**
+         * Variable para almacenar el tipo de persona (Natural o Jurídica) seleccionada por el usuario.
+         */
         TipoPersona tipoPersona = null;
+        /**
+         * Variable para almacenar el tipo de documento (CC, CE, PAS, PPT, NIT) seleccionado por el usuario.
+         */
         TipoDocumento tipoDocumento = null;
+        /**
+         * Instancia del controlador para manejar la lógica de negocio y la interacción con los datos.
+         */
         Controlador controlador = new Controlador();
 
         /**
@@ -69,11 +78,17 @@ public class Application {
                 4. Salir
                 =======================================================
                 """;
+        /**
+         * Define las opciones para seleccionar el tipo de persona (Natural o Jurídica).
+         */
         String opcionesPersona = """
                 Seleccione el Tipo de Persona:
                 1. NATURAL
                 2. JURIDICA
                 """;
+        /**
+         * Define las opciones para seleccionar el tipo de documento de identificación.
+         */
         String opcionesDocumento = """
                 Seleccione el Tipo de Documento:
                 1. CC (Cédula de Ciudadanía)
@@ -82,6 +97,10 @@ public class Application {
                 4. PPT (Permiso por Protección Temporal)
                 5. NIT (Número de Identificación Tributaria)
                 """;
+        /**
+         * Define el menú de opciones disponible para el rol de Contratante.
+         * Permite gestionar contratos (Crear, Consultar, Actualizar, Eliminar).
+         */
         String menuContratante = """
                 =======================================================
                 1.Crear Contrato
@@ -91,6 +110,10 @@ public class Application {
                 5.Salir
                 =======================================================
                 """;
+        /**
+         * Define el menú de opciones disponible para el rol de Contratista.
+         * Permite seleccionar contratos y cambiar su estado.
+         */
         String menuContratista = """
                 ===========================================================
                 Ha Ingresado al Menu del Contratista, Seleccione una Opcion:
@@ -100,23 +123,35 @@ public class Application {
                 ===========================================================
                 """;
 
+        /**
+         * Variable para almacenar la opción seleccionada en el menú principal.
+         */
         int opcionMenuPrincipal = 0;
 
         try {
+            /**
+             * Bucle principal de la aplicación que se ejecuta hasta que el usuario decide salir (opción 3).
+             */
             while (opcionMenuPrincipal != 3) {
 
 
                 try {
                     /**
-                     * Verifica si la entrada del usuario es nula (por ejemplo, si el usuario cierra el diálogo).
-                     * Si es nula, interrumpe el flujo actual y permite la salida del programa.
+                     * Muestra el menú principal y captura la entrada del usuario.
                      */
                     String entrada = JOptionPane.showInputDialog(menuPrincipal);
 
+                    /**
+                     * Verifica si la entrada del usuario es nula (por ejemplo, si el usuario cierra el diálogo).
+                     * Si es nula, interrumpe el flujo actual y permite la salida del programa.
+                     */
                     if (entrada == null) {
                         break;
                     }
 
+                    /**
+                     * Convierte la entrada del usuario a un entero para procesar la opción seleccionada.
+                     */
                     opcionMenuPrincipal = Integer.parseInt(entrada);
                     switch (opcionMenuPrincipal) {
                         case 1:
@@ -125,8 +160,15 @@ public class Application {
                              * y mostrando mensajes informativos.
                              */
                             JOptionPane.showMessageDialog(null, "----- INICIAR SESION -----\nDigite los siguientes campos");
+                            /**
+                             * Solicita el número de documento del usuario para el inicio de sesión.
+                             */
                             String numeroDocumentoLoguear = JOptionPane.showInputDialog("Ingrese su numero de documento");
+                            /**
+                             * Solicita la contraseña del usuario para el inicio de sesión.
+                             */
                             String contrasenhaLoguear = JOptionPane.showInputDialog("Ingrese su contraseña");
+
                             /**
                              * Invoca el método del controlador para autenticar y validar las credenciales
                              * proporcionadas por el usuario durante el inicio de sesión.
@@ -134,23 +176,39 @@ public class Application {
                             boolean logueado = controlador.loginCorrecto(numeroDocumentoLoguear, contrasenhaLoguear);
                             if (logueado) {
                                 try {
+                                    /**
+                                     * Obtiene el rol del usuario logueado para determinar las opciones de menú disponibles.
+                                     */
                                     Rol rolLogueado = controlador.rolLogueado(numeroDocumentoLoguear);
                                     switch (rolLogueado) {
                                         case ADMINISTRADOR:
-
+                                            /**
+                                             * Variable para almacenar la opción seleccionada en el menú del administrador.
+                                             */
                                             int opcionMenuAdministrador = 0;
 
+                                            /**
+                                             * Bucle para el menú del administrador, se ejecuta hasta que el administrador decide salir (opción 4).
+                                             */
                                             while (opcionMenuAdministrador != 4) {
+                                                /**
+                                                 * Muestra el menú del administrador y captura la entrada del usuario.
+                                                 */
                                                 String entradaMenuAdminstrador = JOptionPane.showInputDialog(menuAdministrador);
 
                                                 if (entradaMenuAdminstrador == null) {
                                                     break;
                                                 }
 
+                                                /**
+                                                 * Convierte la entrada del administrador a un entero para procesar la opción seleccionada.
+                                                 */
                                                 opcionMenuAdministrador = Integer.parseInt(entradaMenuAdminstrador);
                                                 switch (opcionMenuAdministrador) {
                                                     case 1:
-
+                                                        /**
+                                                         * Muestra el menú de opciones para la gestión de contratantes.
+                                                         */
                                                         int opAdminMenuContratante = Integer.parseInt(JOptionPane.showInputDialog("""
                                                                 =======================================================
                                                                 1. Crear contratante
@@ -163,6 +221,10 @@ public class Application {
                                                                 """));
                                                         switch (opAdminMenuContratante) {
                                                             case 1:
+                                                                /**
+                                                                 * Proceso para crear un nuevo contratante.
+                                                                 * Solicita tipo de persona, tipo de documento y datos personales.
+                                                                 */
                                                                 String opcionPersona = JOptionPane.showInputDialog(opcionesPersona);
                                                                 if (opcionPersona != null) {
                                                                     int opcPersona = Integer.parseInt(opcionPersona);
@@ -207,11 +269,29 @@ public class Application {
                                                                 } else {
                                                                     controlador.crearContratante(tipoPersona, tipoDocumento, numeroDocumento, nombre, correo, contrasenha, telefono,
                                                                             direccion, ciudad, rol, sector, nivelEntidad, codigoUnicoEntidad);
+                                                                    JOptionPane.showMessageDialog(null, "Contratante creado con exito ✅");
                                                                 }
                                                                 break;
                                                             case 2:
+                                                                /**
+                                                                 * Proceso para consultar un contratante específico.
+                                                                 * Solicita el número de documento del contratante a consultar.
+                                                                 */
+                                                                String consultarContratante = JOptionPane.showInputDialog("Ingrese el numero de documento del Contratante a consultar");
+                                                                if(consultarContratante==null){
+                                                                    break;
+                                                                }
+                                                                if (!controlador.numeroDocumentoExiste(consultarContratante)) {
+                                                                    JOptionPane.showMessageDialog(null,"El numero de documento del contratante no existe");
+                                                                }else {
+                                                                    JOptionPane.showMessageDialog(null, controlador.consultarContratantes(consultarContratante));
+                                                                }
                                                                 break;
                                                             case 3:
+                                                                /**
+                                                                 * Proceso para actualizar un contratante existente.
+                                                                 * Solicita el número de documento y luego permite modificar campos específicos.
+                                                                 */
                                                                 String idModificarContratante = JOptionPane.showInputDialog
                                                                         ("Ingrese el numero de documento del contratante a modificar");
 
@@ -250,6 +330,9 @@ public class Application {
                                                                     nivelEntidad = null;
                                                                     codigoUnicoEntidad = null;
 
+                                                                    /**
+                                                                     * Menú de opciones para seleccionar el campo a modificar del contratante.
+                                                                     */
                                                                     String submenuModificar = """
                                                                             ¿Qué campo desea modificar del Contratante?
                                                                             1. Tipo de Persona 
@@ -277,6 +360,9 @@ public class Application {
                                                                             break;
                                                                         }
 
+                                                                        /**
+                                                                         * Convierte la entrada del submenú a un entero para procesar la opción seleccionada.
+                                                                         */
                                                                         int opSubMenu = Integer.parseInt(entradaSubmenu);
 
                                                                         switch (opSubMenu) {
@@ -376,6 +462,7 @@ public class Application {
                                                                                 JOptionPane.showMessageDialog(null, "Contratante no actualizado");
                                                                                 break;
                                                                             default:
+                                                                                JOptionPane.showMessageDialog(null, "Opción no válida.");
                                                                                 break;
                                                                         }
 
@@ -391,7 +478,7 @@ public class Application {
                                                                             JOptionPane.showMessageDialog(null, "Contratante actualizado");
                                                                         }
                                                                     } catch (NumberFormatException ex) {
-                                                                        JOptionPane.showMessageDialog(null, "ERROR", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                                                        JOptionPane.showMessageDialog(null, "ERROR: Debe ingresar un dato numérico válido.", "ERROR", JOptionPane.ERROR_MESSAGE);
                                                                     }
 
 
@@ -401,17 +488,29 @@ public class Application {
 
                                                                 break;
                                                             case 4:
+                                                                /**
+                                                                 * Proceso para eliminar un contratante.
+                                                                 * Solicita el número de documento del contratante a eliminar.
+                                                                 */
+                                                                String eliminarContratante = JOptionPane.showInputDialog(null, "Ingrese el Documento del contratante a eliminar");
+                                                                if (eliminarContratante == null) {
+                                                                    break;
+                                                                }
+                                                                if (!controlador.numeroDocumentoExiste(eliminarContratante)) {
+                                                                    JOptionPane.showMessageDialog(null, "El Contratante con numero de documento " + eliminarContratante + " no existe\nIngrese un documento valido");
+                                                                } else {
+                                                                    controlador.eliminarContratante(eliminarContratante);
+                                                                    JOptionPane.showMessageDialog(null, "Contratante con numero de documento " + eliminarContratante + ", ha sido eliminado exitosamente");
+                                                                }
                                                                 break;
                                                             case 5:
-                                                                break;
-                                                            case 6:
-                                                                break;
-                                                            default:
-                                                                JOptionPane.showMessageDialog(null, "Opcion no valida");
-                                                                break;
+
                                                         }
                                                         break;
                                                     case 2:
+                                                        /**
+                                                         * Muestra el menú de opciones para la gestión de contratistas.
+                                                         */
                                                         int opAdminMenuContratista = Integer.parseInt(JOptionPane.showInputDialog("""
                                                                 =======================================================
                                                                 1. Crear contratista
@@ -424,6 +523,10 @@ public class Application {
                                                                 """));
                                                         switch (opAdminMenuContratista){
                                                             case 1:
+                                                                /**
+                                                                 * Proceso para crear un nuevo contratista.
+                                                                 * Solicita tipo de persona, tipo de documento y datos personales.
+                                                                 */
                                                                 JOptionPane.showMessageDialog(null,"A continuacion va a ingresar los datos del contratista");
                                                                 String opcionPersona = JOptionPane.showInputDialog(opcionesPersona);
                                                                 if (opcionPersona != null){
@@ -466,19 +569,27 @@ public class Application {
                                                                 String areaDesempenho = JOptionPane.showInputDialog("Ingrese el area de desempeño");
                                                                 controlador.crearContratista(tipoPersona,tipoDocumento,numeroDocumento,nombre,correo,
                                                                         contrasenha,telefono,direccion,ciudad,rol,entidadPublica,areaDesempenho);
-                                                                JOptionPane.showMessageDialog(null,"Contratista creado con exito");
+                                                                JOptionPane.showMessageDialog(null,"Contratista creado con exito ✅");
                                                                 break;
                                                             case 2:
+                                                                /**
+                                                                 * Proceso para consultar un contratista específico.
+                                                                 * Solicita el número de documento del contratista a consultar.
+                                                                 */
                                                                 String consultarContratista = JOptionPane.showInputDialog("Ingrese el numero de documento del Contratista a consultar");
-                                                                 if(consultarContratista==null){
-                                                                     break;
-                                                                 }if (!controlador.numeroDocumentoExiste(consultarContratista)) {
-                                                                JOptionPane.showMessageDialog(null,"El numero de documento del contratista no existe");
-                                                                 }else {
+                                                                if(consultarContratista==null){
+                                                                    break;
+                                                                }if (!controlador.numeroDocumentoExiste(consultarContratista)) {
+                                                                    JOptionPane.showMessageDialog(null,"El numero de documento del contratista no existe");
+                                                                }else {
                                                                     JOptionPane.showMessageDialog(null, controlador.consultarContratistas(consultarContratista));
-                                                            }
+                                                                }
                                                                 break;
                                                             case 3:
+                                                                /**
+                                                                 * Proceso para actualizar un contratista existente.
+                                                                 * Solicita el número de documento y luego permite modificar campos específicos.
+                                                                 */
                                                                 String idModificarContratista = JOptionPane.showInputDialog
                                                                         ("Ingrese el numero de documento del contratista a modificar");
 
@@ -513,9 +624,12 @@ public class Application {
                                                                     /**
                                                                      * Atributos específicos y exclusivos del rol de Contratista.
                                                                      */
-                                                                    entidadPublica = null;
-                                                                    areaDesempenho = null;
+                                                                     entidadPublica = null;
+                                                                     areaDesempenho = null;
 
+                                                                    /**
+                                                                     * Menú de opciones para seleccionar el campo a modificar del contratista.
+                                                                     */
                                                                     String submenuModificar = """
                                                                             ¿Qué campo desea modificar del Contratista?
                                                                             1. Tipo de Persona 
@@ -542,6 +656,9 @@ public class Application {
                                                                             break;
                                                                         }
 
+                                                                        /**
+                                                                         * Convierte la entrada del submenú a un entero para procesar la opción seleccionada.
+                                                                         */
                                                                         int opSubMenu = Integer.parseInt(entradaSubmenu);
 
                                                                         switch (opSubMenu) {
@@ -635,7 +752,11 @@ public class Application {
                                                                             case 9:
                                                                                 areaDesempenho = JOptionPane.showInputDialog("Ingrese la nueva area de desempeño:");
                                                                                 break;
+                                                                            case 10:
+                                                                                JOptionPane.showMessageDialog(null, "Actualización cancelada.");
+                                                                                break;
                                                                             default:
+                                                                                JOptionPane.showMessageDialog(null, "Opción no válida.");
                                                                                 break;
                                                                         }
 
@@ -643,14 +764,14 @@ public class Application {
                                                                          * Invoca los métodos del controlador para realizar la actualización de los datos
                                                                          * del usuario y del contratista con la información proporcionada.
                                                                          */
-                                                                        if (opSubMenu > 0 && opSubMenu < 11) {
+                                                                        if (opSubMenu > 0 && opSubMenu < 10) {
                                                                             controlador.actualizarUsuario(tipoPersona, tipoDocumento, idModificarContratista, nombre, correo,
                                                                                     contrasenha, telefono, direccion, ciudad);
                                                                             controlador.actualizarContratista(idModificarContratista, entidadPublica, areaDesempenho);
                                                                             JOptionPane.showMessageDialog(null, "Contratista actualizado");
                                                                         }
                                                                     } catch (NumberFormatException ex) {
-                                                                        JOptionPane.showMessageDialog(null, "ERROR", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                                                        JOptionPane.showMessageDialog(null, "ERROR: Debe ingresar un dato numérico válido.", "ERROR", JOptionPane.ERROR_MESSAGE);
                                                                     }
 
 
@@ -660,6 +781,9 @@ public class Application {
 
                                                                 break;
                                                             case 4:
+                                                                /**
+                                                                 * Muestra una lista de todos los contratistas registrados en el sistema.
+                                                                 */
                                                                 String totalContratistas = controlador.mostrarContratistas();
 
                                                                 JTextArea areaTexto = new JTextArea(totalContratistas);
@@ -672,21 +796,34 @@ public class Application {
                                                                 JOptionPane.showMessageDialog(null, scrollPane, "Lista de Contratistas", JOptionPane.PLAIN_MESSAGE);
                                                                 break;
                                                             case 5:
+                                                                /**
+                                                                 * Proceso para eliminar un contratista.
+                                                                 * Solicita el número de documento del contratista a eliminar.
+                                                                 */
                                                                 String eliminarContratista=JOptionPane.showInputDialog(null,"Ingrese el Documento del contratista a eliminar");
-                                                                    if(eliminarContratista==null) {
-                                                                        break;
-                                                                    }
-                                                                    if (!controlador.numeroDocumentoExiste(eliminarContratista)){
-                                                                        JOptionPane.showMessageDialog(null,"El Contratista con numero de documento "+eliminarContratista+" no existe\nIngrese un documento valido");
-                                                                    }else {
-                                                                        controlador.eliminarContratista(eliminarContratista);
-                                                                        JOptionPane.showMessageDialog(null,"Contratista con numero de documento "+eliminarContratista+", ha sido eliminado exitosamente");
-                                                                    }
+                                                                if(eliminarContratista==null) {
+                                                                    break;
+                                                                }
+                                                                if (!controlador.numeroDocumentoExiste(eliminarContratista)){
+                                                                    JOptionPane.showMessageDialog(null,"El Contratista con numero de documento "+eliminarContratista+" no existe\nIngrese un documento valido");
+                                                                }else {
+                                                                    controlador.eliminarContratista(eliminarContratista);
+                                                                    JOptionPane.showMessageDialog(null,"Contratista con numero de documento "+eliminarContratista+", ha sido eliminado exitosamente");
+                                                                }
+                                                                break;
+                                                            case 6:
+                                                                JOptionPane.showMessageDialog(null, "Saliendo del menú de contratistas.");
+                                                                break;
+                                                            default:
+                                                                JOptionPane.showMessageDialog(null, "Opcion no valida");
                                                                 break;
                                                         }
 
                                                         break;
                                                     case 3:
+                                                        /**
+                                                         * Muestra la información detallada del usuario actualmente logueado.
+                                                         */
                                                         JOptionPane.showMessageDialog(null, controlador.obtenerUsuario(numeroDocumentoLoguear).mostrarInfoUsuario());
                                                         break;
                                                     case 4:
@@ -700,6 +837,10 @@ public class Application {
                                             }
                                             break;
                                         case CONTRATANTE:
+                                            /**
+                                             * Proceso para el rol de Contratante.
+                                             * Muestra el menú de contratante y procesa las opciones.
+                                             */
                                             String opContratante = JOptionPane.showInputDialog(menuContratante);
                                             if(opContratante==null){
                                                 break;
@@ -707,6 +848,10 @@ public class Application {
                                             int opNumContratante = Integer.parseInt(opContratante);
                                             switch (opNumContratante){
                                                 case 1:
+                                                    /**
+                                                     * Proceso para crear un nuevo contrato.
+                                                     * Permite seleccionar entre diferentes tipos de contrato (Prestación de Servicios, CompraVenta, Obra Pública).
+                                                     */
                                                     String menuContrato= """
                                                            =======================================
                                                            Seleccione el Contrato que Desea Crear:
@@ -719,6 +864,10 @@ public class Application {
                                                      int opcContrato = Integer.parseInt(opContrato);
                                                     switch (opcContrato){
                                                         case 1:
+                                                            /**
+                                                             * Creación de un contrato de Prestación de Servicios.
+                                                             * Solicita todos los datos necesarios para este tipo de contrato.
+                                                             */
                                                             String idContratoPs = JOptionPane.showInputDialog("Ingrese el Identificador del Contrato:");
                                                             String objetoContratoPs = JOptionPane.showInputDialog("Ingrese el motivo de su contrato: ");
                                                             Contratante contratantePs = (Contratante) controlador.obtenerUsuario(numeroDocumentoLoguear);
@@ -732,6 +881,10 @@ public class Application {
                                                             JOptionPane.showMessageDialog(null,"Contrato creado con exito ✅");
                                                             break;
                                                         case 2:
+                                                            /**
+                                                             * Creación de un contrato de CompraVenta.
+                                                             * Solicita todos los datos necesarios para este tipo de contrato.
+                                                             */
                                                             String idContratoCv = JOptionPane.showInputDialog("Ingrese el Identificador del Contrato:");
                                                             String objetoContratoCv = JOptionPane.showInputDialog("Ingrese el motivo de su contrato: ");
                                                             Contratante contratanteCv = (Contratante) controlador.obtenerUsuario(numeroDocumentoLoguear);
@@ -747,13 +900,17 @@ public class Application {
                                                             JOptionPane.showMessageDialog(null,"Contrato creado con exito ✅");
                                                             break;
                                                         case 3:
+                                                            /**
+                                                             * Creación de un contrato de Obra Pública.
+                                                             * Solicita todos los datos necesarios para este tipo de contrato.
+                                                             */
                                                             String idContratoOp = JOptionPane.showInputDialog("Ingrese el Identificador del Contrato:");
                                                             String objetoContratoOp = JOptionPane.showInputDialog("Ingrese el motivo de su contrato: ");
                                                             Contratante contratanteOp = (Contratante) controlador.obtenerUsuario(numeroDocumentoLoguear);
                                                             double valorCelebrarOp = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el valor a celebrar del contrato: "));
                                                             LocalDate plazoEjecucionOp = LocalDate.parse(JOptionPane.showInputDialog("Ingrese la fecha limite de el contrato en el formato (yyyy-MM-dd): "));
-                                                            String ubicacionObraOp = JOptionPane.showInputDialog("Ingrese el perfil requerido para el contrato: ");
-                                                            double areaIntervencionOp = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el valor Honorario Mensual para el Contratista: "));
+                                                            String ubicacionObraOp = JOptionPane.showInputDialog("Ingrese la ubicación de la obra: ");
+                                                            double areaIntervencionOp = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el área de intervención: "));
                                                             controlador.crearContratoObraPublica(idContratoOp,objetoContratoOp,contratanteOp,valorCelebrarOp,plazoEjecucionOp,ubicacionObraOp, areaIntervencionOp);
                                                             JOptionPane.showMessageDialog(null,"Contrato creado con exito ✅");
                                                             break;
@@ -763,6 +920,9 @@ public class Application {
                                                     }
                                                     break;
                                                 case 2:
+                                                    /**
+                                                     * Proceso para consultar un contrato específico por su ID.
+                                                     */
                                                     String consultarContrato = JOptionPane.showInputDialog("Ingrese el Id del Contrato que quiere visualizar: ");
                                                     if(consultarContrato==null){
                                                         JOptionPane.showMessageDialog(null, "Id Invalido");
@@ -771,6 +931,10 @@ public class Application {
                                                     JOptionPane.showMessageDialog(null,controlador.consultarContrato(consultarContrato));
                                                     break;
                                                 case 3:
+                                                    /**
+                                                     * Proceso para actualizar un contrato existente.
+                                                     * Permite modificar el objeto, valor y plazo de ejecución.
+                                                     */
                                                     String idActualizarContrato = JOptionPane.showInputDialog("Ingrese el ID del contrato a actualizar:");
                                                     if (idActualizarContrato == null) {
                                                         break;
@@ -784,6 +948,9 @@ public class Application {
                                                     Double nuevoValor = null;
                                                     LocalDate nuevoPlazo = null;
 
+                                                    /**
+                                                     * Menú de opciones para seleccionar el campo a modificar del contrato.
+                                                     */
                                                     String submenuContrato = """
                                                            ¿Qué campo desea modificar del contrato?
                                                              1. Objeto del contrato
@@ -823,10 +990,13 @@ public class Application {
                                                         }
 
                                                     } catch (NumberFormatException ex) {
-                                                        JOptionPane.showMessageDialog(null, "Dato inválido.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                                        JOptionPane.showMessageDialog(null, "Dato inválido. Asegúrese de ingresar un número para el valor o una fecha válida para el plazo.", "ERROR", JOptionPane.ERROR_MESSAGE);
                                                     }
                                                     break;
                                                 case 4:
+                                                /**
+                                                 * Proceso para eliminar un contrato por su ID.
+                                                 */
                                                 String idEliminar = JOptionPane.showInputDialog("Ingrese el id del contrato a eliminar: ");
                                                 if (idEliminar==null){
                                                     JOptionPane.showMessageDialog(null,"Id invalido");
@@ -834,13 +1004,24 @@ public class Application {
                                                 }
                                                 if (!controlador.existeIdContrato(idEliminar)){
                                                     JOptionPane.showMessageDialog(null, "El contrato con id "+idEliminar+" no existe, intente de nuevo.");
+                                                } else {
+                                                    controlador.eliminarContrato(idEliminar);
+                                                    JOptionPane.showMessageDialog(null,"El contrato ha sido eliminado con exito");
                                                 }
-                                                controlador.eliminarContrato(idEliminar);
-                                                JOptionPane.showMessageDialog(null,"El contrato a sido eliminado con exito");
+                                                    break;
+                                                case 5:
+                                                    JOptionPane.showMessageDialog(null, "Saliendo del menú de contratante.");
+                                                    break;
+                                                default:
+                                                    JOptionPane.showMessageDialog(null, "Opción no válida.");
                                                     break;
                                             }
                                             break;
                                         case CONTRATISTA:
+                                            /**
+                                             * Proceso para el rol de Contratista.
+                                             * Muestra el menú de contratista y procesa las opciones.
+                                             */
                                             String opContratista = JOptionPane.showInputDialog(menuContratista);
                                             if(opContratista==null){
                                                 break;
@@ -848,6 +1029,9 @@ public class Application {
                                             int opcContratista = Integer.parseInt(opContratista);
                                             switch (opcContratista){
                                                 case 1:
+                                                    /**
+                                                     * Permite a un contratista seleccionar un contrato para postularse.
+                                                     */
                                                     String idContratoSeleccionar = JOptionPane.showInputDialog("Ingrese el ID del contrato que desea seleccionar:");
                                                     if (idContratoSeleccionar == null) break;
 
@@ -859,14 +1043,21 @@ public class Application {
                                                     JOptionPane.showMessageDialog(null, "Te has postulado al contrato exitosamente ✅\nFase actualizada a LICITACIÓN.");
                                                     break;
                                                 case 2:
+                                                    /**
+                                                     * Permite a un contratista cambiar el estado de un contrato al que está asociado.
+                                                     */
                                                     String idContratoCambiar = JOptionPane.showInputDialog("Ingrese el ID del contrato al que desea cambiar el estado:");
                                                     if (idContratoCambiar == null) break;
+
 
                                                     if (!controlador.existeIdContrato(idContratoCambiar)) {
                                                         JOptionPane.showMessageDialog(null, "El contrato con ID '" + idContratoCambiar + "' no existe.");
                                                         break;
                                                     }
 
+                                                    /**
+                                                     * Menú para seleccionar la nueva fase del contrato.
+                                                     */
                                                     String menuFases = """
                                                         Seleccione la nueva fase del contrato:
                                                         1. PUBLICACION
@@ -897,25 +1088,30 @@ public class Application {
                                                     }
                                                     break;
                                                 case 3:
-                                                    JOptionPane.showMessageDialog(null, "Saliendo...");
+                                                    JOptionPane.showMessageDialog(null, "Saliendo del menú de contratista.");
                                                     break;
                                                 default:
+                                                    JOptionPane.showMessageDialog(null, "Opción no válida.");
                                                     break;
                                             }
                                             break;
                                         default:
+                                            JOptionPane.showMessageDialog(null, "Rol no reconocido.");
                                             break;
                                     }
                                 } catch (Exception exception) {
-                                    JOptionPane.showMessageDialog(null, "Error");
+                                    JOptionPane.showMessageDialog(null, "Ocurrió un error durante la operación: " + exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                                 }
 
                             } else {
-                                JOptionPane.showMessageDialog(null, "INCORRECTO");
+                                JOptionPane.showMessageDialog(null, "Credenciales incorrectas. Intente de nuevo.");
                             }
 
                             break;
                         case 2:
+                            /**
+                             * Muestra todos los contratos públicos disponibles en el sistema.
+                             */
                             String todosLosContratos = controlador.obtenerTodosLosContratos();
                             JTextArea areaTextoContratos = new JTextArea(todosLosContratos);
                             areaTextoContratos.setEditable(false);
@@ -927,22 +1123,25 @@ public class Application {
                             JOptionPane.showMessageDialog(null, scrollContratos, "Contratos Públicos", JOptionPane.PLAIN_MESSAGE);
                             break;
                         case 3:
-                            JOptionPane.showMessageDialog(null, "Saliendo...");
+                            JOptionPane.showMessageDialog(null, "Saliendo de la aplicación.");
                             break;
                         default:
                             JOptionPane.showMessageDialog(null, "Opcion numerica incorrecta, intente de nuevo");
                             break;
                     }
 
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "CARACTER NO ACEPTADO: Por favor, ingrese un número válido para la opción.", "ERROR!!", JOptionPane.ERROR_MESSAGE);
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "CARACTER NO ACEPTADO", "ERROR!!", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Ocurrió un error inesperado: " + ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "", "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Se ha producido un error crítico en la aplicación: " + ex.getMessage(), "ERROR CRÍTICO", JOptionPane.ERROR_MESSAGE);
         } finally {
             JOptionPane.showMessageDialog(null, "Gracias por utilizar el programa");
+
         }
 
 
