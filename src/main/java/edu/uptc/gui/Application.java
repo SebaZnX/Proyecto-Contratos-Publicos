@@ -1,6 +1,8 @@
 package edu.uptc.gui;
 
 import edu.uptc.controlador.Controlador;
+import edu.uptc.dominio.Contratante;
+import edu.uptc.enums.FaseContrato;
 import edu.uptc.enums.Rol;
 import edu.uptc.enums.TipoDocumento;
 import edu.uptc.enums.TipoPersona;
@@ -685,6 +687,7 @@ public class Application {
 
                                                         break;
                                                     case 3:
+                                                        JOptionPane.showMessageDialog(null, controlador.obtenerUsuario(numeroDocumentoLoguear).mostrarInfoUsuario());
                                                         break;
                                                     case 4:
                                                         JOptionPane.showMessageDialog(null, "Salio de su sesion");
@@ -705,30 +708,54 @@ public class Application {
                                             switch (opNumContratante){
                                                 case 1:
                                                     String menuContrato= """
-                                                           ===================
+                                                           =======================================
                                                            Seleccione el Contrato que Desea Crear:
-                                                           
                                                            1.Prestacion de Servicios
                                                            2.CompraVenta
                                                            3.ObraPublica
+                                                           =======================================
                                                            """;
                                                    String opContrato = JOptionPane.showInputDialog(menuContrato+"\nPrimero ingrese el tipo de contrato a crear:");
                                                      int opcContrato = Integer.parseInt(opContrato);
                                                     switch (opcContrato){
                                                         case 1:
-                                                            String idContrato = JOptionPane.showInputDialog("Ingrese el Identificador del Contrato:");
-                                                            String objetoContrato = JOptionPane.showInputDialog("Ingrese el motivo de su contrato: ");
-                                                            //Asignar un contratante
-                                                            double valorCelebrar = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el valor a celebrar del contrato: "));
-                                                            //LocalDate plazoEjecucion = LocalDate.now().isAfter(3);//DUDA
-                                                            String perfilRequerido = JOptionPane.showInputDialog("Ingrese el perfil requerido para el contrato: ");
-                                                            String entregables = JOptionPane.showInputDialog("Entregables esperados: ");
-                                                            double valorHonorarioMensual = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el valor Honorario Mensual para el Contratista: "));
-                                                            //Llamar al metodo crear contrato una vez este el dato de "asignar un contratante" y haber arreglado el LocalDate plazoEjecucion.
+                                                            String idContratoPs = JOptionPane.showInputDialog("Ingrese el Identificador del Contrato:");
+                                                            String objetoContratoPs = JOptionPane.showInputDialog("Ingrese el motivo de su contrato: ");
+                                                            Contratante contratantePs = (Contratante) controlador.obtenerUsuario(numeroDocumentoLoguear);
+                                                            double valorCelebrarPs = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el valor a celebrar del contrato: "));
+                                                            LocalDate plazoEjecucionPs = LocalDate.parse(JOptionPane.showInputDialog("Ingrese la fecha limite de el contrato en el formato (yyyy-MM-dd): "));
+                                                            String perfilRequeridoPs = JOptionPane.showInputDialog("Ingrese el perfil requerido para el contrato: ");
+                                                            String entregablesPs = JOptionPane.showInputDialog("Entregables esperados: ");
+                                                            double valorHonorarioMensualPs = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el valor Honorario Mensual para el Contratista: "));
+                                                            controlador.crearContratoPrestacionServicios(idContratoPs,objetoContratoPs,contratantePs,valorCelebrarPs,plazoEjecucionPs,perfilRequeridoPs,
+                                                                    entregablesPs,valorHonorarioMensualPs);
+                                                            JOptionPane.showMessageDialog(null,"Contrato creado con exito ✅");
                                                             break;
                                                         case 2:
+                                                            String idContratoCv = JOptionPane.showInputDialog("Ingrese el Identificador del Contrato:");
+                                                            String objetoContratoCv = JOptionPane.showInputDialog("Ingrese el motivo de su contrato: ");
+                                                            Contratante contratanteCv = (Contratante) controlador.obtenerUsuario(numeroDocumentoLoguear);
+                                                            String itemAdquirirCv = JOptionPane.showInputDialog("Ingrese el item a adquirir del contrato: ");
+                                                            int cantidadAdquirirCv = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cantidad del objeto que se va a adquirir: "));
+                                                            LocalDate plazoEjecucionCv = LocalDate.parse(JOptionPane.showInputDialog("Ingrese la fecha limite de el contrato en el formato (yyyy-MM-dd): "));
+                                                            String marcaCv = JOptionPane.showInputDialog("Ingrese la marca del contrato: ");
+                                                            String modeloCv = JOptionPane.showInputDialog("Ingrese el modelo del contrato: ");
+                                                            String serieCv = JOptionPane.showInputDialog("Ingrese la serie del contrato: ");
+                                                            double valorUnitarioCv = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el valor Unitario del objeto a adquirir: "));
+                                                            controlador.crearContratoCompraVenta(idContratoCv,objetoContratoCv,contratanteCv,plazoEjecucionCv,itemAdquirirCv,marcaCv,modeloCv,serieCv,
+                                                                    valorUnitarioCv,cantidadAdquirirCv);
+                                                            JOptionPane.showMessageDialog(null,"Contrato creado con exito ✅");
                                                             break;
                                                         case 3:
+                                                            String idContratoOp = JOptionPane.showInputDialog("Ingrese el Identificador del Contrato:");
+                                                            String objetoContratoOp = JOptionPane.showInputDialog("Ingrese el motivo de su contrato: ");
+                                                            Contratante contratanteOp = (Contratante) controlador.obtenerUsuario(numeroDocumentoLoguear);
+                                                            double valorCelebrarOp = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el valor a celebrar del contrato: "));
+                                                            LocalDate plazoEjecucionOp = LocalDate.parse(JOptionPane.showInputDialog("Ingrese la fecha limite de el contrato en el formato (yyyy-MM-dd): "));
+                                                            String ubicacionObraOp = JOptionPane.showInputDialog("Ingrese el perfil requerido para el contrato: ");
+                                                            double areaIntervencionOp = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el valor Honorario Mensual para el Contratista: "));
+                                                            controlador.crearContratoObraPublica(idContratoOp,objetoContratoOp,contratanteOp,valorCelebrarOp,plazoEjecucionOp,ubicacionObraOp, areaIntervencionOp);
+                                                            JOptionPane.showMessageDialog(null,"Contrato creado con exito ✅");
                                                             break;
                                                         default:
                                                             JOptionPane.showMessageDialog(null,"Opcion Invalida");
@@ -736,13 +763,80 @@ public class Application {
                                                     }
                                                     break;
                                                 case 2:
-                                                    //Consultar
+                                                    String consultarContrato = JOptionPane.showInputDialog("Ingrese el Id del Contrato que quiere visualizar: ");
+                                                    if(consultarContrato==null){
+                                                        JOptionPane.showMessageDialog(null, "Id Invalido");
+                                                        break;
+                                                    }
+                                                    JOptionPane.showMessageDialog(null,controlador.consultarContrato(consultarContrato));
                                                     break;
                                                 case 3:
-                                                    //Modificar
+                                                    String idActualizarContrato = JOptionPane.showInputDialog("Ingrese el ID del contrato a actualizar:");
+                                                    if (idActualizarContrato == null) {
+                                                        break;
+                                                    }
+                                                    if (!controlador.existeIdContrato(idActualizarContrato)) {
+                                                        JOptionPane.showMessageDialog(null, "El contrato con ID '" + idActualizarContrato + "' no existe.");
+                                                        break;
+                                                    }
+
+                                                    String nuevoObjeto = null;
+                                                    Double nuevoValor = null;
+                                                    LocalDate nuevoPlazo = null;
+
+                                                    String submenuContrato = """
+                                                           ¿Qué campo desea modificar del contrato?
+                                                             1. Objeto del contrato
+                                                             2. Valor a celebrar
+                                                             3. Plazo de ejecución
+                                                             4. Cancelar
+                                                            """;
+
+                                                    try {
+                                                        String entradaSubContrato = JOptionPane.showInputDialog(submenuContrato);
+                                                        if (entradaSubContrato == null) break;
+
+                                                        int opSubContrato = Integer.parseInt(entradaSubContrato);
+                                                        switch (opSubContrato) {
+                                                            case 1:
+                                                                nuevoObjeto = JOptionPane.showInputDialog("Ingrese el nuevo objeto del contrato:");
+                                                                break;
+                                                            case 2:
+                                                                String strValor = JOptionPane.showInputDialog("Ingrese el nuevo valor a celebrar:");
+                                                                if (strValor != null) nuevoValor = Double.parseDouble(strValor);
+                                                                break;
+                                                            case 3:
+                                                                String strPlazo = JOptionPane.showInputDialog("Ingrese el nuevo plazo de ejecución (yyyy-MM-dd):");
+                                                                if (strPlazo != null) nuevoPlazo = LocalDate.parse(strPlazo);
+                                                                break;
+                                                            case 4:
+                                                                JOptionPane.showMessageDialog(null, "Actualización cancelada.");
+                                                                break;
+                                                            default:
+                                                                JOptionPane.showMessageDialog(null, "Opción no válida.");
+                                                                break;
+                                                        }
+
+                                                        if (opSubContrato >= 1 && opSubContrato <= 3) {
+                                                            controlador.actualizarContratoGeneral(idActualizarContrato, nuevoObjeto, nuevoValor, nuevoPlazo, null);
+                                                            JOptionPane.showMessageDialog(null, "Contrato actualizado con éxito ✅");
+                                                        }
+
+                                                    } catch (NumberFormatException ex) {
+                                                        JOptionPane.showMessageDialog(null, "Dato inválido.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                                    }
                                                     break;
                                                 case 4:
-                                                    //Eliminar
+                                                String idEliminar = JOptionPane.showInputDialog("Ingrese el id del contrato a eliminar: ");
+                                                if (idEliminar==null){
+                                                    JOptionPane.showMessageDialog(null,"Id invalido");
+                                                    break;
+                                                }
+                                                if (!controlador.existeIdContrato(idEliminar)){
+                                                    JOptionPane.showMessageDialog(null, "El contrato con id "+idEliminar+" no existe, intente de nuevo.");
+                                                }
+                                                controlador.eliminarContrato(idEliminar);
+                                                JOptionPane.showMessageDialog(null,"El contrato a sido eliminado con exito");
                                                     break;
                                             }
                                             break;
@@ -754,10 +848,56 @@ public class Application {
                                             int opcContratista = Integer.parseInt(opContratista);
                                             switch (opcContratista){
                                                 case 1:
+                                                    String idContratoSeleccionar = JOptionPane.showInputDialog("Ingrese el ID del contrato que desea seleccionar:");
+                                                    if (idContratoSeleccionar == null) break;
+
+                                                    if (!controlador.existeIdContrato(idContratoSeleccionar)) {
+                                                        JOptionPane.showMessageDialog(null, "El contrato con ID '" + idContratoSeleccionar + "' no existe.");
+                                                        break;
+                                                    }
+                                                    controlador.seleccionarContrato(idContratoSeleccionar, numeroDocumentoLoguear, controlador.getServicioUsuarios());
+                                                    JOptionPane.showMessageDialog(null, "Te has postulado al contrato exitosamente ✅\nFase actualizada a LICITACIÓN.");
                                                     break;
                                                 case 2:
+                                                    String idContratoCambiar = JOptionPane.showInputDialog("Ingrese el ID del contrato al que desea cambiar el estado:");
+                                                    if (idContratoCambiar == null) break;
+
+                                                    if (!controlador.existeIdContrato(idContratoCambiar)) {
+                                                        JOptionPane.showMessageDialog(null, "El contrato con ID '" + idContratoCambiar + "' no existe.");
+                                                        break;
+                                                    }
+
+                                                    String menuFases = """
+                                                        Seleccione la nueva fase del contrato:
+                                                        1. PUBLICACION
+                                                        2. LICITACION
+                                                        3. ADJUDICACION
+                                                        4. EJECUCION
+                                                        """;
+
+                                                    String entradaFase = JOptionPane.showInputDialog(menuFases);
+                                                    if (entradaFase == null) break;
+
+                                                    FaseContrato nuevaFase = null;
+                                                    switch (Integer.parseInt(entradaFase)) {
+                                                        case 1: nuevaFase = FaseContrato.PUBLICACION;  break;
+                                                        case 2: nuevaFase = FaseContrato.LICITACION;   break;
+                                                        case 3: nuevaFase = FaseContrato.ADJUDICACION; break;
+                                                        case 4: nuevaFase = FaseContrato.EJECUCION;    break;
+                                                        default:
+                                                            JOptionPane.showMessageDialog(null, "Fase no válida.");
+                                                            break;
+                                                    }
+
+                                                    if (nuevaFase != null) {
+                                                        String informe = JOptionPane.showInputDialog("Ingrese el informe del cambio de fase:");
+                                                        if (informe == null) break;
+                                                        controlador.cambiarEstadoContrato(idContratoCambiar, nuevaFase, informe, controlador.getServicioReportes());
+                                                        JOptionPane.showMessageDialog(null, "Estado actualizado y reporte generado ✅");
+                                                    }
                                                     break;
                                                 case 3:
+                                                    JOptionPane.showMessageDialog(null, "Saliendo...");
                                                     break;
                                                 default:
                                                     break;
@@ -776,14 +916,15 @@ public class Application {
 
                             break;
                         case 2:
+                            String todosLosContratos = controlador.obtenerTodosLosContratos();
+                            JTextArea areaTextoContratos = new JTextArea(todosLosContratos);
+                            areaTextoContratos.setEditable(false);
+                            areaTextoContratos.setFont(new java.awt.Font("Monospaced", java.awt.Font.PLAIN, 12));
 
-                            String listaPublicaContratos = controlador.obtenerTodosLosReportes();
+                            JScrollPane scrollContratos = new JScrollPane(areaTextoContratos);
+                            scrollContratos.setPreferredSize(new java.awt.Dimension(600, 450));
 
-                            if (listaPublicaContratos != null && !listaPublicaContratos.isEmpty()) {
-                                JOptionPane.showMessageDialog(null, listaPublicaContratos, "CONTRATOS PÚBLICOS\n", JOptionPane.INFORMATION_MESSAGE);
-                            } else {
-                                JOptionPane.showMessageDialog(null, "Actualmente no hay contratos públicos registrados en el sistema.", "Información", JOptionPane.INFORMATION_MESSAGE);
-                            }
+                            JOptionPane.showMessageDialog(null, scrollContratos, "Contratos Públicos", JOptionPane.PLAIN_MESSAGE);
                             break;
                         case 3:
                             JOptionPane.showMessageDialog(null, "Saliendo...");
