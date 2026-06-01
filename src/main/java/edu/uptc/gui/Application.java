@@ -206,9 +206,6 @@ public class Application {
                                                 opcionMenuAdministrador = Integer.parseInt(entradaMenuAdminstrador);
                                                 switch (opcionMenuAdministrador) {
                                                     case 1:
-                                                        /**
-                                                         * Muestra el menú de opciones para la gestión de contratantes.
-                                                         */
                                                         int opAdminMenuContratante = Integer.parseInt(JOptionPane.showInputDialog("""
                                                                 =======================================================
                                                                 1. Crear contratante
@@ -221,10 +218,6 @@ public class Application {
                                                                 """));
                                                         switch (opAdminMenuContratante) {
                                                             case 1:
-                                                                /**
-                                                                 * Proceso para crear un nuevo contratante.
-                                                                 * Solicita tipo de persona, tipo de documento y datos personales.
-                                                                 */
                                                                 String opcionPersona = JOptionPane.showInputDialog(opcionesPersona);
                                                                 if (opcionPersona != null) {
                                                                     int opcPersona = Integer.parseInt(opcionPersona);
@@ -269,29 +262,14 @@ public class Application {
                                                                 } else {
                                                                     controlador.crearContratante(tipoPersona, tipoDocumento, numeroDocumento, nombre, correo, contrasenha, telefono,
                                                                             direccion, ciudad, rol, sector, nivelEntidad, codigoUnicoEntidad);
-                                                                    JOptionPane.showMessageDialog(null, "Contratante creado con exito ✅");
                                                                 }
                                                                 break;
                                                             case 2:
-                                                                /**
-                                                                 * Proceso para consultar un contratante específico.
-                                                                 * Solicita el número de documento del contratante a consultar.
-                                                                 */
-                                                                String consultarContratante = JOptionPane.showInputDialog("Ingrese el numero de documento del Contratante a consultar");
-                                                                if(consultarContratante==null){
-                                                                    break;
-                                                                }
-                                                                if (!controlador.numeroDocumentoExiste(consultarContratante)) {
-                                                                    JOptionPane.showMessageDialog(null,"El numero de documento del contratante no existe");
-                                                                }else {
-                                                                    JOptionPane.showMessageDialog(null, controlador.consultarContratantes(consultarContratante));
-                                                                }
+                                                                numeroDocumento = JOptionPane.showInputDialog(null, "Ingrese el número de documento del contratante:");
+                                                                String informacion = controlador.consultarContratantes(numeroDocumento);
+                                                                JOptionPane.showMessageDialog(null, informacion);
                                                                 break;
                                                             case 3:
-                                                                /**
-                                                                 * Proceso para actualizar un contratante existente.
-                                                                 * Solicita el número de documento y luego permite modificar campos específicos.
-                                                                 */
                                                                 String idModificarContratante = JOptionPane.showInputDialog
                                                                         ("Ingrese el numero de documento del contratante a modificar");
 
@@ -330,9 +308,6 @@ public class Application {
                                                                     nivelEntidad = null;
                                                                     codigoUnicoEntidad = null;
 
-                                                                    /**
-                                                                     * Menú de opciones para seleccionar el campo a modificar del contratante.
-                                                                     */
                                                                     String submenuModificar = """
                                                                             ¿Qué campo desea modificar del Contratante?
                                                                             1. Tipo de Persona 
@@ -360,9 +335,6 @@ public class Application {
                                                                             break;
                                                                         }
 
-                                                                        /**
-                                                                         * Convierte la entrada del submenú a un entero para procesar la opción seleccionada.
-                                                                         */
                                                                         int opSubMenu = Integer.parseInt(entradaSubmenu);
 
                                                                         switch (opSubMenu) {
@@ -462,7 +434,6 @@ public class Application {
                                                                                 JOptionPane.showMessageDialog(null, "Contratante no actualizado");
                                                                                 break;
                                                                             default:
-                                                                                JOptionPane.showMessageDialog(null, "Opción no válida.");
                                                                                 break;
                                                                         }
 
@@ -478,7 +449,7 @@ public class Application {
                                                                             JOptionPane.showMessageDialog(null, "Contratante actualizado");
                                                                         }
                                                                     } catch (NumberFormatException ex) {
-                                                                        JOptionPane.showMessageDialog(null, "ERROR: Debe ingresar un dato numérico válido.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                                                        JOptionPane.showMessageDialog(null, "ERROR", "ERROR", JOptionPane.ERROR_MESSAGE);
                                                                     }
 
 
@@ -488,23 +459,23 @@ public class Application {
 
                                                                 break;
                                                             case 4:
-                                                                /**
-                                                                 * Proceso para eliminar un contratante.
-                                                                 * Solicita el número de documento del contratante a eliminar.
-                                                                 */
-                                                                String eliminarContratante = JOptionPane.showInputDialog(null, "Ingrese el Documento del contratante a eliminar");
-                                                                if (eliminarContratante == null) {
-                                                                    break;
-                                                                }
-                                                                if (!controlador.numeroDocumentoExiste(eliminarContratante)) {
-                                                                    JOptionPane.showMessageDialog(null, "El Contratante con numero de documento " + eliminarContratante + " no existe\nIngrese un documento valido");
-                                                                } else {
-                                                                    controlador.eliminarContratante(eliminarContratante);
-                                                                    JOptionPane.showMessageDialog(null, "Contratante con numero de documento " + eliminarContratante + ", ha sido eliminado exitosamente");
+                                                                String docAEliminar = JOptionPane.showInputDialog(null, "Ingrese el numero de documento del contratante a eliminar");
+                                                                if (docAEliminar != null) {
+                                                                    controlador.eliminarContratante(docAEliminar);
+                                                                    JOptionPane.showMessageDialog(null, "La operación de eliminación fue un exito para el documento: " + docAEliminar);
                                                                 }
                                                                 break;
                                                             case 5:
-
+                                                                JOptionPane.showMessageDialog(null, controlador.mostrarContratantes());
+                                                                break;
+                                                            case 6:
+                                                                int confirmacion = JOptionPane.showConfirmDialog(null, "¿Desea volver al menú principal?", "Confirmar", JOptionPane.YES_NO_OPTION);
+                                                                if (confirmacion == JOptionPane.YES_OPTION) {
+                                                                }
+                                                                break;
+                                                            default:
+                                                                JOptionPane.showMessageDialog(null, "Opcion no valida");
+                                                                break;
                                                         }
                                                         break;
                                                     case 2:

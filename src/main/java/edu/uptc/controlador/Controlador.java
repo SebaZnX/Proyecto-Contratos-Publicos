@@ -167,6 +167,10 @@ public class Controlador {
         this.servicioUsuarios.actualizarContratante(numeroDocumento, sector, nivelEntidad, codigoUnicoEntidad);
     }
 
+    public String mostrarContratantes() {
+        return servicioUsuarios.mostrarContratantes();
+    }
+
     /**
      * Obtiene una cadena de texto con la información detallada de todos los contratistas registrados en el sistema.
      *

@@ -173,6 +173,15 @@ public class ServicioUsuarios {
             }
         }
     }
+    public String mostrarContratantes() {
+        if (usuarios.isEmpty())
+            return "No hay contratantes registrados.";
+        StringBuilder sb = new StringBuilder();
+        for (Usuario u : usuarios.values()) {
+            if (u instanceof Contratante) sb.append(u.mostrarInfoUsuario()).append("\n");
+        }
+        return sb.toString();
+    }
 
     /**
      * Actualiza los atributos específicos de un contratante existente.
