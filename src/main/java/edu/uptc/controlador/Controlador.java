@@ -42,10 +42,20 @@ public class Controlador {
         this.servicioReportes = new ServicioReportes();
     }
 
+    /**
+     * Obtiene la instancia del servicio de usuarios.
+     *
+     * @return La instancia de {@link ServicioUsuarios}.
+     */
     public ServicioUsuarios getServicioUsuarios() {
         return servicioUsuarios;
     }
 
+    /**
+     * Obtiene la instancia del servicio de reportes.
+     *
+     * @return La instancia de {@link ServicioReportes}.
+     */
     public ServicioReportes getServicioReportes() {
         return servicioReportes;
     }
@@ -157,6 +167,11 @@ public class Controlador {
         this.servicioUsuarios.actualizarContratante(numeroDocumento, sector, nivelEntidad, codigoUnicoEntidad);
     }
 
+    /**
+     * Obtiene una cadena de texto con la información detallada de todos los contratistas registrados en el sistema.
+     *
+     * @return Una cadena de texto que contiene todos los contratistas, o un mensaje indicando que no hay contratistas.
+     */
     public String mostrarContratistas(){
         return this.servicioUsuarios.mostrarContratistas();
     }
@@ -225,6 +240,12 @@ public class Controlador {
         this.servicioUsuarios.eliminarContratista(numeroDocumentoEliminarContratista);
     }
 
+    /**
+     * Obtiene un objeto {@link Usuario} a partir de su número de documento.
+     *
+     * @param numeroDocumento El número de documento del usuario a obtener.
+     * @return El objeto {@link Usuario} correspondiente al número de documento, o {@code null} si no se encuentra.
+     */
     public Usuario obtenerUsuario (String numeroDocumento){
         return this.servicioUsuarios.obtenerUsuario(numeroDocumento);
     }
@@ -299,6 +320,12 @@ public class Controlador {
         return this.servicioContratos.consultarContrato(idConsultar);
     }
 
+    /**
+     * Verifica si un identificador de contrato ya existe en el sistema.
+     *
+     * @param idContrato El identificador del contrato a verificar.
+     * @return {@code true} si el ID del contrato existe, {@code false} en caso contrario.
+     */
     public boolean existeIdContrato(String idContrato) {
         return this.servicioContratos.existeIdContrato(idContrato);
     }
@@ -463,6 +490,11 @@ public class Controlador {
         return this.servicioReportes.obtenerReportesPorContrato(idContrato);
     }
 
+    /**
+     * Obtiene una cadena de texto con la información detallada de todos los contratos registrados en el sistema.
+     *
+     * @return Una cadena de texto que contiene todos los contratos, o un mensaje indicando que no hay contratos.
+     */
     public String obtenerTodosLosContratos() {
         return this.servicioContratos.obtenerTodosLosContratos();
     }
