@@ -1,9 +1,6 @@
 package edu.uptc.controlador;
 
-import edu.uptc.dominio.Contratante;
-import edu.uptc.dominio.Contratista;
-import edu.uptc.dominio.ContratoObraPublica;
-import edu.uptc.dominio.ReporteInterventoria;
+import edu.uptc.dominio.*;
 import edu.uptc.enums.FaseContrato;
 import edu.uptc.enums.Rol;
 import edu.uptc.enums.TipoDocumento;
@@ -43,6 +40,14 @@ public class Controlador {
         this.servicioUsuarios = new ServicioUsuarios();
         this.servicioContratos = new ServicioContratos();
         this.servicioReportes = new ServicioReportes();
+    }
+
+    public ServicioUsuarios getServicioUsuarios() {
+        return servicioUsuarios;
+    }
+
+    public ServicioReportes getServicioReportes() {
+        return servicioReportes;
     }
 
     /**
@@ -220,6 +225,10 @@ public class Controlador {
         this.servicioUsuarios.eliminarContratista(numeroDocumentoEliminarContratista);
     }
 
+    public Usuario obtenerUsuario (String numeroDocumento){
+        return this.servicioUsuarios.obtenerUsuario(numeroDocumento);
+    }
+
     /**
      * Crea un nuevo contrato de prestación de servicios.
      *
@@ -288,6 +297,10 @@ public class Controlador {
      */
     public String consultarContrato(String idConsultar) {
         return this.servicioContratos.consultarContrato(idConsultar);
+    }
+
+    public boolean existeIdContrato(String idContrato) {
+        return this.servicioContratos.existeIdContrato(idContrato);
     }
 
     /**
@@ -448,5 +461,9 @@ public class Controlador {
      */
     public String obtenerReportesPorContrato(String idContrato){
         return this.servicioReportes.obtenerReportesPorContrato(idContrato);
+    }
+
+    public String obtenerTodosLosContratos() {
+        return this.servicioContratos.obtenerTodosLosContratos();
     }
 }
