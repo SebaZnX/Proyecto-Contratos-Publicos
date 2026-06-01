@@ -9,6 +9,9 @@ import java.util.HashMap;
  * Permite guardar, mostrar y consultar reportes.
  */
 public class ServicioReportes {
+    /**
+     * Mapa que almacena los reportes de interventoría, utilizando el ID del reporte como clave.
+     */
     private HashMap<String, ReporteInterventoria> reportesInterventoria;
 
     /**
