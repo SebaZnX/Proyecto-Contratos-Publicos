@@ -1,6 +1,5 @@
 package edu.uptc.controlador;
 
-import edu.uptc.dominio.*;
 import edu.uptc.enums.FaseContrato;
 import edu.uptc.enums.Rol;
 import edu.uptc.enums.TipoDocumento;
@@ -12,494 +11,463 @@ import edu.uptc.servicios.ServicioUsuarios;
 import java.time.LocalDate;
 
 /**
- * La clase {@code Controlador} actúa como la capa de control de la aplicación,
- * gestionando la interacción entre la interfaz de usuario y los servicios de negocio.
- * Se encarga de recibir las peticiones del cliente, coordinar las operaciones
- * a través de los servicios y devolver las respuestas adecuadas.
+ * Capa de Control de la aplicación.
+ *
+ * <p><b>Regla de acoplamiento:</b> Esta clase SOLO importa paquetes de enums y de servicios.
+ * Está terminantemente prohibido importar, instanciar o manipular cualquier clase del paquete
+ * {@code edu.uptc.dominio.*}. Toda interacción con entidades de dominio ocurre exclusivamente
+ * dentro de la capa de servicios.</p>
+ *
+ * <p>Los métodos del Controlador reciben únicamente tipos primitivos, {@link String},
+ * enums propios del sistema y tipos de la API estándar de Java (como {@link LocalDate}).
+ * Nunca reciben ni devuelven objetos de dominio.</p>
  */
 public class Controlador {
-    /**
-     * Instancia de {@link ServicioUsuarios} para gestionar las operaciones relacionadas con los usuarios.
-     */
-    private ServicioUsuarios servicioUsuarios;
-    /**
-     * Instancia de {@link ServicioContratos} para gestionar las operaciones relacionadas con los contratos.
-     */
-    private ServicioContratos servicioContratos;
-    /**
-     * Instancia de {@link ServicioReportes} para gestionar las operaciones relacionadas con los reportes.
-     */
-    private ServicioReportes servicioReportes;
+
+    private final ServicioUsuarios   servicioUsuarios;
+    private final ServicioContratos  servicioContratos;
+    private final ServicioReportes   servicioReportes;
 
     /**
-     * Constructor de la clase {@code Controlador}.
-     * Inicializa las instancias de los servicios de usuario, contratos y reportes,
-     * estableciendo las dependencias necesarias para el funcionamiento del controlador.
+     * Constructor del Controlador.
+     * Crea e inyecta las dependencias entre servicios: ServicioContratos recibe
+     * una referencia a ServicioUsuarios para poder resolver IDs internamente.
      */
     public Controlador() {
-        this.servicioUsuarios = new ServicioUsuarios();
-        this.servicioContratos = new ServicioContratos();
-        this.servicioReportes = new ServicioReportes();
+        this.servicioUsuarios  = new ServicioUsuarios();
+        this.servicioContratos = new ServicioContratos(servicioUsuarios);
+        this.servicioReportes  = new ServicioReportes();
     }
 
     /**
-     * Obtiene la instancia del servicio de usuarios.
-     *
-     * @return La instancia de {@link ServicioUsuarios}.
-     */
-    public ServicioUsuarios getServicioUsuarios() {
-        return servicioUsuarios;
-    }
-
-    /**
-     * Obtiene la instancia del servicio de reportes.
-     *
-     * @return La instancia de {@link ServicioReportes}.
-     */
-    public ServicioReportes getServicioReportes() {
-        return servicioReportes;
-    }
-
-    /**
-     * Realiza el proceso de autenticación de un usuario.
-     *
-     * @param numeroDocumento El número de documento del usuario que intenta iniciar sesión.
-     * @param contrasenha     La contraseña del usuario.
-     * @return {@code true} si las credenciales son correctas y el inicio de sesión es exitoso, {@code false} en caso contrario.
-     */
-    public boolean loginCorrecto(String numeroDocumento, String contrasenha) {
-        return this.servicioUsuarios.loginCorrecto(numeroDocumento, contrasenha);
-    }
-
-    /**
-     * Obtiene el rol de un usuario a partir de su número de documento.
-     *
-     * @param numeroDocumento El número de documento del usuario.
-     * @return El {@link Rol} asociado al usuario, o {@code null} si el usuario no existe o no tiene un rol definido.
-     */
-    public Rol rolLogueado(String numeroDocumento) {
-        return this.servicioUsuarios.rolLogueado(numeroDocumento);
-    }
-
-    /**
-     * Crea un usuario con rol de administrador en el sistema.
-     * Este método se utiliza para la configuración inicial del sistema.
+     * Crea el administrador por defecto del sistema (configuración inicial).
      */
     public void crearAdministrador() {
-        this.servicioUsuarios.crearAdministrador();
+        servicioUsuarios.crearAdministrador();
+    }
+
+    /**
+     * Valida las credenciales de inicio de sesión de un usuario.
+     *
+     * @param numeroDocumento Número de documento del usuario.
+     * @param contrasenha     Contraseña del usuario.
+     * @return true si las credenciales son correctas.
+     */
+    public boolean loginCorrecto(String numeroDocumento, String contrasenha) {
+        return servicioUsuarios.loginCorrecto(numeroDocumento, contrasenha);
+    }
+
+    /**
+     * Devuelve el rol del usuario identificado por su número de documento.
+     *
+     * @param numeroDocumento Número de documento del usuario.
+     * @return El {@link Rol} del usuario, o null si no existe.
+     */
+    public Rol rolLogueado(String numeroDocumento) {
+        return servicioUsuarios.rolLogueado(numeroDocumento);
+    }
+
+    /**
+     * Devuelve la información del usuario logueado como texto formateado.
+     *
+     * @param numeroDocumento Número de documento del usuario.
+     * @return Texto con la información del usuario.
+     */
+    public String obtenerInfoUsuario(String numeroDocumento) {
+        return servicioUsuarios.obtenerInfoUsuario(numeroDocumento);
     }
 
     /**
      * Verifica si un número de documento ya existe en el sistema.
      *
-     * @param numeroDocumentoBuscar El número de documento a buscar.
-     * @return {@code true} si el número de documento existe, {@code false} en caso contrario.
+     * @param numeroDocumento Número a verificar.
+     * @return true si ya existe.
      */
-    public boolean numeroDocumentoExiste(String numeroDocumentoBuscar) {
-        return this.servicioUsuarios.numeroDocumentoExiste(numeroDocumentoBuscar);
+    public boolean numeroDocumentoExiste(String numeroDocumento) {
+        return servicioUsuarios.numeroDocumentoExiste(numeroDocumento);
     }
 
     /**
-     * Actualiza la información general de un usuario existente en el sistema.
-     * Los campos que no se deseen actualizar pueden pasarse como {@code null}.
+     * Crea un nuevo contratante en el sistema.
+     * Todos los parámetros son tipos primitivos o String; el Controlador no conoce
+     * la clase Contratante de dominio.
      *
-     * @param tipoPersona     El nuevo tipo de persona del usuario (Natural o Jurídica).
-     * @param tipoDocumento   El nuevo tipo de documento del usuario (CC, CE, PAS, PPT, NIT).
-     * @param numeroDocumento El número de documento del usuario a actualizar (identificador único).
-     * @param nombre          El nuevo nombre completo del usuario.
-     * @param correo          El nuevo correo electrónico del usuario.
-     * @param contrasenha     La nueva contraseña del usuario.
-     * @param telefono        El nuevo número de teléfono del usuario.
-     * @param direccion       La nueva dirección de residencia u oficina del usuario.
-     * @param ciudad          La nueva ciudad de residencia del usuario.
+     * @param tipoPersona        Código numérico: 1=NATURAL, 2=JURIDICA.
+     * @param tipoDocumento      Código numérico: 1=CC, 2=CE, 3=PAS, 4=PPT, 5=NIT.
+     * @param numeroDocumento    Número de documento único.
+     * @param nombre             Nombre o razón social.
+     * @param correo             Correo electrónico.
+     * @param contrasenha        Contraseña de acceso.
+     * @param telefono           Teléfono de contacto.
+     * @param direccion          Dirección.
+     * @param ciudad             Ciudad.
+     * @param sector             Sector económico.
+     * @param nivelEntidad       Nivel de la entidad.
+     * @param codigoUnicoEntidad Código único de entidad.
      */
-    public void actualizarUsuario(TipoPersona tipoPersona, TipoDocumento tipoDocumento, String numeroDocumento, String nombre,
-                                  String correo, String contrasenha, String telefono, String direccion, String ciudad) {
-        this.servicioUsuarios.actualizarUsuario(tipoPersona, tipoDocumento, numeroDocumento, nombre, correo, contrasenha,
-                telefono, direccion, ciudad);
-    }
-
-    /**
-     * Crea un nuevo contratante en el sistema con la información proporcionada.
-     *
-     * @param tipoPersona        El tipo de persona del contratante (Natural o Jurídica).
-     * @param tipoDocumento      El tipo de documento del contratante (CC, CE, PAS, PPT, NIT).
-     * @param numeroDocumento    El número de documento único del contratante.
-     * @param nombre             El nombre completo o razón social del contratante.
-     * @param correo             El correo electrónico del contratante.
-     * @param contrasenha        La contraseña para el acceso del contratante.
-     * @param telefono           El número de teléfono del contratante.
-     * @param direccion          La dirección de residencia u oficina del contratante.
-     * @param ciudad             La ciudad del contratante.
-     * @param rol                El rol asignado al contratante (debería ser {@link Rol#CONTRATANTE}).
-     * @param sector             El sector económico al que pertenece el contratante.
-     * @param nivelEntidad       El nivel de la entidad (e.g., nacional, departamental, municipal).
-     * @param codigoUnicoEntidad El código único de la entidad contratante.
-     */
-    public void crearContratante(TipoPersona tipoPersona, TipoDocumento tipoDocumento, String numeroDocumento, String nombre,
-                                 String correo, String contrasenha, String telefono, String direccion, String ciudad, Rol rol,
+    public void crearContratante(int tipoPersona, int tipoDocumento, String numeroDocumento,
+                                 String nombre, String correo, String contrasenha,
+                                 String telefono, String direccion, String ciudad,
                                  String sector, String nivelEntidad, String codigoUnicoEntidad) {
-        this.servicioUsuarios.crearContratante(tipoPersona, tipoDocumento, numeroDocumento, nombre, correo, contrasenha,
-                telefono, direccion, ciudad, rol, sector, nivelEntidad, codigoUnicoEntidad);
+        TipoPersona  tp  = mapearTipoPersona(tipoPersona);
+        TipoDocumento td = mapearTipoDocumento(tipoDocumento);
+        servicioUsuarios.crearContratante(tp, td, numeroDocumento, nombre, correo, contrasenha,
+                telefono, direccion, ciudad, Rol.CONTRATANTE, sector, nivelEntidad, codigoUnicoEntidad);
     }
 
     /**
-     * Consulta la información de uno o todos los contratantes registrados en el sistema.
+     * Consulta la información de un contratante por número de documento.
      *
-     * @param numeroDocumento El número de documento del contratante a consultar. Si es {@code null} o vacío,
-     *                        se consultarán todos los contratantes.
-     * @return Una cadena de texto con la información del contratante específico o de todos los contratantes.
+     * @param numeroDocumento Número de documento del contratante.
+     * @return Texto con la información del contratante.
      */
-    public String consultarContratantes(String numeroDocumento) {
-        return this.servicioUsuarios.consultarContratantes(numeroDocumento);
+    public String consultarContratante(String numeroDocumento) {
+        return servicioUsuarios.consultarContratantes(numeroDocumento);
     }
 
     /**
-     * Actualiza la información específica de un contratante existente.
-     * Los campos que no se deseen actualizar pueden pasarse como {@code null}.
+     * Actualiza la información general (campos comunes de Usuario) de un contratante.
+     * Los parámetros nulos no modifican el campo correspondiente.
      *
-     * @param numeroDocumento    El número de documento del contratante a actualizar.
-     * @param sector             El nuevo sector económico del contratante.
-     * @param nivelEntidad       El nuevo nivel de entidad del contratante.
-     * @param codigoUnicoEntidad El nuevo código único de entidad del contratante.
+     * @param numeroDocumento Número de documento del contratante a actualizar.
+     * @param tipoPersona     Código: 1=NATURAL, 2=JURIDICA, 0=sin cambio.
+     * @param tipoDocumento   Código: 1-5, 0=sin cambio.
+     * @param nombre          Nuevo nombre (null=sin cambio).
+     * @param correo          Nuevo correo (null=sin cambio).
+     * @param contrasenha     Nueva contraseña (null=sin cambio).
+     * @param telefono        Nuevo teléfono (null=sin cambio).
+     * @param direccion       Nueva dirección (null=sin cambio).
+     * @param ciudad          Nueva ciudad (null=sin cambio).
      */
-    public void actualizarContratante(String numeroDocumento, String sector, String nivelEntidad, String codigoUnicoEntidad) {
-        this.servicioUsuarios.actualizarContratante(numeroDocumento, sector, nivelEntidad, codigoUnicoEntidad);
+    public void actualizarUsuarioBase(String numeroDocumento, int tipoPersona, int tipoDocumento,
+                                      String nombre, String correo, String contrasenha,
+                                      String telefono, String direccion, String ciudad) {
+        TipoPersona  tp  = (tipoPersona  > 0) ? mapearTipoPersona(tipoPersona)   : null;
+        TipoDocumento td = (tipoDocumento > 0) ? mapearTipoDocumento(tipoDocumento) : null;
+        servicioUsuarios.actualizarUsuario(tp, td, numeroDocumento, nombre, correo,
+                contrasenha, telefono, direccion, ciudad);
     }
 
+    /**
+     * Actualiza los campos exclusivos de un contratante.
+     *
+     * @param numeroDocumento    Número de documento del contratante.
+     * @param sector             Nuevo sector (null=sin cambio).
+     * @param nivelEntidad       Nuevo nivel de entidad (null=sin cambio).
+     * @param codigoUnicoEntidad Nuevo código único (null=sin cambio).
+     */
+    public void actualizarContratante(String numeroDocumento, String sector,
+                                      String nivelEntidad, String codigoUnicoEntidad) {
+        servicioUsuarios.actualizarContratante(numeroDocumento, sector, nivelEntidad, codigoUnicoEntidad);
+    }
+
+    /**
+     * Elimina un contratante por número de documento.
+     *
+     * @param numeroDocumento Número de documento a eliminar.
+     */
+    public void eliminarContratante(String numeroDocumento) {
+        servicioUsuarios.eliminarContratante(numeroDocumento);
+    }
+
+    /**
+     * Devuelve la lista de todos los contratantes como texto.
+     *
+     * @return Texto con todos los contratantes.
+     */
     public String mostrarContratantes() {
         return servicioUsuarios.mostrarContratantes();
     }
 
     /**
-     * Obtiene una cadena de texto con la información detallada de todos los contratistas registrados en el sistema.
+     * Crea un nuevo contratista en el sistema.
      *
-     * @return Una cadena de texto que contiene todos los contratistas, o un mensaje indicando que no hay contratistas.
+     * @param tipoPersona      Código: 1=NATURAL, 2=JURIDICA.
+     * @param tipoDocumento    Código: 1=CC, 2=CE, 3=PAS, 4=PPT, 5=NIT.
+     * @param numeroDocumento  Número de documento único.
+     * @param nombre           Nombre o razón social.
+     * @param correo           Correo electrónico.
+     * @param contrasenha      Contraseña de acceso.
+     * @param telefono         Teléfono de contacto.
+     * @param direccion        Dirección.
+     * @param ciudad           Ciudad.
+     * @param esEntidadPublica true=entidad pública, false=privada.
+     * @param areaDesempenho   Área de desempeño.
      */
-    public String mostrarContratistas(){
-        return this.servicioUsuarios.mostrarContratistas();
-    }
-
-    /**
-     * Elimina un contratante del sistema utilizando su número de documento.
-     *
-     * @param numeroDocumentoEliminarContratante El número de documento del contratante a eliminar.
-     */
-    public void eliminarContratante(String numeroDocumentoEliminarContratante) {
-        this.servicioUsuarios.eliminarContratante(numeroDocumentoEliminarContratante);
-    }
-
-    /**
-     * Crea un nuevo contratista en el sistema con la información proporcionada.
-     *
-     * @param tipoPersona      El tipo de persona del contratista (Natural o Jurídica).
-     * @param tipoDocumento    El tipo de documento del contratista (CC, CE, PAS, PPT, NIT).
-     * @param numeroDocumento  El número de documento único del contratista.
-     * @param nombre           El nombre completo o razón social del contratista.
-     * @param correo           El correo electrónico del contratista.
-     * @param contrasenha      La contraseña para el acceso del contratista.
-     * @param telefono         El número de teléfono del contratista.
-     * @param direccion        La dirección de residencia u oficina del contratista.
-     * @param ciudad           La ciudad del contratista.
-     * @param rol              El rol asignado al contratista (debería ser {@link Rol#CONTRATISTA}).
-     * @param esEntidadPublica Indica si el contratista es una entidad pública.
-     * @param areaDesempenho   El área de desempeño o especialización del contratista.
-     */
-    public void crearContratista(TipoPersona tipoPersona, TipoDocumento tipoDocumento, String numeroDocumento, String nombre,
-                                 String correo, String contrasenha, String telefono, String direccion, String ciudad, Rol rol,
+    public void crearContratista(int tipoPersona, int tipoDocumento, String numeroDocumento,
+                                 String nombre, String correo, String contrasenha,
+                                 String telefono, String direccion, String ciudad,
                                  boolean esEntidadPublica, String areaDesempenho) {
-        this.servicioUsuarios.crearContratista(tipoPersona, tipoDocumento, numeroDocumento, nombre, correo, contrasenha,
-                telefono, direccion, ciudad, rol, esEntidadPublica, areaDesempenho);
+        TipoPersona  tp  = mapearTipoPersona(tipoPersona);
+        TipoDocumento td = mapearTipoDocumento(tipoDocumento);
+        servicioUsuarios.crearContratista(tp, td, numeroDocumento, nombre, correo, contrasenha,
+                telefono, direccion, ciudad, Rol.CONTRATISTA, esEntidadPublica, areaDesempenho);
     }
 
     /**
-     * Consulta la información de uno o todos los contratistas registrados en el sistema.
+     * Consulta la información de un contratista por número de documento.
      *
-     * @param numeroDocumento El número de documento del contratista a consultar. Si es {@code null} o vacío,
-     *                        se consultarán todos los contratistas.
-     * @return Una cadena de texto con la información del contratista específico o de todos los contratistas.
+     * @param numeroDocumento Número de documento del contratista.
+     * @return Texto con la información del contratista.
      */
-    public String consultarContratistas(String numeroDocumento) {
-        return this.servicioUsuarios.consultarContratistas(numeroDocumento);
+    public String consultarContratista(String numeroDocumento) {
+        return servicioUsuarios.consultarContratistas(numeroDocumento);
     }
 
     /**
-     * Actualiza la información específica de un contratista existente.
-     * Los campos que no se deseen actualizar pueden pasarse como {@code null}.
+     * Actualiza los campos exclusivos de un contratista.
      *
-     * @param numeroDocumento  El número de documento del contratista a actualizar.
-     * @param esEntidadPublica El nuevo estado de si el contratista es una entidad pública.
-     * @param areaDesempenho   La nueva área de desempeño del contratista.
+     * @param numeroDocumento  Número de documento del contratista.
+     * @param esEntidadPublica Nuevo valor (null=sin cambio).
+     * @param areaDesempenho   Nueva área (null=sin cambio).
      */
-    public void actualizarContratista(String numeroDocumento, Boolean esEntidadPublica, String areaDesempenho) {
-        this.servicioUsuarios.actualizarContratista(numeroDocumento, esEntidadPublica, areaDesempenho);
+    public void actualizarContratista(String numeroDocumento, Boolean esEntidadPublica,
+                                      String areaDesempenho) {
+        servicioUsuarios.actualizarContratista(numeroDocumento, esEntidadPublica, areaDesempenho);
     }
 
     /**
-     * Elimina un contratista del sistema utilizando su número de documento.
+     * Elimina un contratista por número de documento.
      *
-     * @param numeroDocumentoEliminarContratista El número de documento del contratista a eliminar.
+     * @param numeroDocumento Número de documento a eliminar.
      */
-    public void eliminarContratista(String numeroDocumentoEliminarContratista) {
-        this.servicioUsuarios.eliminarContratista(numeroDocumentoEliminarContratista);
+    public void eliminarContratista(String numeroDocumento) {
+        servicioUsuarios.eliminarContratista(numeroDocumento);
     }
 
     /**
-     * Obtiene un objeto {@link Usuario} a partir de su número de documento.
+     * Devuelve la lista de todos los contratistas como texto.
      *
-     * @param numeroDocumento El número de documento del usuario a obtener.
-     * @return El objeto {@link Usuario} correspondiente al número de documento, o {@code null} si no se encuentra.
+     * @return Texto con todos los contratistas.
      */
-    public Usuario obtenerUsuario (String numeroDocumento){
-        return this.servicioUsuarios.obtenerUsuario(numeroDocumento);
+    public String mostrarContratistas() {
+        return servicioUsuarios.mostrarContratistas();
     }
 
     /**
-     * Crea un nuevo contrato de prestación de servicios.
+     * Crea un contrato de Prestación de Servicios.
+     * El contratante se identifica por su número de documento.
      *
-     * @param idContrato          El identificador único del contrato.
-     * @param objetoContrato      La descripción del objeto del contrato.
-     * @param contratante         El objeto Contratante asociado al contrato.
-     * @param valorCelebrar       El valor total a celebrar del contrato.
-     * @param plazoEjecucion      La fecha de finalización del plazo de ejecución del contrato.
-     * @param perfilRequerido     El perfil profesional requerido para el contrato.
-     * @param entregables         Los entregables esperados del contrato.
-     * @param valorHonorarioMensual El valor del honorario mensual para el contratista.
+     * @param idContrato            ID único del contrato.
+     * @param objetoContrato        Descripción del objeto.
+     * @param documentoContratante  Documento del contratante (resuelto internamente por el servicio).
+     * @param valorCelebrar         Valor total.
+     * @param plazoEjecucion        Fecha límite.
+     * @param perfilRequerido       Perfil requerido.
+     * @param entregables           Entregables esperados.
+     * @param valorHonorarioMensual Honorario mensual.
+     * @return Mensaje de resultado ("OK" o mensaje de error).
      */
-    public void crearContratoPrestacionServicios(String idContrato, String objetoContrato,
-                                                 Contratante contratante, double valorCelebrar, LocalDate plazoEjecucion,
-                                                 String perfilRequerido,
-                                                 String entregables, double valorHonorarioMensual) {
-        this.servicioContratos.crearContratoPrestacionServicios(idContrato, objetoContrato, contratante, valorCelebrar, plazoEjecucion,
+    public String crearContratoPrestacionServicios(String idContrato, String objetoContrato,
+                                                   String documentoContratante, double valorCelebrar,
+                                                   LocalDate plazoEjecucion, String perfilRequerido,
+                                                   String entregables, double valorHonorarioMensual) {
+        return servicioContratos.crearContratoPrestacionServicios(idContrato, objetoContrato,
+                documentoContratante, valorCelebrar, plazoEjecucion,
                 perfilRequerido, entregables, valorHonorarioMensual);
     }
 
     /**
-     * Crea un nuevo contrato de obra pública.
+     * Crea un contrato de Obra Pública.
      *
-     * @param idContrato         El identificador único del contrato.
-     * @param objetoContrato     La descripción del objeto del contrato.
-     * @param contratante        El objeto Contratante asociado al contrato.
-     * @param valorCelebrar      El valor total a celebrar del contrato.
-     * @param plazoEjecucion     La fecha de finalización del plazo de ejecución del contrato.
-     * @param ubicacionObra      La ubicación donde se realizará la obra.
-     * @param areaIntervencion   El área de intervención de la obra en metros cuadrados.
+     * @param idContrato           ID único del contrato.
+     * @param objetoContrato       Descripción del objeto.
+     * @param documentoContratante Documento del contratante.
+     * @param valorCelebrar        Valor total.
+     * @param plazoEjecucion       Fecha límite.
+     * @param ubicacionObra        Ubicación de la obra.
+     * @param areaIntervencion     Área de intervención m².
+     * @return Mensaje de resultado.
      */
-    public void crearContratoObraPublica(String idContrato, String objetoContrato,
-                                         Contratante contratante, double valorCelebrar, LocalDate plazoEjecucion,
-                                         String ubicacionObra, double areaIntervencion) {
-        this.servicioContratos.crearContratoObraPublica(idContrato, objetoContrato, contratante,
-                valorCelebrar, plazoEjecucion, ubicacionObra, areaIntervencion);
+    public String crearContratoObraPublica(String idContrato, String objetoContrato,
+                                           String documentoContratante, double valorCelebrar,
+                                           LocalDate plazoEjecucion, String ubicacionObra,
+                                           double areaIntervencion) {
+        return servicioContratos.crearContratoObraPublica(idContrato, objetoContrato,
+                documentoContratante, valorCelebrar, plazoEjecucion, ubicacionObra, areaIntervencion);
     }
 
     /**
-     * Crea un nuevo contrato de compraventa.
+     * Crea un contrato de Compraventa.
      *
-     * @param idContrato         El identificador único del contrato.
-     * @param objetoContrato     La descripción del objeto del contrato.
-     * @param contratante        El objeto Contratante asociado al contrato.
-     * @param plazoEjecucion     La fecha de finalización del plazo de ejecución del contrato.
-     * @param itemAdquirir       El nombre del ítem a adquirir.
-     * @param marca              La marca del ítem a adquirir.
-     * @param modelo             El modelo del ítem a adquirir.
-     * @param serie              El número de serie del ítem a adquirir.
-     * @param valorUnitario      El valor unitario del ítem.
-     * @param cantidadAdquirir   La cantidad de ítems a adquirir.
+     * @param idContrato           ID único del contrato.
+     * @param objetoContrato       Descripción del objeto.
+     * @param documentoContratante Documento del contratante.
+     * @param plazoEjecucion       Fecha límite.
+     * @param itemAdquirir         Ítem a adquirir.
+     * @param marca                Marca.
+     * @param modelo               Modelo.
+     * @param serie                Serie.
+     * @param valorUnitario        Valor unitario.
+     * @param cantidadAdquirir     Cantidad.
+     * @return Mensaje de resultado.
      */
-    public void crearContratoCompraVenta(String idContrato, String objetoContrato,
-                                         Contratante contratante, LocalDate plazoEjecucion,
-                                         String itemAdquirir, String marca, String modelo,
-                                         String serie, double valorUnitario, int cantidadAdquirir) {
-        this.servicioContratos.crearContratoCompraVenta(idContrato, objetoContrato, contratante, plazoEjecucion,
-                itemAdquirir, marca, modelo, serie, valorUnitario, cantidadAdquirir);
+    public String crearContratoCompraVenta(String idContrato, String objetoContrato,
+                                           String documentoContratante, LocalDate plazoEjecucion,
+                                           String itemAdquirir, String marca, String modelo,
+                                           String serie, double valorUnitario, int cantidadAdquirir) {
+        return servicioContratos.crearContratoCompraVenta(idContrato, objetoContrato,
+                documentoContratante, plazoEjecucion, itemAdquirir, marca, modelo,
+                serie, valorUnitario, cantidadAdquirir);
     }
 
     /**
-     * Consulta la información de un contrato específico por su identificador.
+     * Consulta la información de un contrato por ID.
      *
-     * @param idConsultar El identificador del contrato a consultar.
-     * @return Una cadena de texto con la información del contrato si existe, o un mensaje indicando que no existe.
+     * @param idContrato ID del contrato.
+     * @return Texto formateado del contrato.
      */
-    public String consultarContrato(String idConsultar) {
-        return this.servicioContratos.consultarContrato(idConsultar);
+    public String consultarContrato(String idContrato) {
+        return servicioContratos.consultarContrato(idContrato);
     }
 
     /**
-     * Verifica si un identificador de contrato ya existe en el sistema.
+     * Verifica si un ID de contrato ya existe.
      *
-     * @param idContrato El identificador del contrato a verificar.
-     * @return {@code true} si el ID del contrato existe, {@code false} en caso contrario.
+     * @param idContrato ID a verificar.
+     * @return true si existe.
      */
     public boolean existeIdContrato(String idContrato) {
-        return this.servicioContratos.existeIdContrato(idContrato);
+        return servicioContratos.existeIdContrato(idContrato);
     }
 
     /**
-     * Actualiza los atributos generales de un contrato existente.
-     * Los parámetros nulos indican que el atributo correspondiente no debe ser modificado.
+     * Actualiza los atributos generales de un contrato.
      *
-     * @param idContrato     El identificador del contrato a actualizar.
-     * @param objetoContrato La nueva descripción del objeto del contrato (puede ser null).
-     * @param valorCelebrar  El nuevo valor a celebrar del contrato (puede ser null).
-     * @param plazoEjecucion La nueva fecha de finalización del plazo de ejecución (puede ser null).
-     * @param faseActual     La nueva fase actual del contrato (puede ser null).
+     * @param idContrato     ID del contrato.
+     * @param objetoContrato Nuevo objeto (null=sin cambio).
+     * @param valorCelebrar  Nuevo valor (null=sin cambio).
+     * @param plazoEjecucion Nuevo plazo (null=sin cambio).
+     * @param faseActual     Nueva fase (null=sin cambio).
      */
-    public void actualizarContratoGeneral(String idContrato, String objetoContrato, Double valorCelebrar,
-                                          LocalDate plazoEjecucion, FaseContrato faseActual) {
-        this.servicioContratos.actualizarContratoGeneral(idContrato, objetoContrato, valorCelebrar, plazoEjecucion,
-                faseActual);
+    public void actualizarContratoGeneral(String idContrato, String objetoContrato,
+                                          Double valorCelebrar, LocalDate plazoEjecucion,
+                                          FaseContrato faseActual) {
+        servicioContratos.actualizarContratoGeneral(idContrato, objetoContrato,
+                valorCelebrar, plazoEjecucion, faseActual);
     }
 
     /**
-     * Actualiza los atributos específicos de un contrato de prestación de servicios.
-     * Los parámetros nulos indican que el atributo correspondiente no debe ser modificado.
+     * Elimina un contrato por ID.
      *
-     * @param idContrato          El identificador del contrato de prestación de servicios a actualizar.
-     * @param perfilRequerido     El nuevo perfil requerido (puede ser null).
-     * @param entregables         Los nuevos entregables (puede ser null).
-     * @param valorHonorarioMensual El nuevo valor del honorario mensual (puede ser null).
+     * @param idContrato ID del contrato a eliminar.
      */
-    public void actualizarContratoPrestacionServicios(String idContrato, String perfilRequerido, String entregables,
-                                                      Double valorHonorarioMensual) {
-        this.servicioContratos.actualizarContratoPrestacionServicios(idContrato, perfilRequerido, entregables, valorHonorarioMensual);
+    public void eliminarContrato(String idContrato) {
+        servicioContratos.eliminarContrato(idContrato);
     }
 
     /**
-     * Actualiza los atributos específicos de un contrato de compraventa.
-     * Los parámetros nulos indican que el atributo correspondiente no debe ser modificado.
+     * Devuelve la información de todos los contratos.
      *
-     * @param idContrato       El identificador del contrato de compraventa a actualizar.
-     * @param itemAdquirir     El nuevo nombre del ítem a adquirir (puede ser null).
-     * @param marca            La nueva marca del ítem (puede ser null).
-     * @param modelo           El nuevo modelo del ítem (puede ser null).
-     * @param serie            El nuevo número de serie del ítem (puede ser null).
-     * @param valorUnitario    El nuevo valor unitario del ítem (puede ser null).
-     * @param cantidadAdquirir La nueva cantidad de ítems a adquirir (puede ser null).
-     */
-    public void actualizarContratoCompraVenta(String idContrato, String itemAdquirir, String marca, String modelo, String serie, Double valorUnitario, Integer cantidadAdquirir) {
-        this.servicioContratos.actualizarContratoCompraVenta(idContrato, itemAdquirir, marca, modelo, serie, valorUnitario, cantidadAdquirir);
-    }
-
-    /**
-     * Actualiza los atributos específicos de un contrato de obra pública.
-     * Los parámetros nulos indican que el atributo correspondiente no debe ser modificado.
-     *
-     * @param idContrato       El identificador del contrato de obra pública a actualizar.
-     * @param ubicacionObra    La nueva ubicación de la obra (puede ser null).
-     * @param areaIntervencion La nueva área de intervención (puede ser null).
-     */
-    public void actualizarContratoObraPublica(String idContrato, String ubicacionObra, Double areaIntervencion) {
-        this.servicioContratos.actualizarContratoObraPublica(idContrato, ubicacionObra, areaIntervencion);
-    }
-
-    /**
-     * Elimina un contrato del sistema utilizando su identificador.
-     *
-     * @param idEliminar El identificador del contrato a eliminar.
-     */
-    public void eliminarContrato(String idEliminar) {
-        this.servicioContratos.eliminarContrato(idEliminar);
-    }
-
-    /**
-     * Asigna un contratista a un contrato específico y cambia su fase a ADJUDICACION.
-     *
-     * @param idContrato         El identificador del contrato al que se asignará el contratista.
-     * @param contratistaAsignar El objeto Contratista a asignar.
-     */
-    public void asignarContrato(String idContrato, Contratista contratistaAsignar) {
-        this.servicioContratos.asignarContrato(idContrato, contratistaAsignar);
-    }
-
-    /**
-     * Selecciona un contratista para un contrato, actualizando el contratista asociado
-     * y cambiando la fase del contrato a LICITACION.
-     *
-     * @param idContrato           El identificador del contrato a seleccionar.
-     * @param documentoContratista El documento de identificación del contratista interesado.
-     * @param servicioUsuarios     El servicio de usuarios para obtener la información del contratista.
-     */
-    public void seleccionarContrato(String idContrato, String documentoContratista, ServicioUsuarios servicioUsuarios) {
-        this.servicioContratos.seleccionarContrato(idContrato, documentoContratista, servicioUsuarios);
-    }
-
-    /**
-     * Cambia el estado (fase) de un contrato y genera un reporte de interventoría.
-     *
-     * @param idContrato       El identificador del contrato cuyo estado se va a cambiar.
-     * @param nuevaFase        La nueva fase a la que se actualizará el contrato.
-     * @param informe          El informe asociado al cambio de fase.
-     * @param servicioReportes El servicio de reportes para guardar el nuevo reporte de interventoría.
-     */
-    public void cambiarEstadoContrato(String idContrato, FaseContrato nuevaFase, String informe, ServicioReportes servicioReportes) {
-        this.servicioContratos.cambiarEstadoContrato(idContrato, nuevaFase, informe, servicioReportes);
-    }
-
-    /**
-     * Valida un contrato de obra pública.
-     *
-     * @param contratoObraPublica El contrato de obra pública a validar.
-     * @return {@code true} si el contrato es válido, {@code false} en caso contrario.
-     */
-    public boolean validarContratoObraPublica(ContratoObraPublica contratoObraPublica) {
-        return this.servicioContratos.validarContratoObraPublica(contratoObraPublica);
-    }
-
-    /**
-     * Calcula el valor total de adquisición para un contrato de compraventa.
-     *
-     * @param idContrato El identificador del contrato.
-     * @return El valor total de adquisición si el contrato es de compraventa, de lo contrario 0.0.
-     */
-    public double calcularTotalAdquisicion(String idContrato) {
-        return this.servicioContratos.calcularTotalAdquisicion(idContrato);
-    }
-    
-    /**
-     * Guarda un nuevo reporte de interventoría en el sistema.
-     *
-     * @param nuevoReporte El objeto ReporteInterventoria a guardar.
-     */
-    public void guardarReporte(ReporteInterventoria nuevoReporte){
-        this.servicioReportes.guardarReporte(nuevoReporte);
-    }
-
-    /**
-     * Genera una representación en cadena de texto de un reporte de interventoría específico.
-     *
-     * @param reporte El objeto ReporteInterventoria a mostrar.
-     * @return Una cadena de texto con los detalles del reporte, o un mensaje de error si el reporte es nulo.
-     */
-    public String mostrarReporte(ReporteInterventoria reporte) {
-        return this.servicioReportes.mostrarReporte(reporte);
-    }
-    
-    /**
-     * Obtiene una cadena de texto con la información detallada de todos los reportes de
-     * interventoría registrados en el sistema.
-     *
-     * @return Una cadena de texto que contiene todos los reportes, o un mensaje indicando que no hay reportes.
-     */
-    public String obtenerTodosLosReportes() {
-        return this.servicioReportes.obtenerTodosLosReportes();
-    }
-
-    /**
-     * Obtiene una cadena de texto con la información detallada de los reportes de interventoría asociados a un contrato específico.
-     *
-     * @param idContrato El identificador del contrato cuyos reportes se desean obtener.
-     * @return Una cadena de texto con los reportes del contrato especificado, o un mensaje si no se encuentran reportes para ese contrato.
-     */
-    public String obtenerReportesPorContrato(String idContrato){
-        return this.servicioReportes.obtenerReportesPorContrato(idContrato);
-    }
-
-    /**
-     * Obtiene una cadena de texto con la información detallada de todos los contratos registrados en el sistema.
-     *
-     * @return Una cadena de texto que contiene todos los contratos, o un mensaje indicando que no hay contratos.
+     * @return Texto con todos los contratos.
      */
     public String obtenerTodosLosContratos() {
-        return this.servicioContratos.obtenerTodosLosContratos();
+        return servicioContratos.obtenerTodosLosContratos();
+    }
+
+    /**
+     * Postula un contratista a un contrato (fase PUBLICACION → LICITACION).
+     * El campo contratista del contrato permanece en null hasta la adjudicación.
+     *
+     * @param idContrato           ID del contrato.
+     * @param documentoContratista Documento del contratista interesado.
+     * @return Mensaje de resultado.
+     */
+    public String postularContratista(String idContrato, String documentoContratista) {
+        return servicioContratos.postularContratista(idContrato, documentoContratista);
+    }
+
+    /**
+     * Lista los contratistas postulados a un contrato en fase LICITACION.
+     *
+     * @param idContrato ID del contrato.
+     * @return Texto con la lista de postulados.
+     */
+    public String listarPostulados(String idContrato) {
+        return servicioContratos.listarPostulados(idContrato);
+    }
+
+    /**
+     * Adjudica formalmente un contrato a un contratista (fase LICITACION → ADJUDICACION).
+     * El contratista debe estar en la lista de postulados.
+     *
+     * @param idContrato           ID del contrato.
+     * @param documentoContratista Documento del contratista a adjudicar.
+     * @return Mensaje de resultado.
+     */
+    public String adjudicarContrato(String idContrato, String documentoContratista) {
+        return servicioContratos.adjudicarContrato(idContrato, documentoContratista);
+    }
+
+    /**
+     * Inicia la ejecución del contrato (fase ADJUDICACION → EJECUCION).
+     *
+     * @param idContrato ID del contrato.
+     * @return Mensaje de resultado.
+     */
+    public String iniciarEjecucion(String idContrato) {
+        return servicioContratos.iniciarEjecucion(idContrato);
+    }
+
+    /**
+     * Cambia el estado (fase) de un contrato y genera el reporte de interventoría.
+     *
+     * @param idContrato ID del contrato.
+     * @param nuevaFase  Nueva fase.
+     * @param informe    Informe del cambio.
+     * @return Mensaje de resultado.
+     */
+    public String cambiarEstadoContrato(String idContrato, FaseContrato nuevaFase, String informe) {
+        return servicioContratos.cambiarEstadoContrato(idContrato, nuevaFase, informe, servicioReportes);
+    }
+
+    /**
+     * Devuelve todos los reportes de interventoría.
+     *
+     * @return Texto con todos los reportes.
+     */
+    public String obtenerTodosLosReportes() {
+        return servicioReportes.obtenerTodosLosReportes();
+    }
+
+    /**
+     * Devuelve los reportes de interventoría de un contrato específico.
+     *
+     * @param idContrato ID del contrato.
+     * @return Texto con los reportes del contrato.
+     */
+    public String obtenerReportesPorContrato(String idContrato) {
+        return servicioReportes.obtenerReportesPorContrato(idContrato);
+    }
+
+    /**
+     * Mapea un código numérico a un tipo de persona {@link TipoPersona}.
+     *
+     * @param codigo El código numérico del tipo de persona.
+     * @return El {@link TipoPersona} correspondiente, o {@code null} si el código no es válido.
+     */
+    private TipoPersona mapearTipoPersona(int codigo) {
+        return switch (codigo) {
+            case 1 -> TipoPersona.NATURAL;
+            case 2 -> TipoPersona.JURIDICA;
+            default -> null;
+        };
+    }
+
+    /**
+     * Mapea un código numérico a un tipo de documento {@link TipoDocumento}.
+     *
+     * @param codigo El código numérico del tipo de documento.
+     * @return El {@link TipoDocumento} correspondiente, o {@code null} si el código no es válido.
+     */
+    private TipoDocumento mapearTipoDocumento(int codigo) {
+        return switch (codigo) {
+            case 1 -> TipoDocumento.CC;
+            case 2 -> TipoDocumento.CE;
+            case 3 -> TipoDocumento.PAS;
+            case 4 -> TipoDocumento.PPT;
+            case 5 -> TipoDocumento.NIT;
+            default -> null;
+        };
     }
 }

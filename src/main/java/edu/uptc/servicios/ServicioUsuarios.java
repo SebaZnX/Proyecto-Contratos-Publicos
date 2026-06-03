@@ -173,6 +173,11 @@ public class ServicioUsuarios {
             }
         }
     }
+    /**
+     * Obtiene una cadena de texto con la información detallada de todos los contratantes registrados en el sistema.
+     *
+     * @return Una cadena de texto que contiene todos los contratantes, o un mensaje indicando que no hay contratantes.
+     */
     public String mostrarContratantes() {
         if (usuarios.isEmpty())
             return "No hay contratantes registrados.";
@@ -321,11 +326,29 @@ public class ServicioUsuarios {
 
     /**
      * Obtiene un objeto {@link Usuario} del sistema utilizando su número de documento.
+     * Este método es de uso EXCLUSIVO de la capa de Servicios (no debe ser llamado
+     * desde el Controlador ni desde la Vista).
      *
      * @param numeroDocumento El número de documento del usuario a obtener.
      * @return El objeto {@link Usuario} correspondiente al número de documento, o {@code null} si no se encuentra.
      */
     public Usuario obtenerUsuario(String numeroDocumento) {
         return this.usuarios.get(numeroDocumento);
+    }
+
+    /**
+     * Devuelve la información formateada del usuario identificado por su número de documento.
+     * Este método es el punto de acceso seguro para la capa de Controlador: retorna
+     * únicamente un String, sin exponer nunca el objeto de dominio Usuario.
+     *
+     * @param numeroDocumento El número de documento del usuario.
+     * @return Texto con la información del usuario, o mensaje de error si no existe.
+     */
+    public String obtenerInfoUsuario(String numeroDocumento) {
+        Usuario u = this.usuarios.get(numeroDocumento);
+        if (u == null) {
+            return "Usuario con documento '" + numeroDocumento + "' no encontrado.";
+        }
+        return u.mostrarInfoUsuario();
     }
 }
