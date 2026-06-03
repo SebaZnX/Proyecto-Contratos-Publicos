@@ -163,8 +163,8 @@ public class ContratoPrestacionServicios extends Contrato {
         sb.append("• Valor Total: $").append(this.valorCelebrar).append("\n");
         sb.append("• Fecha de Creación: ").append(this.fechaCreacion).append("\n");
         sb.append("• Plazo de Ejecución: ").append(this.plazoEjecucion).append("\n");
-        sb.append("• Contratante: ").append(this.contratante.getNombre()).append("\n");
-        sb.append("• Contratista: ").append(this.contratista.getNombre()).append("\n");
+        sb.append("• Contratante: ").append(this.contratante != null ? this.contratante.getNombre() : "Sin asignar").append("\n");
+        sb.append("• Contratista: ").append(this.contratista != null ? this.contratista.getNombre() : "Sin asignar").append("\n");
         sb.append("-----------------------------------------\n");
         sb.append("DETALLES DE PRESTACIÓN DE SERVICIOS:\n");
         sb.append("• Perfil Requerido: ").append(this.perfilRequerido).append("\n");
